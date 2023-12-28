@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableWithoutFeedback, View, Dimensions } from 'react-native'
 import { themes } from '@/common/themes/themes'
 import styled from 'styled-components/native'
-import Avatar from '@/components/welcome/Avatar'
+import AvatarCommon from '@/common/Avatar.common'
 import EllipseCircle from './EllipseCircle'
 import NavigationButton from './NavigationButton'
 
@@ -41,7 +41,8 @@ const WelcomeTemplate: React.FC<WelcomeProps> = props => {
       if (page > 0) handlePangeChange(page - 1)
     } else {
       if (page < 4) handlePangeChange(page + 1)
-      else handleStage(3)
+
+      if (page === 4) handleStage(2)
     }
   }
 
@@ -49,7 +50,7 @@ const WelcomeTemplate: React.FC<WelcomeProps> = props => {
     <View style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={handlePress}>
         <Center>
-          <Avatar image={Image} />
+          <AvatarCommon image={Image} />
           <TextStyled>{Title}</TextStyled>
 
           <SubHeadingBox>

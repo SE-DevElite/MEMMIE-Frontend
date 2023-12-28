@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
 import IndexWelcomeScreen from '@/screens/welcome/IndexWelcomeScreen'
+import SignInScreen from '@/screens/SignInScreen'
+import HomeScreen from '@/screens/HomeScreen'
 
 const App: React.FC = () => {
   const isFirstOpen = useWelcomeScreen()
@@ -28,13 +30,11 @@ const App: React.FC = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      {!showWelcome ? (
-        <IndexWelcomeScreen />
-      ) : (
-        <View>
-          <Text>Welcome back!</Text>
-        </View>
-      )}
+      {/* {showWelcome ? <IndexWelcomeScreen /> : <SignInScreen />} */}
+
+      {/* <SignInScreen /> */}
+      {/* <IndexWelcomeScreen /> */}
+      <HomeScreen />
     </View>
   )
 }

@@ -1,23 +1,32 @@
 import AvatarCommon from '@/common/Avatar.common'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 import SwitchCommon from '@/common/Switch.common'
+
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen'
 
 const UserHeading: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.flexBox}>
-        <AvatarCommon
-          image={require('@/assets/mocks/nutthanon-avatar.jpg')}
-          width={61}
-          height={61}
-          borderRadius={61 / 2}
-        />
-        <View>
-          <TextStyle>Nutthanon</TextStyle>
-          <SubHeading>How was your day?</SubHeading>
+        <View style={styles.flexChild}>
+          <TouchableOpacity onPress={() => console.log('Avatarrr')}>
+            <AvatarCommon
+              image={require('@/assets/mocks/nutthanon-avatar.jpg')}
+              width={61}
+              height={61}
+              borderRadius={61 / 2}
+            />
+          </TouchableOpacity>
+          <View>
+            <TextStyle>Nutthanon</TextStyle>
+            <SubHeading>How was your day?</SubHeading>
+          </View>
         </View>
         <SwitchCommon />
       </View>
@@ -29,12 +38,15 @@ export default UserHeading
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: 'red',
-    paddingTop: 60,
-    paddingLeft: 16,
-    paddingRight: 16
+    // backgroundColor: 'red'
+    paddingTop: hp('2%')
   },
   flexBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  flexChild: {
     gap: 16,
     flexDirection: 'row',
     alignItems: 'center'

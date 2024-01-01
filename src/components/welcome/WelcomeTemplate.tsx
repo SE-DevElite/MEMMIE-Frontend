@@ -18,7 +18,7 @@ interface WelcomeProps {
   }
   page: number
 
-  handlePangeChange: (id: number) => void
+  handlePageChange: (id: number) => void
   handleStage: (id: number) => void
 }
 
@@ -29,7 +29,7 @@ const WelcomeTemplate: React.FC<WelcomeProps> = props => {
     Image,
     position,
     page,
-    handlePangeChange,
+    handlePageChange,
     handleStage
   } = props
 
@@ -38,9 +38,9 @@ const WelcomeTemplate: React.FC<WelcomeProps> = props => {
     const screenWidth = Dimensions.get('window').width
 
     if (pageX < screenWidth / 2) {
-      if (page > 0) handlePangeChange(page - 1)
+      if (page > 0) handlePageChange(page - 1)
     } else {
-      if (page < 4) handlePangeChange(page + 1)
+      if (page < 4) handlePageChange(page + 1)
 
       if (page === 4) handleStage(2)
     }
@@ -59,7 +59,7 @@ const WelcomeTemplate: React.FC<WelcomeProps> = props => {
 
           <EllipseCircle {...position} />
 
-          <NavigationButton active={page} pageChange={handlePangeChange} />
+          <NavigationButton active={page} pageChange={handlePageChange} />
         </Center>
       </TouchableWithoutFeedback>
     </View>

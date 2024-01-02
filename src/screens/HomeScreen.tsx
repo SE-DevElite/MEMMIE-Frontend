@@ -13,21 +13,24 @@ import {
 import { themes } from '@/common/themes/themes'
 import UserHeading from '@/components/home/topContainer/UserHeading'
 import MemoryContainer from '@/components/home/topContainer/MemoryContainer'
+import CalendarTable from '@/components/home/bottomContainer/CalendarTable'
 
 const HomeScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topOutterContainer}>
-        <View style={styles.topInnerContainer}>
-          <UserHeading />
-          <MemoryContainer />
+      <ScrollView>
+        <View style={styles.topOutterContainer}>
+          <View style={styles.topInnerContainer}>
+            <UserHeading />
+            <MemoryContainer />
+          </View>
         </View>
-      </View>
-      <View style={styles.bottomOutterContainer}>
-        <View style={styles.bottomInnerContainer}>
-          {/* Add element herrerrrrrrr */}
+        <View style={styles.bottomOutterContainer}>
+          <View style={styles.bottomInnerContainer}>
+            <CalendarTable />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -36,8 +39,8 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: themes.light.tertiary.hex
+    // backgroundColor: themes.light.tertiary.hex,
+    flex: 1
   },
 
   topOutterContainer: {
@@ -56,17 +59,17 @@ const styles = StyleSheet.create({
   },
 
   bottomOutterContainer: {
-    height: hp('50%'),
+    height: hp('58%'),
     width: wp('100%'),
     backgroundColor: 'white'
   },
 
   bottomInnerContainer: {
-    height: hp('50%'),
+    height: hp('60%'),
     width: wp('100%'),
     backgroundColor: themes.light.tertiary.hex,
-    borderTopRightRadius: hp('5%'),
-    paddingLeft: 16,
-    paddingRight: 16
+    borderTopRightRadius: hp('5%')
+    // paddingLeft: 16,
+    // paddingRight: 16
   }
 })

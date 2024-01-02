@@ -5,6 +5,8 @@ import Theme from '@/provider/ThemeProvider'
 import HomeScreen from '@/screens/HomeScreen'
 import SignInScreen from '@/screens/SignInScreen'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import IndexWelcomeScreen from '@/screens/welcome/IndexWelcomeScreen'
 
 const App: React.FC = () => {
@@ -30,15 +32,19 @@ const App: React.FC = () => {
   }
 
   return (
-    <Theme>
-      <View style={{ flex: 1 }}>
-        {/* {showWelcome ? <IndexWelcomeScreen /> : <SignInScreen />} */}
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <Theme>
+          <View style={{ flex: 1 }}>
+            {/* {showWelcome ? <IndexWelcomeScreen /> : <SignInScreen />} */}
 
-        {/* <SignInScreen /> */}
-        {/* <IndexWelcomeScreen /> */}
-        <HomeScreen />
-      </View>
-    </Theme>
+            {/* <SignInScreen /> */}
+            {/* <IndexWelcomeScreen /> */}
+            <HomeScreen />
+          </View>
+        </Theme>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   )
 }
 

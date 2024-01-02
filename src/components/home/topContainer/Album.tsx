@@ -12,10 +12,10 @@ const Album: React.FC = () => {
   return (
     <Box style={styles.box}>
       <View style={styles.flex}>
-        <TextStyle style={styles.textStyle}>Albumns</TextStyle>
+        <TextStyle style={styles.textStyle}>Albums</TextStyle>
         <TouchableOpacity
           style={styles.circleTouch}
-          onPress={() => console.log('Add albumn')}>
+          onPress={() => console.log('Add album')}>
           <Image
             style={styles.imageStyle}
             source={require('@/assets/icons/add.png')}

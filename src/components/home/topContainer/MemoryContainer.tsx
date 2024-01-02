@@ -1,6 +1,6 @@
 import React from 'react'
 import Album from './Album'
-import MemoryCard from './MemoryCard'
+import MemoryCard from './memoryCard/MemoryCard'
 import RandomMemory from './RandomMemory'
 
 import {
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: hp(2),
+    paddingBottom: hp(2),
     flexDirection: 'row'
   },
   column: {

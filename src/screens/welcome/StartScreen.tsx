@@ -1,57 +1,28 @@
 import React from 'react'
-import { TouchableWithoutFeedback, View, Dimensions } from 'react-native'
-import { themes } from '@/common/themes/themes'
 import styled from 'styled-components/native'
-import Avatar from '@/components/welcome/Avatar'
+import { themes } from '@/common/themes/themes'
+import AvatarCommon from '@/common/Avatar.common'
+import ButtonCommon from '@/common/Button.common'
 import EllipseCircle from '@/components/welcome/EllipseCircle'
-// import NavigationButton from "@/components/welcome/NavigationButton";
 
-interface WelcomeProps {
-  Title?: string
-  SubTitle?: string
-  Image?: NodeRequire
-  position?: {
-    top1?: number
-    top2?: number
-    right1?: number
-    right2?: number
+const StartScreen: React.FC = () => {
+  const handlePress = () => {
+    console.log('Start!!!!')
   }
-  page?: number
-
-  handlePangeChange?: (id: number) => void
-  handleStage?: (id: number) => void
-}
-
-const StartScreen: React.FC<WelcomeProps> = props => {
-  const {
-    Title,
-    SubTitle,
-    Image,
-    position,
-    page,
-    handlePangeChange,
-    handleStage
-  } = props
-
-  const handlePress = (event: any) => {}
 
   return (
-    <View style={{ flex: 1 }}>
-      <TouchableWithoutFeedback onPress={handlePress}>
-        <Center>
-          <Avatar image={require('@/assets/welcome/ready.png')} />
-          <TextStyled>You're ready!</TextStyled>
+    <Center>
+      <AvatarCommon image={require('@/assets/welcome/ready.png')} />
+      <TextStyled>You're ready!</TextStyled>
 
-          <SubHeadingBox>
-            <SubHeading>Click the button to start your journey</SubHeading>
-          </SubHeadingBox>
+      <SubHeadingBox>
+        <SubHeading>Click the button to start your journey</SubHeading>
+      </SubHeadingBox>
 
-          {/* <EllipseCircle {...position} /> */}
+      <ButtonCommon title="Start" onPress={handlePress} />
 
-          {/* <NavigationButton active={page} pageChange={handlePangeChange} /> */}
-        </Center>
-      </TouchableWithoutFeedback>
-    </View>
+      <EllipseCircle top1={-10} top2={0} right1={50} right2={-70} />
+    </Center>
   )
 }
 

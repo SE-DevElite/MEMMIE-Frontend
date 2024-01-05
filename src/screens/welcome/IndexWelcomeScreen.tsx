@@ -75,7 +75,7 @@ const IndexWelcomeScreen = () => {
   const [pageNumber, setPageNumber] = useState<number>(0)
   const [stage, setStage] = useState<number>(0)
 
-  const handlePangeChange = (id: number) => {
+  const handlePageChange = (id: number) => {
     // console.log(id);
     setPageNumber(id)
 
@@ -83,7 +83,7 @@ const IndexWelcomeScreen = () => {
       <CoverScreen handleStage={handleChangeState} />,
       <WelcomeTemplate
         {...welcomePages[id]}
-        handlePangeChange={handlePangeChange}
+        handlePageChange={handlePageChange}
         handleStage={handleChangeState}
       />,
       <StartScreen />
@@ -98,7 +98,7 @@ const IndexWelcomeScreen = () => {
     <CoverScreen handleStage={handleChangeState} />,
     <WelcomeTemplate
       {...welcomePages[pageNumber]}
-      handlePangeChange={handlePangeChange}
+      handlePageChange={handlePageChange}
       handleStage={handleChangeState}
     />,
     <StartScreen />

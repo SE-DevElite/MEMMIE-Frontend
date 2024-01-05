@@ -1,8 +1,14 @@
+import { View } from 'react-native'
 import { useFonts } from 'expo-font'
 import React, { useState } from 'react'
-import { View, Text } from 'react-native'
+import Provider from '@/provider/Provider'
+import HomeScreen from '@/screens/HomeScreen'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
+
+import SignInScreen from '@/screens/SignInScreen'
 import IndexWelcomeScreen from '@/screens/welcome/IndexWelcomeScreen'
+import ProfileScreen from '@/screens/ProfileScreen'
+import BottomNavigationCommon from '@/common/BottomNavigation.common'
 
 const App: React.FC = () => {
   const isFirstOpen = useWelcomeScreen()
@@ -27,15 +33,17 @@ const App: React.FC = () => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      {!showWelcome ? (
-        <IndexWelcomeScreen />
-      ) : (
-        <View>
-          <Text>Welcome back!</Text>
-        </View>
-      )}
-    </View>
+    <Provider>
+      <View style={{ flex: 1 }}>
+        {/* {showWelcome ? <IndexWelcomeScreen /> : <SignInScreen />} */}
+
+        {/* <SignInScreen /> */}
+        {/* <IndexWelcomeScreen /> */}
+        {/* <HomeScreen /> */}
+        {/* <ProfileScreen /> */}
+        <BottomNavigationCommon />
+      </View>
+    </Provider>
   )
 }
 

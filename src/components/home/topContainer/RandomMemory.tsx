@@ -16,9 +16,9 @@ export default RandomMemory
 
 const styles = StyleSheet.create({
   box: {
-    width: wp(43),
-    height: hp(16),
-    borderRadius: 20,
+    width: 180,
+    height: 180,
+    borderRadius: 30,
     padding: 13,
     backgroundColor: themes.light.tertiary.hex
   }

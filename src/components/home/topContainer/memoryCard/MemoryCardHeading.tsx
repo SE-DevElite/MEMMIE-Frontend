@@ -6,20 +6,22 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen'
 import { themes } from '@/common/themes/themes'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 
 const MemoryCardHeading: React.FC = () => {
   const [streak, setStreak] = useState<number>(10)
 
   return (
     <View style={styles.boxTitle}>
-      <TitleText style={styles.titleText}></TitleText>
+      <TitleText style={styles.titleText}>
+        <TitleTextStyle>Bangkok</TitleTextStyle>
+      </TitleText>
       <StreakBox style={styles.streakBox}>
         <View style={styles.streakBackground}>
           <StreakCircle
             style={styles.streakCircle}
             size={streak.toString().length}>
-            <TextStyle>{streak}</TextStyle>
+            <StreakTextStyle>{streak}</StreakTextStyle>
             <Image source={require('@/assets/icons/streak.png')} />
           </StreakCircle>
         </View>
@@ -37,10 +39,10 @@ const styles = StyleSheet.create({
   },
   titleText: {
     flex: 1,
-    // width: '70%',
-    // border: '1px solid red',
+    justifyContent: 'center',
     fontWeight: 'bold',
     borderTopLeftRadius: 20,
+    paddingLeft: 16,
     borderTopRightRadius: 20
   },
   streakBox: {
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
   },
   streakCircle: {
     height: 42,
-    // width: 40,
+    // width: 42,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -81,12 +83,18 @@ const StreakBox = styled.View`
 `
 
 const StreakCircle = styled.View`
-  padding: ${(props: { size: number }) => (props.size === 1 ? 12 : 7)}px;
+  padding: ${(props: { size: number }) => (props.size === 1 ? 20 : 7)}px;
 
   background-color: ${themes.light.tertiary.hex};
 `
 
-const TextStyle = styled.Text`
+const TitleTextStyle = styled.Text`
+  font-size: 16px;
+  font-family: ${themes.fonts.samiBold};
+  color: ${themes.light.secondary.hex};
+`
+
+const StreakTextStyle = styled.Text`
   font-size: 15px;
   font-family: ${themes.fonts.samiBold};
   color: ${themes.light.primary.hex};

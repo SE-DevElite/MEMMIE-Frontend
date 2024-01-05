@@ -1,13 +1,14 @@
 import { View } from 'react-native'
 import { useFonts } from 'expo-font'
 import React, { useState } from 'react'
-import Theme from '@/provider/ThemeProvider'
+import Provider from '@/provider/Provider'
 import HomeScreen from '@/screens/HomeScreen'
-import SignInScreen from '@/screens/SignInScreen'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
+
+import SignInScreen from '@/screens/SignInScreen'
 import IndexWelcomeScreen from '@/screens/welcome/IndexWelcomeScreen'
+import ProfileScreen from '@/screens/ProfileScreen'
+import BottomNavigationCommon from '@/common/BottomNavigation.common'
 
 const App: React.FC = () => {
   const isFirstOpen = useWelcomeScreen()
@@ -32,19 +33,17 @@ const App: React.FC = () => {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <Theme>
-          <View style={{ flex: 1 }}>
-            {/* {showWelcome ? <IndexWelcomeScreen /> : <SignInScreen />} */}
+    <Provider>
+      <View style={{ flex: 1 }}>
+        {/* {showWelcome ? <IndexWelcomeScreen /> : <SignInScreen />} */}
 
-            {/* <SignInScreen /> */}
-            {/* <IndexWelcomeScreen /> */}
-            <HomeScreen />
-          </View>
-        </Theme>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+        {/* <SignInScreen /> */}
+        {/* <IndexWelcomeScreen /> */}
+        {/* <HomeScreen /> */}
+        {/* <ProfileScreen /> */}
+        <BottomNavigationCommon />
+      </View>
+    </Provider>
   )
 }
 

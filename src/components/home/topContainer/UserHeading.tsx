@@ -39,7 +39,7 @@ export default UserHeading
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: 'red'
-    paddingTop: hp('2%')
+    paddingTop: 10
   },
   flexBox: {
     flexDirection: 'row',

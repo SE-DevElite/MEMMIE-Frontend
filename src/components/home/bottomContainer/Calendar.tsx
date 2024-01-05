@@ -4,10 +4,7 @@ import { themes } from '@/common/themes/themes'
 import { View, StyleSheet } from 'react-native'
 import { DAY_SHORT } from '@/common/consts/DateTime.consts'
 
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen'
+import CalendarTable from './CalendarTable'
 
 const Calendar: React.FC = () => {
   return (
@@ -15,13 +12,15 @@ const Calendar: React.FC = () => {
       <View style={{ flex: 1 }}>
         <View style={styles.flexBox}>
           {DAY_SHORT.map((day, index) => (
-            <View key={index}>
+            <View key={index} style={styles.textBox}>
               <TextStyle>{day}</TextStyle>
             </View>
           ))}
         </View>
 
-        <CalendarContainer style={styles.calendarContainer}></CalendarContainer>
+        <CalendarContainer style={styles.calendarContainer}>
+          <CalendarTable />
+        </CalendarContainer>
       </View>
     </View>
   )
@@ -34,22 +33,29 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 32
-  },
-  calendarContainer: {
-    height: hp('37%'),
-    borderRadius: 32,
-    backgroundColor: 'white'
-    // padding: 16,
-  },
-  flexBox: {
-    paddingHorizontal: 24,
-    paddingBottom: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    paddingBottom: 72
     // backgroundColor: 'red'
   },
-  textStyle: {}
+  calendarContainer: {
+    borderRadius: 32,
+    backgroundColor: 'white',
+    padding: 12
+  },
+  flexBox: {
+    paddingHorizontal: 12,
+    paddingBottom: 8,
+    flexDirection: 'row'
+    // backgroundColor: 'red'
+  },
+  textBox: {
+    flex: 1,
+    // backgroundColor: 'green',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textStyle: {
+    textAlign: 'center'
+  }
 })
 
 const CalendarContainer = styled.View`

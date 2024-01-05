@@ -31,9 +31,9 @@ export default Album
 
 const styles = StyleSheet.create({
   box: {
-    width: wp(43),
-    height: hp(16),
-    borderRadius: 20,
+    width: 180,
+    height: 180,
+    borderRadius: 30,
     padding: 13
   },
   flex: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   textStyle: {
-    fontSize: hp(1.5)
+    fontSize: 16
   },
   circleTouch: {
     width: 32,

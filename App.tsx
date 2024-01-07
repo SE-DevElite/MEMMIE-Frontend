@@ -9,6 +9,7 @@ import SignInScreen from '@/screens/SignInScreen'
 import IndexWelcomeScreen from '@/screens/welcome/IndexWelcomeScreen'
 import ProfileScreen from '@/screens/ProfileScreen'
 import BottomNavigationCommon from '@/common/BottomNavigation.common'
+import OpenBottomSheetScreen from '@/screens/OpenBottomSheetScreen'
 
 const App: React.FC = () => {
   const isFirstOpen = useWelcomeScreen()
@@ -41,7 +42,9 @@ const App: React.FC = () => {
         {/* <IndexWelcomeScreen /> */}
         {/* <HomeScreen /> */}
         {/* <ProfileScreen /> */}
-        <BottomNavigationCommon />
+        {/* <BottomNavigationCommon /> */}
+
+        <OpenBottomSheetScreen />
       </View>
     </Provider>
   )

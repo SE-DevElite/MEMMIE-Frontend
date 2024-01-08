@@ -17,13 +17,13 @@ const FormSubmit: React.FC = () => {
             placeholder="Email address"
             handleChangeText={setEmail}
             value={email}
-            keyboardType="email-address"
+            keyBoardType="email-address"
           />
           <InputUnderlineCommon
             placeholder="Password"
             handleChangeText={setPassword}
             value={password}
-            keyboardType="default"
+            keyBoardType="default"
             secureTextEntry={true}
           />
         </FlexInput>

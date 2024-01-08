@@ -1,5 +1,13 @@
 import React from 'react'
-import styled from 'styled-components/native'
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  KeyboardTypeOptions
+} from 'react-native'
+import XcloseIcon from '@/assets/svg/Xclose'
 import { themes } from '@/common/themes/themes'
 
 interface InputUnderlineCommonProps {
@@ -10,10 +18,14 @@ interface InputUnderlineCommonProps {
   secureTextEntry?: boolean
   keyboardType?: string
   placeholderTextColor?: string
-  width?: string
-  height?: string
-  borderBottomWidth?: string
+  width?: number
+  height?: number
+  borderBottomWidth?: number
   borderBottomColor?: string
+  deleteButton?: boolean
+  autoFocus?: boolean
+
+  keyBoardType: KeyboardTypeOptions
 }
 
 const InputUnderlineCommon: React.FC<InputUnderlineCommonProps> = props => {
@@ -22,48 +34,66 @@ const InputUnderlineCommon: React.FC<InputUnderlineCommonProps> = props => {
     handleChangeText,
     value,
     placeholderTextColor,
-    keyboardType,
+    autoFocus,
     width,
     height,
     borderBottomWidth,
     borderBottomColor,
-    secureTextEntry
+    secureTextEntry,
+    deleteButton,
+    keyBoardType
   } = props
 
   return (
-    <InputUnderline
-      onChangeText={handleChangeText}
-      value={value}
-      placeholder={placeholder}
-      keyboardType={keyboardType || 'default'}
-      placeholderTextColor={placeholderTextColor || themes.light.secondary.hex}
-      width={width}
-      height={height}
-      borderBottomWidth={borderBottomWidth}
-      borderBottomColor={borderBottomColor}
-      secureTextEntry={secureTextEntry}
-      placeholderStyle={{ fontFamily: themes.fonts.bold }}
-      keyboardShouldPersistTaps="handled"
-      accessible={false}
-    />
+    <View>
+      <TextInput
+        style={[
+          styles.inputUnderline,
+          {
+            width: width || '100%',
+            height: height || 40,
+            borderBottomWidth: borderBottomWidth || 1.5,
+            borderBottomColor: borderBottomColor || themes.light.secondary.hex,
+            color: themes.light.secondary.hex
+          }
+        ]}
+        onChangeText={handleChangeText}
+        value={value}
+        placeholder={placeholder}
+        placeholderTextColor={
+          placeholderTextColor || themes.light.secondary.hex
+        }
+        secureTextEntry={secureTextEntry}
+        keyboardType={keyBoardType}
+        accessible={false}
+        autoFocus={autoFocus}
+        keyboardAppearance="light"
+      />
+      {deleteButton && (
+        <TouchableOpacity
+          style={styles.boxDeleteButton}
+          onPress={() => handleChangeText('')}>
+          <XcloseIcon />
+        </TouchableOpacity>
+      )}
+    </View>
   )
 }
 
+const styles = StyleSheet.create({
+  boxDeleteButton: {
+    position: 'absolute',
+    right: 0,
+    top: 12,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 20,
+    height: 20,
+    backgroundColor: themes.light.primary.hex,
+    borderRadius: 20
+  },
+  inputUnderline: {}
+})
+
 export default InputUnderlineCommon
-
-const InputUnderline = styled.TextInput`
-  /* width: 300px;
-  height: 40px;
-  border-bottom-width: 1.5px;
-  border-bottom-color: ${themes.light.secondary.hex}; */
-  color: ${themes.light.secondary.hex};
-
-  width: ${(props: { width: number }) => props.width || 300}px;
-  height: ${(props: { height: number }) => props.height || 40}px;
-
-  border-bottom-width: ${(props: { borderBottomWidth: number }) =>
-    props.borderBottomWidth || 1.5}px;
-
-  border-bottom-color: ${(props: { borderBottomColor: string }) =>
-    props.borderBottomColor || themes.light.secondary.hex};
-`

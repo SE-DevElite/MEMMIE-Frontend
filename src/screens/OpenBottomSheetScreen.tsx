@@ -9,6 +9,9 @@ import { Button, TouchableWithoutFeedback, Keyboard } from 'react-native' // Imp
 import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
 import SelectFriend from '@/components/addMemory/SelectFriend'
 import PostSetting from '@/components/addMemory/PostSetting'
+import EditDate from '@/components/addMemory/EditDate'
+import EditTime from '@/components/addMemory/EditTime'
+import AddMemory from '@/components/addMemory/AddMemory'
 
 const OpenBottomSheetScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null)
@@ -26,7 +29,10 @@ const OpenBottomSheetScreen: React.FC = () => {
           {/* <BestFriendForever /> */}
           {/* <MyAlbum /> */}
           {/* <SelectFriend /> */}
-          <PostSetting />
+          {/* <PostSetting /> */}
+          {/* <EditDate /> */}
+          {/* <EditTime /> */}
+          <AddMemory />
         </LongBottomSheetCommon>
       </View>
     </TouchableWithoutFeedback>

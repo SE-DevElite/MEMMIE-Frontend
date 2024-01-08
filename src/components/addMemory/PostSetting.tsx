@@ -18,7 +18,7 @@ type ActiveProps = {
 
 const PostSetting: React.FC = () => {
   const [active, setActive] = useState<ActiveProps>({
-    everyone: false,
+    everyone: true,
     peopleYouFollow: false,
     followersThatYouFollowBack: false,
     onlyMe: false

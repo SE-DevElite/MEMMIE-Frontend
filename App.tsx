@@ -42,9 +42,9 @@ const App: React.FC = () => {
         {/* <IndexWelcomeScreen /> */}
         {/* <HomeScreen /> */}
         {/* <ProfileScreen /> */}
-        {/* <BottomNavigationCommon /> */}
+        <BottomNavigationCommon />
 
-        <OpenBottomSheetScreen />
+        {/* <OpenBottomSheetScreen /> */}
       </View>
     </Provider>
   )

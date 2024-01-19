@@ -5,15 +5,18 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import UserProfileName from '@/components/profile/UserProfileName'
 import UserBio from '@/components/profile/UserBio'
 import MemoryGroup from '@/components/profile/MemoryGroup'
+import { useNavigation } from '@react-navigation/native'
 
 const ProfileScreen: React.FC = () => {
+  const navigation = useNavigation()
+  const handleBackPress = () => {
+    navigation.goBack()
+  }
+
   return (
     <SafeAreaView edges={['right', 'top']}>
       <View style={styles.layout}>
-        <ButtonBackCommon
-          handlePress={() => console.log('user profile')}
-          text="User Profile"
-        />
+        <ButtonBackCommon handlePress={handleBackPress} text="User Profile" />
         <UserProfileName />
         <UserBio />
         <MemoryGroup />
@@ -22,12 +25,11 @@ const ProfileScreen: React.FC = () => {
   )
 }
 
-export default ProfileScreen
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
   layout: {
     paddingHorizontal: 16,
-    // backgroundColor: 'blue',
-    height: '100%'
-  }
+    height: '100%',
+  },
 })

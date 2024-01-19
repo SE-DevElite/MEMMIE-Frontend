@@ -8,10 +8,11 @@ import MemoryContainer from '@/components/home/topContainer/MemoryContainer'
 import Calendar from '@/components/home/bottomContainer/Calendar'
 import DatePicker from '@/components/home/bottomContainer/DatePicker'
 import BottomSheetPicker from '@/components/home/bottomContainer/BottomSheetPicker'
+import { useNavigation } from '@react-navigation/native'
 
 const HomeScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null)
-  // const handleClosePress = () => bottomSheetRef.current?.close()
+  const navigation = useNavigation()
   const handleOpenPress = () => bottomSheetRef.current?.expand()
 
   const [selectedMonth, setSelectedMonth] = useState<string>('October')
@@ -32,7 +33,7 @@ const HomeScreen: React.FC = () => {
       <ScrollView>
         <View style={styles.topOutterContainer}>
           <View style={styles.topInnerContainer}>
-            <UserHeading />
+            <UserHeading onPressAvatar={() => navigation.navigate('ProfileScreen' as never)} />
             <MemoryContainer />
           </View>
         </View>

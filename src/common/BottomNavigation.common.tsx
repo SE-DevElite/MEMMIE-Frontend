@@ -41,7 +41,7 @@ const BottomNavigationCommon: React.FC = () => {
               {item.icon}
             </TouchableOpacity>
 
-            {index === currentState && ( 
+            {index === currentState && (
               <View style={styles.curvedContainer} />
             )}
 
@@ -68,11 +68,11 @@ const styles = StyleSheet.create({
   },
   curvedContainer: {
     position: 'absolute',
-    bottom: 39, 
+    bottom: 39,
     left: 0,
     right: 0,
     width: '100%',
-    height: 40, 
+    height: 40,
     borderRadius: 32,
     backgroundColor: '#ffffff'
   },
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#A56073',
     left: '50%',
     marginLeft: -4,
-    top: -15, 
+    top: -15,
     zIndex: 1
   }
 })

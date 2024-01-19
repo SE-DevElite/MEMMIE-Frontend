@@ -52,7 +52,9 @@ const BottomNavigationCommon: React.FC = (props) => {
             <View style={index === currentState ? styles.dot : {}}>
               <View />
             </View>
-            
+            <View style={index === currentState ? styles.cruve4 : {}}>
+              <View />
+            </View>
             <View style={index === currentState ? styles.cruve3 : {}}>
               <View />
             </View>
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     borderRadius: 32,
-    backgroundColor: '#e5e5e5e5'
+    backgroundColor: '#e5e5e5'
   },
   flexItem: {
     backgroundColor: '#fff',
@@ -118,29 +120,38 @@ const styles = StyleSheet.create({
   },
   cruve:{
     position: 'absolute',
-    backgroundColor: '#e5e5e5e5',
-    width:25,
-    height: 20,
-    top:-13,
-    left:-13,
+    backgroundColor: '#e5e5e5',
+    width:20,
+    height: 60,
+    top:'-21%',
+    left:'-28%',
     borderRadius: 100,
   },
   cruve2:{
     position: 'absolute',
-    backgroundColor: '#e5e5e5e5',
-    width:25,
-    height: 20,
-    top:-13,
-    right:-13,
+    backgroundColor: '#e5e5e5',
+    width:20,
+    height: 60,
+    top:'-21%',
+    right:'-28%',
     borderRadius: 100,
   },
   cruve3:{
     position: 'absolute',
-    backgroundColor: '#ffffff',
-    width:25,
+    backgroundColor: '#fff',
+    width:20,
     height: 20,
-    top:-24,
-    left:5,
+    top:'-38%',
+    left:'22%',
     borderRadius: 100,
-  }
+  },
+  cruve4:{
+    position: 'absolute',
+    backgroundColor: '#fff',
+    width:40,
+    height: 20,
+    top:'-45%',
+    left:'-10%',
+    borderRadius: 100,
+  },
 })

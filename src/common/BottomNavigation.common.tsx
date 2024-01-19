@@ -5,7 +5,12 @@ import SearchIcon from '@/assets/svg/Search'
 import SettingIcon from '@/assets/svg/Setting'
 import { View, StyleSheet, Touchable, TouchableOpacity } from 'react-native'
 
-const BottomNavigationCommon: React.FC = () => {
+interface BottomNavigationCommon{
+  currentState:number
+}
+
+const BottomNavigationCommon: React.FC = (props) => {
+  // const {currentState} = props
   const [currentState, setCurrentState] = useState<number>(0)
 
   const icons = [
@@ -36,7 +41,7 @@ const BottomNavigationCommon: React.FC = () => {
               style={{
                 position: 'absolute',
                 flex: 1,
-                backgroundColor: 'red',
+                // backgroundColor: 'red',
                 top: -10,
                 left: 0,
                 right: 0,
@@ -47,6 +52,16 @@ const BottomNavigationCommon: React.FC = () => {
             <View style={index === currentState ? styles.dot : {}}>
               <View />
             </View>
+            
+            <View style={index === currentState ? styles.cruve3 : {}}>
+              <View />
+            </View>
+            <View style={index === currentState ? styles.cruve : {}}>
+              <View />
+            </View>
+            <View style={index === currentState ? styles.cruve2 : {}}>
+              <View />
+            </View>
 
             <TouchableOpacity
               onPress={() => setCurrentState(index)}
@@ -54,7 +69,7 @@ const BottomNavigationCommon: React.FC = () => {
                 ...styles.flexItem,
                 backgroundColor:
                   currentState === index ? '#A56073' : 'transparent'
-              }}>
+                }}>
               {item.icon}
             </TouchableOpacity>
           </View>
@@ -100,5 +115,32 @@ const styles = StyleSheet.create({
     marginLeft: -4,
     top: -15,
     zIndex: 1
+  },
+  cruve:{
+    position: 'absolute',
+    backgroundColor: '#e5e5e5e5',
+    width:25,
+    height: 20,
+    top:-13,
+    left:-13,
+    borderRadius: 100,
+  },
+  cruve2:{
+    position: 'absolute',
+    backgroundColor: '#e5e5e5e5',
+    width:25,
+    height: 20,
+    top:-13,
+    right:-13,
+    borderRadius: 100,
+  },
+  cruve3:{
+    position: 'absolute',
+    backgroundColor: '#ffffff',
+    width:25,
+    height: 20,
+    top:-24,
+    left:5,
+    borderRadius: 100,
   }
 })

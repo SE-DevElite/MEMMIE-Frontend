@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     paddingTop: 40
   },
   layout: {
-    flex: 1,
     paddingHorizontal: 40,
     gap: 50
   },
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
     fontFamily: themes.fonts.medium,
     fontSize: 18,
     color: themes.light.primary.hex,
-    width: 120
+    width: 110
   },
   input: {
     width: 200,

@@ -4,8 +4,8 @@ import { themes } from '@/common/themes/themes'
 import MonthYearPicker from './MonthYearPicker'
 
 interface BottomSheetPickerProps {
-  handleChangeMonth: (itemValue: string, itemIndex: number) => void
-  handleChangeYear: (itemValue: string, itemIndex: number) => void
+  handleChangeMonth: (itemValue: string) => void
+  handleChangeYear: (itemValue: string) => void
   selectedMonth: string
   selectedYear: string
 }

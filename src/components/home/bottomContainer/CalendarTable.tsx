@@ -15,7 +15,7 @@ const CalendarTable: React.FC = () => {
             <View style={styles.dayBox} key={columnIndex}>
               <TouchableOpacity onPress={() => console.log(columnIndex + 1)}>
                 <View style={styles.innerFlex}>
-                  <Text>{columnIndex + 1}</Text>
+                  <Text style={styles.textStyle}>{columnIndex + 1}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -52,5 +52,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15
+  },
+  textStyle: {
+    fontFamily: themes.fonts.bold,
+    color: themes.light.primary.hex,
+    fontSize: 15
   }
 })

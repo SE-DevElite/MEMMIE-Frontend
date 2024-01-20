@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import PolygonDown from '@/assets/svg/PolygonDown'
 import PolygonUp from '@/assets/svg/PolygonUp'
 
@@ -10,21 +10,29 @@ interface DatePickerProps {
   selectedMonth: string
   selectedYear: string
   onOpenPress: () => void
+  handlePolygonPress: (type_case: number) => void
 }
 
 const DatePicker: React.FC<DatePickerProps> = props => {
-  const { selectedMonth, selectedYear, onOpenPress } = props
+  const { selectedMonth, selectedYear, onOpenPress, handlePolygonPress } = props
 
   return (
     <View style={styles.container}>
       <View style={styles.textBox}>
-        <TextStyle style={styles.textStyle} onPress={onOpenPress}>
-          {selectedMonth}, {selectedYear}
-        </TextStyle>
+        <TouchableOpacity onPress={onOpenPress}>
+          <Text style={styles.textStyle}>
+            {selectedMonth}, {selectedYear}
+          </Text>
+        </TouchableOpacity>
 
         <View style={styles.iconGroup}>
-          <PolygonUp />
-          <PolygonDown />
+          <TouchableOpacity onPress={() => handlePolygonPress(1)}>
+            <PolygonUp />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => handlePolygonPress(-1)}>
+            <PolygonDown />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -46,14 +54,12 @@ const styles = StyleSheet.create({
   textStyle: {
     // paddingVertical: 8,
     fontFamily: themes.fonts.medium,
-    fontSize: 16
+    fontSize: 16,
+    color: themes.light.secondary.hex,
+    width: 140
   },
   iconGroup: {
     flexDirection: 'row',
     gap: 8
   }
 })
-
-const TextStyle = styled.Text`
-  color: ${themes.light.secondary.hex};
-`

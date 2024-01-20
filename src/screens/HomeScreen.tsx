@@ -1,12 +1,5 @@
 import React, { useRef, useState } from 'react'
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Keyboard
-} from 'react-native'
+import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import BottomSheet from '@gorhom/bottom-sheet'
 import { themes } from '@/common/themes/themes'
@@ -15,10 +8,8 @@ import MemoryContainer from '@/components/home/topContainer/MemoryContainer'
 import Calendar from '@/components/home/bottomContainer/Calendar'
 import DatePicker from '@/components/home/bottomContainer/DatePicker'
 import BottomSheetPicker from '@/components/home/bottomContainer/BottomSheetPicker'
-import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
-import MyAlbum from '@/components/album/MyAlbum'
-import AddMemory from '@/components/addMemory/AddMemory'
 import { MONTH } from '@/common/consts/DateTime.consts'
+import HomeBottomSheetProvider from '@/components/home/HomeBottomSheetProvider'
 
 const HomeScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null)
@@ -94,20 +85,10 @@ const HomeScreen: React.FC = () => {
         selectedYear={selectedYear}
       />
 
-      <LongBottomSheetCommon ref={addMemoryBottomSheetRef}>
-        <AddMemory />
-      </LongBottomSheetCommon>
-
-      <LongBottomSheetCommon ref={albumBottomSheetRef}>
-        {/* <FilterAlbum /> */}
-        {/* <CreateAlbum /> */}
-        {/* <BestFriendForever /> */}
-        <MyAlbum />
-        {/* <SelectFriend /> */}
-        {/* <PostSetting /> */}
-        {/* <EditDate /> */}
-        {/* <EditTime /> */}
-      </LongBottomSheetCommon>
+      <HomeBottomSheetProvider
+        albumBottomSheetRef={albumBottomSheetRef}
+        addMemoryBottomSheetRef={addMemoryBottomSheetRef}
+      />
     </SafeAreaView>
   )
 }

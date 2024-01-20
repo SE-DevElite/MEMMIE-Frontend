@@ -6,12 +6,19 @@ import AddMemorySelectTime from './AddMemorySelectTime'
 import AddMemoryDayAndMood from './AddMemoryDayAndMood'
 import AddMemoryForm from './AddMemoryForm'
 
-const AddMemory: React.FC = () => {
+interface Props {
+  handleEditDate: () => void
+  handleClose: () => void
+}
+
+const AddMemory: React.FC<Props> = props => {
+  const { handleEditDate, handleClose } = props
+
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity onPress={() => console.log('Cancle')}>
+          <TouchableOpacity onPress={handleClose}>
             <Text style={styles.buttonStyle}>Cancle</Text>
           </TouchableOpacity>
 
@@ -41,7 +48,12 @@ const AddMemory: React.FC = () => {
 
       <View style={{ paddingHorizontal: 30, gap: 20 }}>
         <AddMemoryDayAndMood />
-        <AddMemorySelectTime date={6} month="Jul" year={2023} />
+        <AddMemorySelectTime
+          date={6}
+          month="Jul"
+          year={2023}
+          handleEditDate={handleEditDate}
+        />
         <AddMemoryForm />
       </View>
 

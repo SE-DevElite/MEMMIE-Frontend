@@ -12,10 +12,11 @@ interface Props {
   date: number
   month: string
   year: number
+  handleEditDate: () => void
 }
 
 const AddMemorySelectTime: React.FC<Props> = props => {
-  const { date, month, year } = props
+  const { date, month, year, handleEditDate } = props
 
   const collectDate = [date, month, year]
 
@@ -24,7 +25,7 @@ const AddMemorySelectTime: React.FC<Props> = props => {
       <View style={styles.dateSection}>
         {collectDate.map((item, index) => (
           <View style={styles.dateItemContainer} key={index}>
-            <TouchableOpacity onPress={() => console.log(`Press on ${item}`)}>
+            <TouchableOpacity onPress={handleEditDate}>
               <View style={styles.dateContainer}>
                 <Text style={styles.dateTextStyle}>{item}</Text>
               </View>

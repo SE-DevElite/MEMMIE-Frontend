@@ -9,10 +9,13 @@ import AddMemoryForm from './AddMemoryForm'
 interface Props {
   handleEditDate: () => void
   handleClose: () => void
+  handlePostSetting: () => void
+  handleSelectFriend: () => void
 }
 
 const AddMemory: React.FC<Props> = props => {
-  const { handleEditDate, handleClose } = props
+  const { handleEditDate, handleClose, handlePostSetting, handleSelectFriend } =
+    props
 
   return (
     <View style={styles.container}>
@@ -54,7 +57,10 @@ const AddMemory: React.FC<Props> = props => {
           year={2023}
           handleEditDate={handleEditDate}
         />
-        <AddMemoryForm />
+        <AddMemoryForm
+          handlePostSetting={handlePostSetting}
+          handleSelectFriend={handleSelectFriend}
+        />
       </View>
 
       {/* add upload image component here */}

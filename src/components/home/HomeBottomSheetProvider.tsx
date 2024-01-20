@@ -1,11 +1,13 @@
 import React, { useRef } from 'react'
 import MyAlbum from '@/components/album/MyAlbum'
-import AddMemory from '@/components/addMemory/AddMemory'
+import PostSetting from '../addMemory/PostSetting'
+import SelectFriend from '../addMemory/SelectFriend'
+import EditDate from '@/components/addMemory/EditDate'
 import CreateAlbum from '@/components/album/CreateAlbum'
 import FilterAlbum from '@/components/album/FilterAlbum'
-import EditDate from '@/components/addMemory/EditDate'
-import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
+import AddMemory from '@/components/addMemory/AddMemory'
 import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
+import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 
 interface Props {
@@ -19,6 +21,8 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const createAlbumBottomSheetRef = useRef<BottomSheet>(null)
   const filterAlbumBottomSheetRef = useRef<BottomSheet>(null)
   const editDateBottomSheetRef = useRef<BottomSheet>(null)
+  const postSettingBottomSheetRef = useRef<BottomSheet>(null)
+  const selectFriendBottomSheetRef = useRef<BottomSheet>(null)
 
   return (
     <>
@@ -26,6 +30,10 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
         <AddMemory
           handleEditDate={() => editDateBottomSheetRef.current?.expand()}
           handleClose={() => addMemoryBottomSheetRef.current?.close()}
+          handlePostSetting={() => postSettingBottomSheetRef.current?.expand()}
+          handleSelectFriend={() =>
+            selectFriendBottomSheetRef.current?.expand()
+          }
         />
       </LongBottomSheetCommon>
 
@@ -49,6 +57,14 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
 
       <LongBottomSheetCommon ref={editDateBottomSheetRef}>
         <EditDate handleClose={() => editDateBottomSheetRef.current?.close()} />
+      </LongBottomSheetCommon>
+
+      <LongBottomSheetCommon ref={postSettingBottomSheetRef}>
+        <PostSetting />
+      </LongBottomSheetCommon>
+
+      <LongBottomSheetCommon ref={selectFriendBottomSheetRef}>
+        <SelectFriend />
       </LongBottomSheetCommon>
     </>
   )

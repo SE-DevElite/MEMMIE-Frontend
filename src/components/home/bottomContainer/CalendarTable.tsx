@@ -12,7 +12,10 @@ const CalendarTable: React.FC = () => {
         <View key={rowIndex} style={styles.flexRow}>
           {row.map((value, columnIndex) =>
             value.day === '' ? (
-              <View style={{ ...styles.dayBox, backgroundColor: 'white' }} />
+              <View
+                style={{ ...styles.dayBox, backgroundColor: 'white' }}
+                key={columnIndex}
+              />
             ) : (
               <View style={styles.dayBox} key={columnIndex}>
                 <ImageBackground

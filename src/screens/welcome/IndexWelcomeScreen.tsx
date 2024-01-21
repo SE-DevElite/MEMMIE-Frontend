@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, ReactNode } from 'react'
 import styled from 'styled-components/native'
 import CoverScreen from './CoverScreen'
 import WelcomeTemplate from '@/components/welcome/WelcomeTemplate'
 import StartScreen from './StartScreen'
+import { useNavigation } from '@react-navigation/native'
 
 const welcomePages = [
   {
@@ -72,12 +73,12 @@ const welcomePages = [
 ]
 
 const IndexWelcomeScreen = () => {
-  const [pageNumber, setPageNumber] = useState<number>(0)
-  const [stage, setStage] = useState<number>(0)
+  const navigation = useNavigation();
+  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [stage, setStage] = useState<number>(0);
 
   const handlePageChange = (id: number) => {
-    // console.log(id);
-    setPageNumber(id)
+    setPageNumber(id);
 
     setStageCollection([
       <CoverScreen handleStage={handleChangeState} />,
@@ -86,29 +87,33 @@ const IndexWelcomeScreen = () => {
         handlePageChange={handlePageChange}
         handleStage={handleChangeState}
       />,
-      <StartScreen />
-    ])
-  }
+      <StartScreen onStartPress={handleStartPress} />
+    ]);
+  };
 
   const handleChangeState = (id: number) => {
-    setStage(id)
-  }
+    setStage(id);
+  };
 
-  const [stageCollection, setStageCollection] = useState([
+  const handleStartPress = () => {
+    navigation.navigate('SignInScreen' as never);
+  };
+
+  const [stageCollection, setStageCollection] = useState<ReactNode[]>([
     <CoverScreen handleStage={handleChangeState} />,
     <WelcomeTemplate
       {...welcomePages[pageNumber]}
       handlePageChange={handlePageChange}
       handleStage={handleChangeState}
     />,
-    <StartScreen />
-  ])
+    <StartScreen onStartPress={handleStartPress} />
+  ]);
 
-  return <Box>{stageCollection[stage]}</Box>
-}
+  return <Box>{stageCollection[stage]}</Box>;
+};
 
-export default IndexWelcomeScreen
+export default IndexWelcomeScreen;
 
 const Box = styled.View`
   flex: 1;
-`
+`;

@@ -3,7 +3,7 @@ import PlusIcon from '@/assets/svg/Plus'
 import HomeIcon from '@/assets/svg/Home'
 import SearchIcon from '@/assets/svg/Search'
 import SettingIcon from '@/assets/svg/Setting'
-import { View, StyleSheet, Touchable, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 
 interface BottomNavigationCommon{
   currentState:number
@@ -64,33 +64,51 @@ const BottomNavigationCommon: React.FC = (props) => {
             <View style={index === currentState ? styles.cruve2 : {}}>
               <View />
             </View>
-
             <TouchableOpacity
               onPress={() => setCurrentState(index)}
               style={{
                 ...styles.flexItem,
+
                 backgroundColor:
                   currentState === index ? '#A56073' : 'transparent'
                 }}>
               {item.icon}
             </TouchableOpacity>
+
+            {index === currentState && (
+              <View style={styles.curvedContainer} />
+            )}
+
+            <View style={index === currentState ? styles.dot : {}}>
+              <View />
+            </View>
           </View>
         ))}
       </View>
     </View>
-  )
-}
+  );
+};
+
 
 export default BottomNavigationCommon
 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    // backgroundColor: 'blue',
     width: '100%',
     height: 60,
     bottom: 24,
     paddingHorizontal: 16
+  },
+  curvedContainer: {
+    position: 'absolute',
+    bottom: 39,
+    left: 0,
+    right: 0,
+    width: '100%',
+    height: 40,
+    borderRadius: 32,
+    backgroundColor: '#ffffff'
   },
   flexBox: {
     flex: 1,

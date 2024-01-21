@@ -8,23 +8,48 @@ import MemoryContainer from '@/components/home/topContainer/MemoryContainer'
 import Calendar from '@/components/home/bottomContainer/Calendar'
 import DatePicker from '@/components/home/bottomContainer/DatePicker'
 import BottomSheetPicker from '@/components/home/bottomContainer/BottomSheetPicker'
+import { MONTH } from '@/common/consts/DateTime.consts'
+import HomeBottomSheetProvider from '@/components/home/HomeBottomSheetProvider'
 
 const HomeScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null)
-  // const handleClosePress = () => bottomSheetRef.current?.close()
+  const albumBottomSheetRef = useRef<BottomSheet>(null)
+  const addMemoryBottomSheetRef = useRef<BottomSheet>(null)
   const handleOpenPress = () => bottomSheetRef.current?.expand()
 
-  const [selectedMonth, setSelectedMonth] = useState<string>('October')
-  const [selectedYear, setSelectedYear] = useState<string>('2023')
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    MONTH[new Date().getMonth() as keyof typeof MONTH] as string
+  )
+  const [selectedYear, setSelectedYear] = useState<string>(
+    new Date().getFullYear().toString()
+  )
 
-  const handleChangeMonth = (itemValue: string, itemIndex: number) => {
-    console.log(`change month: ${itemValue}`)
-    setSelectedMonth(itemValue)
-  }
+  const handlePolygonPress = (type_case: number) => {
+    const currentMonthIndex = MONTH.findIndex(
+      month => month === selectedMonth
+    ) as number
 
-  const handleChangeYear = (itemValue: string, itemIndex: number) => {
-    console.log(`change year: ${itemValue}`)
-    setSelectedYear(itemValue)
+    switch (currentMonthIndex) {
+      case 0:
+        if (type_case === -1) {
+          setSelectedMonth(MONTH[11])
+          setSelectedYear((parseInt(selectedYear) - 1).toString())
+        } else {
+          setSelectedMonth(MONTH[currentMonthIndex + type_case])
+        }
+        return
+      case 11:
+        if (type_case === 1) {
+          setSelectedMonth(MONTH[0])
+          setSelectedYear((parseInt(selectedYear) + 1).toString())
+        } else {
+          setSelectedMonth(MONTH[currentMonthIndex + type_case])
+        }
+        return
+      default:
+        setSelectedMonth(MONTH[currentMonthIndex + type_case])
+        return
+    }
   }
 
   return (
@@ -33,7 +58,10 @@ const HomeScreen: React.FC = () => {
         <View style={styles.topOutterContainer}>
           <View style={styles.topInnerContainer}>
             <UserHeading />
-            <MemoryContainer />
+            <MemoryContainer
+              onAddAlbumPress={() => albumBottomSheetRef.current?.expand()}
+              onAddMemoryPress={() => addMemoryBottomSheetRef.current?.expand()}
+            />
           </View>
         </View>
         <View style={styles.bottomOutterContainer}>
@@ -42,6 +70,7 @@ const HomeScreen: React.FC = () => {
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
               onOpenPress={handleOpenPress}
+              handlePolygonPress={handlePolygonPress}
             />
             <Calendar />
           </View>
@@ -50,10 +79,15 @@ const HomeScreen: React.FC = () => {
 
       <BottomSheetPicker
         ref={bottomSheetRef}
-        handleChangeMonth={handleChangeMonth}
-        handleChangeYear={handleChangeYear}
+        handleChangeMonth={setSelectedMonth}
+        handleChangeYear={setSelectedYear}
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
+      />
+
+      <HomeBottomSheetProvider
+        albumBottomSheetRef={albumBottomSheetRef}
+        addMemoryBottomSheetRef={addMemoryBottomSheetRef}
       />
     </SafeAreaView>
   )

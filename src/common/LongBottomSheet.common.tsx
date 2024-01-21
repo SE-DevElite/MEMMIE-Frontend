@@ -1,16 +1,16 @@
-import { Text, View } from 'react-native'
 import React, { forwardRef, useCallback, useMemo } from 'react'
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
 
 interface LongBottomSheetCommonProps {
   children?: React.ReactNode
+  snapPoint?: string[]
 }
 
 const LongBottomSheetCommon = forwardRef<
   BottomSheet,
   LongBottomSheetCommonProps
->(({ children }, ref) => {
-  const snapPoints = useMemo(() => ['90%'], [])
+>(({ children, snapPoint }, ref) => {
+  const snapPoints = useMemo(() => snapPoint || ['90%'], [])
 
   const renderBackdrop = useCallback(
     (props: any) => (

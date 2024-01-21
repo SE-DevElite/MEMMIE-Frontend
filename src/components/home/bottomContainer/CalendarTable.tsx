@@ -1,25 +1,47 @@
 import React from 'react'
 import { themes } from '@/common/themes/themes'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, ImageBackground } from 'react-native'
 
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
+import { daily_memories } from '@/assets/mocks/daily_memories'
 
 const CalendarTable: React.FC = () => {
-  const twoDArray = Array.from({ length: 5 }, () => Array(7).fill(0))
-
   return (
     <View style={styles.container}>
-      {twoDArray.map((row, rowIndex) => (
+      {daily_memories.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.flexRow}>
-          {row.map((_, columnIndex) => (
-            <View style={styles.dayBox} key={columnIndex}>
-              <TouchableOpacity onPress={() => console.log(columnIndex + 1)}>
-                <View style={styles.innerFlex}>
-                  <Text>{columnIndex + 1}</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          ))}
+          {row.map((value, columnIndex) =>
+            value.day === '' ? (
+              <View
+                style={{ ...styles.dayBox, backgroundColor: 'white' }}
+                key={columnIndex}
+              />
+            ) : (
+              <View style={styles.dayBox} key={columnIndex}>
+                <ImageBackground
+                  source={
+                    value.memories.length > 0
+                      ? {
+                          uri: value.memories[0].memory_image
+                        }
+                      : require('@/assets/mocks/empty.png')
+                  }>
+                  <TouchableOpacity onPress={() => console.log(value.date)}>
+                    <View
+                      style={{
+                        ...styles.innerFlex,
+                        backgroundColor:
+                          value.memories.length > 0
+                            ? 'rgba(255,255,255,0.4)'
+                            : 'transparent'
+                      }}>
+                      <Text style={styles.textStyle}>{value.date}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </ImageBackground>
+              </View>
+            )
+          )}
         </View>
       ))}
     </View>
@@ -43,7 +65,8 @@ const styles = StyleSheet.create({
     backgroundColor: themes.light.tertiary.hex,
     alignItems: 'center',
     margin: 3,
-    borderRadius: 15
+    borderRadius: 15,
+    overflow: 'hidden'
   },
   innerFlex: {
     flex: 1,
@@ -52,5 +75,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15
+  },
+  textStyle: {
+    fontFamily: themes.fonts.bold,
+    color: themes.light.primary.hex,
+    fontSize: 15
   }
 })

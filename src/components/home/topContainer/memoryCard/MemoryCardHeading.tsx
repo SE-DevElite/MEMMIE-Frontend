@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/native'
 
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen'
 import { themes } from '@/common/themes/themes'
 import { Image, StyleSheet, Text, View } from 'react-native'
 
@@ -13,19 +9,21 @@ const MemoryCardHeading: React.FC = () => {
 
   return (
     <View style={styles.boxTitle}>
-      <TitleText style={styles.titleText}>
-        <TitleTextStyle>Bangkok</TitleTextStyle>
-      </TitleText>
-      <StreakBox style={styles.streakBox}>
+      <View style={styles.titleText}>
+        <Text style={styles.titleTextStyle}>Bangkok</Text>
+      </View>
+      <View style={styles.streakBox}>
         <View style={styles.streakBackground}>
-          <StreakCircle
-            style={styles.streakCircle}
-            size={streak.toString().length}>
-            <StreakTextStyle>{streak}</StreakTextStyle>
+          <View
+            style={{
+              ...styles.streakCircle,
+              padding: streak.toString().length === 1 ? 20 : 7
+            }}>
+            <Text style={styles.streakTextStyle}>{streak}</Text>
             <Image source={require('@/assets/icons/streak.png')} />
-          </StreakCircle>
+          </View>
         </View>
-      </StreakBox>
+      </View>
     </View>
   )
 }
@@ -43,13 +41,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderTopLeftRadius: 20,
     paddingLeft: 16,
-    borderTopRightRadius: 20
+    borderTopRightRadius: 20,
+    backgroundColor: themes.light.tertiary.hex
   },
   streakBox: {
     width: '30%',
     height: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: themes.light.tertiary.hex
   },
   streakBackground: {
     width: '100%',
@@ -65,37 +65,22 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: themes.light.tertiary.hex
   },
   streakIcon: {
     width: 20,
     height: 20,
     resizeMode: 'contain'
+  },
+  titleTextStyle: {
+    fontSize: 16,
+    fontFamily: themes.fonts.samiBold,
+    color: themes.light.secondary.hex
+  },
+  streakTextStyle: {
+    fontSize: 15,
+    fontFamily: themes.fonts.samiBold,
+    color: themes.light.secondary.hex
   }
 })
-
-const TitleText = styled.View`
-  background-color: ${themes.light.tertiary.hex};
-`
-
-const StreakBox = styled.View`
-  background-color: ${themes.light.tertiary.hex};
-`
-
-const StreakCircle = styled.View`
-  padding: ${(props: { size: number }) => (props.size === 1 ? 20 : 7)}px;
-
-  background-color: ${themes.light.tertiary.hex};
-`
-
-const TitleTextStyle = styled.Text`
-  font-size: 16px;
-  font-family: ${themes.fonts.samiBold};
-  color: ${themes.light.secondary.hex};
-`
-
-const StreakTextStyle = styled.Text`
-  font-size: 15px;
-  font-family: ${themes.fonts.samiBold};
-  color: ${themes.light.primary.hex};
-`

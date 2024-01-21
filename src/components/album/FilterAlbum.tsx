@@ -3,12 +3,18 @@ import { themes } from '@/common/themes/themes'
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 
-const FilterAlbum: React.FC = () => {
+interface Props {
+  handleClose: () => void
+}
+
+const FilterAlbum: React.FC<Props> = props => {
+  const { handleClose } = props
+
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity onPress={() => console.log('Clear')}>
+          <TouchableOpacity onPress={handleClose}>
             <Text style={styles.buttonStyle}>Clear</Text>
           </TouchableOpacity>
 
@@ -35,6 +41,7 @@ const FilterAlbum: React.FC = () => {
           <View style={styles.moodGroup}>
             {new Array(4).fill(0).map((_, index) => (
               <TouchableWithoutFeedback
+                key={index}
                 onPress={() => console.log(`Change mood ${index + 1}`)}>
                 <View key={index} style={styles.circleAvatar} />
               </TouchableWithoutFeedback>

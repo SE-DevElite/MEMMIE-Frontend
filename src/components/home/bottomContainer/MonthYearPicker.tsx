@@ -4,8 +4,8 @@ import { Picker } from '@react-native-picker/picker'
 import { MONTH } from '@/common/consts/DateTime.consts'
 
 interface MonthYearPickerProps {
-  onChangeMonth: (itemValue: string, itemIndex: number) => void
-  onChangeYear: (itemValue: string, itemIndex: number) => void
+  onChangeMonth: (itemValue: string) => void
+  onChangeYear: (itemValue: string) => void
 
   yearValue: string
   monthValue: string

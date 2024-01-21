@@ -12,6 +12,8 @@ import PostSetting from '@/components/addMemory/PostSetting'
 import EditDate from '@/components/addMemory/EditDate'
 import EditTime from '@/components/addMemory/EditTime'
 import AddMemory from '@/components/addMemory/AddMemory'
+import EditProfile from '@/components/profile/EditProfile'
+import SelectGender from '@/components/profile/SelectGender'
 
 const OpenBottomSheetScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null)
@@ -23,7 +25,7 @@ const OpenBottomSheetScreen: React.FC = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Button title="Go to Details" onPress={handleOpenPress} />
-        <LongBottomSheetCommon ref={bottomSheetRef}>
+        <LongBottomSheetCommon ref={bottomSheetRef} snapPoint={['40%']}>
           {/* <FilterAlbum /> */}
           {/* <CreateAlbum /> */}
           {/* <BestFriendForever /> */}
@@ -32,7 +34,9 @@ const OpenBottomSheetScreen: React.FC = () => {
           {/* <PostSetting /> */}
           {/* <EditDate /> */}
           {/* <EditTime /> */}
-          <AddMemory />
+          {/* <AddMemory /> */}
+          {/* <EditProfile /> */}
+          <SelectGender />
         </LongBottomSheetCommon>
       </View>
     </TouchableWithoutFeedback>

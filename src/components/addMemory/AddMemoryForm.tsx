@@ -3,9 +3,22 @@ import LanguageIcon from '@/assets/svg/Language'
 import NavArrowDownIcon from '@/assets/svg/NavArrowDown'
 import { themes } from '@/common/themes/themes'
 import React from 'react'
-import { Text, TextInput, View, StyleSheet } from 'react-native'
+import {
+  Text,
+  TextInput,
+  View,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native'
 
-const AddMemoryForm: React.FC = () => {
+interface Props {
+  handlePostSetting: () => void
+  handleSelectFriend: () => void
+}
+
+const AddMemoryForm: React.FC<Props> = props => {
+  const { handlePostSetting, handleSelectFriend } = props
+
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -25,21 +38,25 @@ const AddMemoryForm: React.FC = () => {
         </View>
 
         <View style={styles.tagsContainer}>
-          <View style={styles.tag}>
-            <View style={styles.iconBackground}>
-              <LanguageIcon width={15} height={15} />
+          <TouchableOpacity onPress={handlePostSetting}>
+            <View style={styles.tag}>
+              <View style={styles.iconBackground}>
+                <LanguageIcon width={15} height={15} />
+              </View>
+              <Text style={styles.tagText}>Everyone</Text>
+              <NavArrowDownIcon />
             </View>
-            <Text style={styles.tagText}>Everyone</Text>
-            <NavArrowDownIcon />
-          </View>
+          </TouchableOpacity>
 
-          <View style={styles.tag}>
-            <View style={styles.iconBackground}>
-              <LanguageIcon width={15} height={15} />
+          <TouchableOpacity onPress={handleSelectFriend}>
+            <View style={styles.tag}>
+              <View style={styles.iconBackground}>
+                <LanguageIcon width={15} height={15} />
+              </View>
+              <Text style={styles.tagText}>Friends</Text>
+              <NavArrowDownIcon />
             </View>
-            <Text style={styles.tagText}>Friends</Text>
-            <NavArrowDownIcon />
-          </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.caption}>

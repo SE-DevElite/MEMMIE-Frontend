@@ -4,18 +4,26 @@ import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const UserProfileName: React.FC = () => {
+interface Props {
+  handleClickAvatar: () => void
+}
+
+const UserProfileName: React.FC<Props> = props => {
+  const { handleClickAvatar } = props
+
   return (
     <View style={styles.container}>
       <View style={styles.boxAvatar}>
-        <View style={styles.borderBox}>
-          <AvatarCommon
-            image={require('@/assets/mocks/nutthanon-avatar.jpg')}
-            width={60}
-            height={60}
-            borderRadius={120}
-          />
-        </View>
+        <TouchableOpacity onPress={handleClickAvatar}>
+          <View style={styles.borderBox}>
+            <AvatarCommon
+              image={require('@/assets/mocks/nutthanon-avatar.jpg')}
+              width={60}
+              height={60}
+              borderRadius={120}
+            />
+          </View>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.flexBox}>

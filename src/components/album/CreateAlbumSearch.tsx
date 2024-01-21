@@ -5,7 +5,13 @@ import React, { useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 
-const CreateAlbumSearch: React.FC = () => {
+interface Props {
+  handlePress: () => void
+}
+
+const CreateAlbumSearch: React.FC<Props> = props => {
+  const { handlePress } = props
+
   const [albumName, setAlbumName] = useState<string>('')
 
   return (
@@ -20,7 +26,7 @@ const CreateAlbumSearch: React.FC = () => {
           placeholderTextColor={themes.light.primary.hex}
         />
       </View>
-      <TouchableOpacity onPress={() => console.log('open filter album')}>
+      <TouchableOpacity onPress={handlePress}>
         <View style={styles.filterButton}>
           <FilterIcon />
         </View>

@@ -5,9 +5,13 @@ import { TouchableOpacity } from 'react-native'
 import InputUnderlineCommon from '@/common/InputUnderline.common'
 import ButtonCommon from '@/common/Button.common'
 
-const FormSubmit: React.FC = () => {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+interface FormSubmitProps {
+  onPressSignIn: () => void
+}
+
+const FormSubmit: React.FC<FormSubmitProps> = ({ onPressSignIn }) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   return (
     <Box>
@@ -36,38 +40,35 @@ const FormSubmit: React.FC = () => {
 
       <ButtonCommon
         title="Sign in"
-        onPress={() => console.log('sign in')}
+        onPress={onPressSignIn}
         width={300}
         height={41}
         font_size={14}
       />
     </Box>
-  )
+  );
 }
 
-export default FormSubmit
+export default FormSubmit;
 
 const Box = styled.View`
   gap: 40px;
-
-  /* background-color: red; */
-`
+`;
 
 const Flex = styled.View`
   gap: 15px;
-`
+`;
 
 const FlexInput = styled.View`
   gap: 15px;
-`
+`;
 
 const BoxText = styled.View`
   align-items: flex-end;
-  /* background-color: blue; */
-`
+`;
 
 const TextStyle = styled.Text`
   color: ${themes.light.primary.hex};
   font-family: ${themes.fonts.medium};
   font-size: 12px;
-`
+`;

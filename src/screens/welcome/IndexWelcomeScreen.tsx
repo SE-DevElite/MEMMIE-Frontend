@@ -96,7 +96,7 @@ const IndexWelcomeScreen = () => {
   };
 
   const handleStartPress = () => {
-    navigation.navigate('HomeScreen' as never);
+    navigation.navigate('SignInScreen' as never);
   };
 
   const [stageCollection, setStageCollection] = useState<ReactNode[]>([

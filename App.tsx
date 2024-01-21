@@ -2,14 +2,9 @@ import { View } from 'react-native'
 import { useFonts } from 'expo-font'
 import React, { useState } from 'react'
 import Provider from '@/provider/Provider'
-import HomeScreen from '@/screens/HomeScreen'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
-
-import SignInScreen from '@/screens/SignInScreen'
-import IndexWelcomeScreen from '@/screens/welcome/IndexWelcomeScreen'
-import ProfileScreen from '@/screens/ProfileScreen'
-import BottomNavigationCommon from '@/common/BottomNavigation.common'
-import OpenBottomSheetScreen from '@/screens/OpenBottomSheetScreen'
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from '@/navigations/Navigation';
 
 const App: React.FC = () => {
   const isFirstOpen = useWelcomeScreen()
@@ -25,8 +20,7 @@ const App: React.FC = () => {
   })
 
   if (!fontsLoaded) {
-    // Font loading is in progress
-    return null // or a loading indicator
+    return null 
   }
 
   const handleShowWelcome = () => {
@@ -36,18 +30,12 @@ const App: React.FC = () => {
   return (
     <Provider>
       <View style={{ flex: 1 }}>
-        {/* {showWelcome ? <IndexWelcomeScreen /> : <SignInScreen />} */}
-
-        {/* <SignInScreen /> */}
-        {/* <IndexWelcomeScreen /> */}
-        {/* <HomeScreen /> */}
-        {/* <ProfileScreen /> */}
-        {/* <BottomNavigationCommon /> */}
-
-        <OpenBottomSheetScreen />
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
       </View>
     </Provider>
-  )
-}
+  );
+};
 
 export default App

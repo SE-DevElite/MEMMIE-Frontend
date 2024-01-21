@@ -5,7 +5,12 @@ import SearchIcon from '@/assets/svg/Search'
 import SettingIcon from '@/assets/svg/Setting'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 
-const BottomNavigationCommon: React.FC = () => {
+interface BottomNavigationCommon{
+  currentState:number
+}
+
+const BottomNavigationCommon: React.FC = (props) => {
+  // const {currentState} = props
   const [currentState, setCurrentState] = useState<number>(0)
 
   const icons = [
@@ -32,12 +37,41 @@ const BottomNavigationCommon: React.FC = () => {
       <View style={styles.flexBox}>
         {icons.map((item, index) => (
           <View key={index} style={{ position: 'relative' }}>
+            <View
+              style={{
+                position: 'absolute',
+                flex: 1,
+                // backgroundColor: 'red',
+                top: -10,
+                left: 0,
+                right: 0,
+                bottom: 0
+              }}
+            />
+
+            <View style={index === currentState ? styles.dot : {}}>
+              <View />
+            </View>
+            <View style={index === currentState ? styles.cruve4 : {}}>
+              <View />
+            </View>
+            <View style={index === currentState ? styles.cruve3 : {}}>
+              <View />
+            </View>
+            <View style={index === currentState ? styles.cruve : {}}>
+              <View />
+            </View>
+            <View style={index === currentState ? styles.cruve2 : {}}>
+              <View />
+            </View>
             <TouchableOpacity
               onPress={() => setCurrentState(index)}
               style={{
                 ...styles.flexItem,
-                backgroundColor: currentState === index ? '#A56073' : 'transparent',
-              }}>
+
+                backgroundColor:
+                  currentState === index ? '#A56073' : 'transparent'
+                }}>
               {item.icon}
             </TouchableOpacity>
 
@@ -82,7 +116,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     borderRadius: 32,
-    backgroundColor: '#e5e5e5e5'
+    backgroundColor: '#e5e5e5'
   },
   flexItem: {
     backgroundColor: '#fff',
@@ -101,5 +135,41 @@ const styles = StyleSheet.create({
     marginLeft: -4,
     top: -15,
     zIndex: 1
-  }
+  },
+  cruve:{
+    position: 'absolute',
+    backgroundColor: '#e5e5e5',
+    width:20,
+    height: 60,
+    top:'-21%',
+    left:'-28%',
+    borderRadius: 100,
+  },
+  cruve2:{
+    position: 'absolute',
+    backgroundColor: '#e5e5e5',
+    width:20,
+    height: 60,
+    top:'-21%',
+    right:'-28%',
+    borderRadius: 100,
+  },
+  cruve3:{
+    position: 'absolute',
+    backgroundColor: '#fff',
+    width:20,
+    height: 20,
+    top:'-38%',
+    left:'22%',
+    borderRadius: 100,
+  },
+  cruve4:{
+    position: 'absolute',
+    backgroundColor: '#fff',
+    width:40,
+    height: 20,
+    top:'-45%',
+    left:'-10%',
+    borderRadius: 100,
+  },
 })

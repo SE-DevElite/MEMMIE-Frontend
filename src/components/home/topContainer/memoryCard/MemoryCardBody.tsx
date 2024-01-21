@@ -1,37 +1,52 @@
 import React from 'react'
-import styled from 'styled-components/native'
-
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen'
-import { StyleSheet, Text, View } from 'react-native'
+import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { themes } from '@/common/themes/themes'
+import SoundIcon from '@/assets/svg/Sound'
+import MemoryCardTopRow from './MemoryCardTopRow'
+import MemoryCardBottomRow from './MemoryCardBottomRow'
 
 const MemoryCardBody: React.FC = () => {
   return (
-    <Box style={styles.box}>
-      <View style={styles.imageContainer}></View>
-    </Box>
+    <View style={memoryStyles.box}>
+      <View style={memoryStyles.imageContainer}>
+        <ImageBackground
+          source={require('@/assets/mocks/nut-ronan.png')}
+          style={memoryStyles.imageBackground}>
+          <View style={memoryStyles.overlayContainer}>
+            <MemoryCardTopRow />
+            <MemoryCardBottomRow />
+          </View>
+        </ImageBackground>
+      </View>
+    </View>
   )
 }
 
 export default MemoryCardBody
 
-const styles = StyleSheet.create({
+const memoryStyles = StyleSheet.create({
   box: {
     flex: 1,
     borderTopRightRadius: 20,
     borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20
+    borderBottomRightRadius: 20,
+    backgroundColor: themes.light.tertiary.hex
   },
   imageContainer: {
     flex: 1,
     borderRadius: 20,
-    backgroundColor: themes.light.primary.hex
+    backgroundColor: themes.light.primary.hex,
+    overflow: 'hidden'
+  },
+  imageBackground: {
+    width: '100%',
+    height: '100%'
+  },
+  overlayContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    padding: 10
   }
 })
-
-const Box = styled.View`
-  background-color: ${themes.light.tertiary.hex};
-`

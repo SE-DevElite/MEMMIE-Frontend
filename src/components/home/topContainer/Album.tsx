@@ -1,29 +1,55 @@
 import React from 'react'
-import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
-
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+  TouchableWithoutFeedback
+} from 'react-native'
 
-const Album: React.FC = () => {
+interface Props {
+  onAddAlbumPress: () => void
+}
+
+const Album: React.FC<Props> = props => {
+  const { onAddAlbumPress } = props
+
   return (
-    <Box style={styles.box}>
+    <View style={styles.box}>
       <View style={styles.flex}>
-        <TextStyle style={styles.textStyle}>Albums</TextStyle>
-        <TouchableOpacity
-          style={styles.circleTouch}
-          onPress={() => console.log('Add album')}>
+        <Text style={styles.textStyle}>Albums</Text>
+        <TouchableOpacity style={styles.circleTouch} onPress={onAddAlbumPress}>
           <Image
-            style={styles.imageStyle}
+            style={styles.icon}
             source={require('@/assets/icons/add.png')}
           />
         </TouchableOpacity>
       </View>
-      {/* <ImageGroup></ImageGroup> */}
-    </Box>
+
+      <View style={styles.scrollContainer}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {/* map this component under */}
+          <TouchableWithoutFeedback
+            onPress={() => console.log('click on album')}>
+            <View style={styles.albumContainer}>
+              <View style={styles.imageContainer}>
+                <Image
+                  source={require('@/assets/mocks/nut-ronan.png')}
+                  style={styles.albumImage}
+                />
+              </View>
+              <View style={styles.textContainer}>
+                <Text style={styles.albumTitle}>Travel</Text>
+                <Text style={styles.albumCount}>20</Text>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      </View>
+    </View>
   )
 }
 
@@ -34,7 +60,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 30,
-    padding: 13
+    padding: 13,
+    backgroundColor: themes.light.tertiary.hex
   },
   flex: {
     justifyContent: 'space-between',
@@ -42,7 +69,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   textStyle: {
-    fontSize: 16
+    fontSize: 16,
+    color: themes.light.secondary.hex,
+    fontFamily: themes.fonts.samiBold
   },
   circleTouch: {
     width: 32,
@@ -50,20 +79,43 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center'
-
-    // backgroundColor: 'red'
   },
-  imageStyle: {
+  icon: {
     width: 11,
     height: 11
+  },
+  scrollContainer: {
+    flex: 1,
+    paddingTop: 4
+  },
+  albumContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    marginRight: 10
+  },
+  imageContainer: {
+    overflow: 'hidden',
+    borderRadius: 20
+  },
+  albumImage: {
+    resizeMode: 'cover',
+    width: 130,
+    height: 90
+  },
+  textContainer: {
+    paddingLeft: 10,
+    paddingTop: 2,
+    flex: 1,
+    flexDirection: 'column'
+  },
+  albumTitle: {
+    fontSize: 14,
+    fontFamily: themes.fonts.medium,
+    color: themes.light.secondary.hex
+  },
+  albumCount: {
+    fontSize: 12,
+    fontFamily: themes.fonts.medium,
+    color: themes.light.secondary.hex
   }
 })
-
-const Box = styled.View`
-  background-color: ${themes.light.tertiary.hex};
-`
-
-const TextStyle = styled.Text`
-  color: ${themes.light.secondary.hex};
-  font-family: ${themes.fonts.samiBold};
-`

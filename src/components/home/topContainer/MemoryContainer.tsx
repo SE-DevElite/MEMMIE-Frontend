@@ -5,12 +5,19 @@ import RandomMemory from './RandomMemory'
 
 import { StyleSheet, View } from 'react-native'
 
-const MemoryContainer: React.FC = () => {
+interface Props {
+  onAddAlbumPress: () => void
+  onAddMemoryPress: () => void
+}
+
+const MemoryContainer: React.FC<Props> = props => {
+  const { onAddAlbumPress, onAddMemoryPress } = props
+
   return (
     <View style={styles.container}>
       <View style={styles.column}>
-        <Album />
-        <RandomMemory />
+        <Album onAddAlbumPress={onAddAlbumPress} />
+        <RandomMemory onAddMemoryPress={onAddMemoryPress} />
       </View>
       <View style={styles.column}>
         <MemoryCard />

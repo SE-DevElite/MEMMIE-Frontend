@@ -4,12 +4,18 @@ import { TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
 
-const EditDate: React.FC = () => {
+interface Props {
+  handleClose: () => void
+}
+
+const EditDate: React.FC<Props> = props => {
+  const { handleClose } = props
+
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity onPress={() => console.log('Cancle')}>
+          <TouchableOpacity onPress={handleClose}>
             <Text style={styles.buttonStyle}>Cancle</Text>
           </TouchableOpacity>
 

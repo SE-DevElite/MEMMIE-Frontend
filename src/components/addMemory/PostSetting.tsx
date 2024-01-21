@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import PostSettingList from './PostSettingList'
 
+interface Props {}
+
 interface Setting {
   id: string
   title: string
@@ -16,7 +18,7 @@ type ActiveProps = {
   onlyMe: boolean
 }
 
-const PostSetting: React.FC = () => {
+const PostSetting: React.FC<Props> = props => {
   const [active, setActive] = useState<ActiveProps>({
     everyone: true,
     peopleYouFollow: false,

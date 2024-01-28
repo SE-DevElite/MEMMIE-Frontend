@@ -22,7 +22,7 @@ const AddMemory: React.FC<Props> = props => {
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
           <TouchableOpacity onPress={handleClose}>
-            <Text style={styles.buttonStyle}>Cancle</Text>
+            <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>
 
           <Text style={styles.headingTextStyles}>Add memory</Text>

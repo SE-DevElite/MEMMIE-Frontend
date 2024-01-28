@@ -19,7 +19,7 @@ const SelectGender: React.FC = () => {
       active: active.female
     },
     {
-      label: 'prefer not to say',
+      label: 'Prefer not to say',
       active: active.preferNotToSay
     }
   ]
@@ -28,7 +28,7 @@ const SelectGender: React.FC = () => {
     setActive({
       male: label === 'Male',
       female: label === 'Female',
-      preferNotToSay: label === 'prefer not to say'
+      preferNotToSay: label === 'Prefer not to say'
     })
   }
 

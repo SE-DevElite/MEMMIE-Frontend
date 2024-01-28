@@ -3,8 +3,8 @@ import { useFonts } from 'expo-font'
 import React, { useState } from 'react'
 import Provider from '@/provider/Provider'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
-import { NavigationContainer } from '@react-navigation/native';
-import AppNavigator from '@/navigations/Navigation';
+import { NavigationContainer } from '@react-navigation/native'
+import AppNavigator from '@/navigations/Navigation'
 
 const App: React.FC = () => {
   const isFirstOpen = useWelcomeScreen()
@@ -20,7 +20,7 @@ const App: React.FC = () => {
   })
 
   if (!fontsLoaded) {
-    return null 
+    return null
   }
 
   const handleShowWelcome = () => {
@@ -35,7 +35,7 @@ const App: React.FC = () => {
         </NavigationContainer>
       </View>
     </Provider>
-  );
-};
+  )
+}
 
 export default App

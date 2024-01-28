@@ -6,10 +6,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface Props {
   handleClickAvatar: () => void
+  name: String
+  username: String
 }
 
 const UserProfileName: React.FC<Props> = props => {
-  const { handleClickAvatar } = props
+  const { handleClickAvatar, name, username } = props
 
   return (
     <View style={styles.container}>
@@ -28,11 +30,11 @@ const UserProfileName: React.FC<Props> = props => {
 
       <View style={styles.flexBox}>
         <View style={styles.flexChild}>
-          <Text style={styles.textUsername}>Nutthanon</Text>
-          <Text style={styles.textFullUsername}>Nutthanon Thongcharoen</Text>
+          <Text style={styles.textUsername}>{username}</Text>
+          <Text style={styles.textFullUsername}>{name}</Text>
         </View>
 
-        <TouchableOpacity onPress={() => console.log('Edit profile')}>
+        <TouchableOpacity onPress={handleClickAvatar}>
           <View style={styles.flexEdit}>
             <Text style={styles.textEdit}>Edit</Text>
           </View>

@@ -5,6 +5,9 @@ import Provider from '@/provider/Provider'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
 import { NavigationContainer } from '@react-navigation/native'
 import AppNavigator from '@/navigations/Navigation'
+import * as WebBrowser from 'expo-web-browser'
+
+WebBrowser.maybeCompleteAuthSession()
 
 const App: React.FC = () => {
   const isFirstOpen = useWelcomeScreen()

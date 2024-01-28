@@ -65,7 +65,7 @@ export default RandomMemory
 
 const styles = StyleSheet.create({
   container: {
-    width: 180,
+    flex: 1,
     height: 180,
     borderRadius: 30,
     overflow: 'hidden',

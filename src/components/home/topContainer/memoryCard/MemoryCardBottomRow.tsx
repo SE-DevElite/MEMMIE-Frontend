@@ -15,7 +15,7 @@ const MemoryCardBottomRow: React.FC = () => {
       </View>
       <View style={memoryStyles.descriptionContainer}>
         <View style={memoryStyles.descriptionBox}>
-          <Text style={memoryStyles.descriptionText}>
+          <Text style={memoryStyles.descriptionText} numberOfLines={1}>
             ฉันชอบกินข้าวเหนียวมาก
           </Text>
         </View>

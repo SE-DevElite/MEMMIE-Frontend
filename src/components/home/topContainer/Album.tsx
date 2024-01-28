@@ -57,8 +57,8 @@ export default Album
 
 const styles = StyleSheet.create({
   box: {
-    width: 180,
-    height: 180,
+    flex: 1,
+    height: 160,
     borderRadius: 30,
     padding: 13,
     backgroundColor: themes.light.tertiary.hex

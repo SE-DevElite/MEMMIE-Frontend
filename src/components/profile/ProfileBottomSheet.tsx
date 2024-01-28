@@ -7,14 +7,22 @@ import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSh
 
 interface Props {
   editProfileBottomSheetRef: React.RefObject<BottomSheetMethods>
-  name: String
-  username: String
-  bio: String
-  gender: String
+  name: string
+  username: string
+  bio: string
+  gender: string
+  handleChangeProfile: (key: string, value: string) => void
 }
 
 const ProfileBottomSheet: React.FC<Props> = props => {
-  const { editProfileBottomSheetRef, name, username, bio, gender } = props
+  const {
+    editProfileBottomSheetRef,
+    name,
+    username,
+    bio,
+    gender,
+    handleChangeProfile
+  } = props
 
   const selectGenderBottomSheet = useRef<BottomSheet>(null)
 
@@ -27,11 +35,12 @@ const ProfileBottomSheet: React.FC<Props> = props => {
           bio={bio}
           gender={gender}
           handleGenderPress={() => selectGenderBottomSheet.current?.expand()}
+          handleChangeProfile={handleChangeProfile}
         />
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={selectGenderBottomSheet} snapPoint={['40%']}>
-        <SelectGender />
+        <SelectGender handleChangeProfile={handleChangeProfile} />
       </LongBottomSheetCommon>
     </>
   )

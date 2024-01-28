@@ -3,7 +3,13 @@ import { themes } from '@/common/themes/themes'
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const SelectGender: React.FC = () => {
+interface Props {
+  handleChangeProfile: (key: string, value: string) => void
+}
+
+const SelectGender: React.FC<Props> = props => {
+  const { handleChangeProfile } = props
+
   const [active, setActive] = useState({
     male: true,
     female: false,
@@ -30,6 +36,8 @@ const SelectGender: React.FC = () => {
       female: label === 'Female',
       preferNotToSay: label === 'Prefer not to say'
     })
+
+    handleChangeProfile('gender', label)
   }
 
   return (
@@ -77,6 +85,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontFamily: themes.fonts.regular,
-    color: themes.light.primary.hex
+    color: themes.light.primary.hex,
+    textAlign: 'center'
   }
 })

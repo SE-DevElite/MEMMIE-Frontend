@@ -13,24 +13,35 @@ import {
 
 interface Props {
   handleGenderPress: () => void
-  name: String
-  username: String
-  bio: String
-  gender: String
+  name: string
+  username: string
+  bio: string
+  gender: string
+  handleChangeProfile: (key: string, value: string) => void
 }
 
 const EditProfile: React.FC<Props> = props => {
-  const { handleGenderPress, name, username, bio, gender } = props
+  const {
+    handleGenderPress,
+    name,
+    username,
+    bio,
+    gender,
+    handleChangeProfile
+  } = props
 
   const fieldData = [
     {
-      label: 'Name'
+      label: 'Name',
+      value: name
     },
     {
-      label: 'Username'
+      label: 'Username',
+      value: username
     },
     {
-      label: 'Bio'
+      label: 'Bio',
+      value: bio
     }
   ]
 
@@ -67,15 +78,28 @@ const EditProfile: React.FC<Props> = props => {
                   textAlignVertical: 'top',
                   height: item.label === 'Bio' ? 100 : 20
                 }}
-                value=""
+                value={item.value as string}
                 multiline={item.label === 'Bio'}
                 maxLength={item.label === 'Bio' ? 100 : 20}
-                numberOfLines={item.label === 'Bio' ? 5 : 1}></TextInput>
+                numberOfLines={item.label === 'Bio' ? 5 : 1}
+                onChange={e =>
+                  handleChangeProfile(
+                    item.label.toLowerCase(),
+                    e.nativeEvent.text
+                  )
+                }></TextInput>
 
-              <TouchableOpacity onPress={() => console.log(props)}>
-                <View style={styles.closeIconContainer}>
-                  <XcloseIcon />
-                </View>
+              <TouchableOpacity
+                onPress={() =>
+                  handleChangeProfile(item.label.toLowerCase(), '')
+                }>
+                {item.value.length > 0 ? (
+                  <View style={styles.closeIconContainer}>
+                    <XcloseIcon />
+                  </View>
+                ) : (
+                  ''
+                )}
               </TouchableOpacity>
             </View>
           ))}
@@ -83,7 +107,7 @@ const EditProfile: React.FC<Props> = props => {
           <TouchableOpacity onPress={handleGenderPress}>
             <View style={styles.fieldRow}>
               <Text style={styles.fieldLabel}>Gender</Text>
-              <Text style={styles.input}>{'ass'}</Text>
+              <Text style={styles.input}>{gender}</Text>
               <NavArrowRightIcon width={8} height={16} />
             </View>
           </TouchableOpacity>
@@ -130,19 +154,19 @@ const styles = StyleSheet.create({
   },
   fieldLabel: {
     fontFamily: themes.fonts.medium,
-    fontSize: 18,
+    fontSize: 16,
     color: themes.light.primary.hex,
     width: 110
   },
   input: {
-    width: 200,
+    width: '55%',
     color: themes.light.primary.hex,
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: themes.fonts.regular
   },
   closeIconContainer: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: themes.light.secondary.hex,

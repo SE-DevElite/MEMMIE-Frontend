@@ -17,9 +17,15 @@ const ProfileScreen: React.FC = () => {
     bio: 'Sheee weed man saoo',
     gender: 'Male'
   })
+
+  const handleChangeProfile = (key: string, value: string) => {
+    setProfile(prevState => ({ ...prevState, [key]: value }))
+  }
+
   const handleBackPress = () => {
     navigation.goBack()
   }
+
   const editProfileBottomSheetRef = useRef<BottomSheet>(null)
   return (
     <SafeAreaView edges={['right', 'top']}>
@@ -39,6 +45,7 @@ const ProfileScreen: React.FC = () => {
         bio={profile.bio}
         gender={profile.gender}
         editProfileBottomSheetRef={editProfileBottomSheetRef}
+        handleChangeProfile={handleChangeProfile}
       />
     </SafeAreaView>
   )

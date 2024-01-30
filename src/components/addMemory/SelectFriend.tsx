@@ -43,11 +43,6 @@ const SelectFriend: React.FC = () => {
               name="__n.tc__"
               username="Nutthanon Thongcharoen"
             />
-            <SelectFriendList
-              image={require('@/assets/mocks/nutthanon-rb.png')}
-              name="lnw nutthanon"
-              username="Team0x0a"
-            />
           </View>
         </ScrollView>
       </View>

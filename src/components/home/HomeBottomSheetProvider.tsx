@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import MyAlbum from '@/components/album/MyAlbum'
 import PostSetting from '../addMemory/PostSetting'
 import SelectFriend from '../addMemory/SelectFriend'
@@ -11,12 +11,14 @@ import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 
 interface Props {
+  current_date: Date
   addMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
   albumBottomSheetRef: React.RefObject<BottomSheetMethods>
 }
 
 const HomeBottomSheetProvider: React.FC<Props> = props => {
-  const { addMemoryBottomSheetRef, albumBottomSheetRef } = props
+  const { current_date, addMemoryBottomSheetRef, albumBottomSheetRef } = props
+  const [date_time, setDateTime] = useState<Date>(current_date)
 
   const createAlbumBottomSheetRef = useRef<BottomSheet>(null)
   const filterAlbumBottomSheetRef = useRef<BottomSheet>(null)
@@ -24,10 +26,16 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const postSettingBottomSheetRef = useRef<BottomSheet>(null)
   const selectFriendBottomSheetRef = useRef<BottomSheet>(null)
 
+  const handleSetDateTime = (date: Date) => {
+    setDateTime(date)
+    editDateBottomSheetRef.current?.close()
+  }
+
   return (
     <>
       <LongBottomSheetCommon ref={addMemoryBottomSheetRef}>
         <AddMemory
+          date_time={date_time}
           handleEditDate={() => editDateBottomSheetRef.current?.expand()}
           handleClose={() => addMemoryBottomSheetRef.current?.close()}
           handlePostSetting={() => postSettingBottomSheetRef.current?.expand()}
@@ -56,7 +64,10 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={editDateBottomSheetRef} snapPoint={['50%']}>
-        <EditDate handleClose={() => editDateBottomSheetRef.current?.close()} />
+        <EditDate
+          handleClose={() => editDateBottomSheetRef.current?.close()}
+          handleSaveEditDate={handleSetDateTime}
+        />
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={postSettingBottomSheetRef}>

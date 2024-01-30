@@ -22,6 +22,7 @@ import useProfile from '@/hooks/useProfile'
 const HomeScreen: React.FC = observer(() => {
   useProfile()
   const navigation = useNavigation()
+  const [currentDate, setCurrentDate] = useState<Date>(new Date())
 
   const bottomSheetRef = useRef<BottomSheet>(null)
   const albumBottomSheetRef = useRef<BottomSheet>(null)
@@ -54,6 +55,11 @@ const HomeScreen: React.FC = observer(() => {
     getCalendar()
   }, [selectedMonth])
 
+  const handleMemoryBottomSheet = () => {
+    addMemoryBottomSheetRef.current?.expand()
+    setCurrentDate(new Date())
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -68,7 +74,7 @@ const HomeScreen: React.FC = observer(() => {
             />
             <MemoryContainer
               onAddAlbumPress={() => albumBottomSheetRef.current?.expand()}
-              onAddMemoryPress={() => addMemoryBottomSheetRef.current?.expand()}
+              onAddMemoryPress={handleMemoryBottomSheet}
             />
           </View>
         </View>
@@ -95,6 +101,7 @@ const HomeScreen: React.FC = observer(() => {
       />
 
       <HomeBottomSheetProvider
+        current_date={currentDate}
         albumBottomSheetRef={albumBottomSheetRef}
         addMemoryBottomSheetRef={addMemoryBottomSheetRef}
       />

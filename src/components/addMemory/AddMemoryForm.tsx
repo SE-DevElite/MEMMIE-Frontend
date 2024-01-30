@@ -8,14 +8,20 @@ import {
   TextInput,
   View,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native'
+import { MemoryForm } from './AddMemory'
+import profileStore from '@/stores/ProfileStore'
+import AvatarCommon from '@/common/Avatar.common'
 
 interface Props {
   caption: string
   privacy: string
   mention: string
   description: string
+
+  handleChangeMemory: (key: keyof MemoryForm, value: string) => void
   handlePostSetting: () => void
   handleSelectFriend: () => void
 }
@@ -27,20 +33,16 @@ const AddMemoryForm: React.FC<Props> = props => {
     mention,
     description,
     handlePostSetting,
-    handleSelectFriend
+    handleSelectFriend,
+    handleChangeMemory
   } = props
-
-  const [memoryForm, setMemoryForm] = useState({
-    caption: '',
-    privacy: 'everyone',
-    mention: '',
-    description: ''
-  })
 
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <View style={styles.icon}></View>
+        <View style={styles.icon}>
+          <AvatarCommon uri={profileStore.avatar} width={42} height={42} />
+        </View>
       </View>
 
       <View style={styles.inputSection}>
@@ -52,7 +54,8 @@ const AddMemoryForm: React.FC<Props> = props => {
             placeholder="Enter short caption"
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputText}
-            value={memoryForm.caption}
+            value={caption}
+            onChange={e => handleChangeMemory('caption', e.nativeEvent.text)}
           />
         </View>
 
@@ -78,12 +81,18 @@ const AddMemoryForm: React.FC<Props> = props => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.caption}>
+        <View>
           <TextInput
             multiline={true}
+            scrollEnabled={false}
+            spellCheck={true}
             placeholder="Type here ..."
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputCaption}
+            value={description}
+            onChange={e =>
+              handleChangeMemory('description', e.nativeEvent.text)
+            }
           />
         </View>
       </View>
@@ -104,7 +113,8 @@ const styles = StyleSheet.create({
   icon: {
     width: 42,
     height: 42,
-    backgroundColor: 'red',
+    backgroundColor: themes.light.tertiary.hex,
+    overflow: 'hidden',
     borderRadius: 100
   },
   inputSection: {
@@ -158,10 +168,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: themes.light.primary.hex
   },
-  caption: {},
   inputCaption: {
+    width: '100%',
     fontFamily: themes.fonts.regular,
     fontSize: 14,
-    color: themes.light.primary.hex
+    color: themes.light.primary.hex,
+    lineHeight: 20,
+    minHeight: 50
   }
 })

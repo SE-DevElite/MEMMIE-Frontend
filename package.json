@@ -22,6 +22,7 @@
     "axios": "^1.6.7",
     "expo": "^49.0.21",
     "expo-auth-session": "~5.0.2",
+    "expo-image-picker": "^14.7.1",
     "expo-status-bar": "~1.6.0",
     "expo-web-browser": "~12.3.2",
     "mobx": "^6.12.0",

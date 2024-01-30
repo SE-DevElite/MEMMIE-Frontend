@@ -7,20 +7,21 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity
 } from 'react-native'
+import { MONTH, MONTH_SHORT } from '@/common/consts/DateTime.consts'
 
 interface Props {
-  date: number
-  month: string
-  year: number
-  hour: number
-  minute: number
+  date_time: Date
   handleEditDate: () => void
 }
 
 const AddMemorySelectTime: React.FC<Props> = props => {
-  const { date, month, year, hour, minute, handleEditDate } = props
+  const { date_time, handleEditDate } = props
 
-  const collectDate = [date, month, year]
+  const collectDate = [
+    date_time.getDate(),
+    MONTH_SHORT[date_time.getMonth()],
+    date_time.getFullYear()
+  ]
 
   return (
     <View style={styles.container}>
@@ -51,7 +52,8 @@ const AddMemorySelectTime: React.FC<Props> = props => {
           <TouchableWithoutFeedback onPress={() => console.log('change time')}>
             <View>
               <Text style={styles.timeText}>
-                {hour} : {minute}
+                {date_time.getHours().toString().padStart(2, '0')} :{' '}
+                {date_time.getMinutes().toString().padStart(2, '0')}
               </Text>
             </View>
           </TouchableWithoutFeedback>

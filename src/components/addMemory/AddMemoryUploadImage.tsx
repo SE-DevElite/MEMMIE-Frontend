@@ -32,7 +32,7 @@ const AddMemoryUploadImage: React.FC = () => {
 
     console.log(result)
 
-    if (!result.canceled) {
+    if (!result.canceled && image.length < 10) {
       setImage([
         { uri: result.assets[0].uri as string, id: uuid.v4() as string },
         ...image

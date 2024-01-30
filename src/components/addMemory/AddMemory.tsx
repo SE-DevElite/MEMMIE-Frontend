@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
@@ -9,8 +9,14 @@ import AddMemoryUploadImage from './AddMemoryUploadImage'
 
 interface Props {
   date_time: Date
+  privacy: string
+  time_minute: {
+    hours: number
+    minutes: number
+  }
   // picture
   handleEditDate: () => void
+  handleEditTime: () => void
   handleClose: () => void
   handlePostSetting: () => void
   handleSelectFriend: () => void
@@ -26,18 +32,25 @@ export type MemoryForm = {
 const AddMemory: React.FC<Props> = props => {
   const {
     date_time,
+    privacy,
     handleEditDate,
+    handleEditTime,
     handleClose,
     handlePostSetting,
-    handleSelectFriend
+    handleSelectFriend,
+    time_minute
   } = props
 
   const [memory, setMemory] = useState<MemoryForm>({
     caption: '',
-    privacy: '',
+    privacy: privacy,
     mention: '',
     description: ''
   })
+
+  useEffect(() => {
+    setMemory({ ...memory, privacy: privacy })
+  }, [privacy])
 
   const handleChangeMemory = (key: keyof MemoryForm, value: string) => {
     setMemory({ ...memory, [key]: value })
@@ -78,12 +91,15 @@ const AddMemory: React.FC<Props> = props => {
         <ScrollView>
           <View style={{ gap: 20 }}>
             <View style={{ gap: 20, paddingHorizontal: 20 }}>
-              <AddMemoryDayAndMood />
+              <AddMemoryDayAndMood date_time={date_time} />
 
               <AddMemorySelectTime
                 handleEditDate={handleEditDate}
+                handleEditTime={handleEditTime}
                 date_time={date_time}
+                time_minute={time_minute}
               />
+
               <AddMemoryForm
                 {...memory}
                 handlePostSetting={handlePostSetting}

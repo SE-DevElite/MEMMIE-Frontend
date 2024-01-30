@@ -2,14 +2,13 @@ import AlignLeftIcon from '@/assets/svg/AlignLeft'
 import LanguageIcon from '@/assets/svg/Language'
 import NavArrowDownIcon from '@/assets/svg/NavArrowDown'
 import { themes } from '@/common/themes/themes'
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Text,
   TextInput,
   View,
   StyleSheet,
-  TouchableOpacity,
-  Image
+  TouchableOpacity
 } from 'react-native'
 import { MemoryForm } from './AddMemory'
 import profileStore from '@/stores/ProfileStore'
@@ -65,7 +64,12 @@ const AddMemoryForm: React.FC<Props> = props => {
               <View style={styles.iconBackground}>
                 <LanguageIcon width={15} height={15} />
               </View>
-              <Text style={styles.tagText}>Everyone</Text>
+              <Text
+                style={{ ...styles.tagText, maxWidth: 110 }}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {privacy}
+              </Text>
               <NavArrowDownIcon />
             </View>
           </TouchableOpacity>

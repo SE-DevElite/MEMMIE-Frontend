@@ -1,86 +1,84 @@
 import { themes } from '@/common/themes/themes'
-import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import PostSettingList from './PostSettingList'
 
-interface Props {}
+interface Props {
+  setPrivacy: React.Dispatch<React.SetStateAction<string>>
+}
 
 interface Setting {
   id: string
   title: string
-  key: string
-}
-
-type ActiveProps = {
-  everyone: boolean
-  peopleYouFollow: boolean
-  followersThatYouFollowBack: boolean
-  onlyMe: boolean
 }
 
 const PostSetting: React.FC<Props> = props => {
-  const [active, setActive] = useState<ActiveProps>({
-    everyone: true,
-    peopleYouFollow: false,
-    followersThatYouFollowBack: false,
-    onlyMe: false
+  const { setPrivacy } = props
+
+  const [userFriendList, setUserFriendList] = useState<Setting[]>([])
+  const [active, setActive] = useState<Setting>({
+    id: '4c22ed6c-16a1-47dc-bf44-f1e2f8019e9d',
+    title: 'Only me'
   })
 
   const settings: Setting[] = [
-    { id: '1', title: 'Everyone', key: 'everyone' },
-    { id: '2', title: 'People you follow', key: 'peopleYouFollow' },
     {
-      id: '3',
-      title: 'Followers that you follow back',
-      key: 'followersThatYouFollowBack'
+      id: '5678129f-5032-4eb5-97ab-8ef0899f5749',
+      title: 'Followers that you follow back'
     },
-    { id: '4', title: 'Only me', key: 'onlyMe' }
+    {
+      id: '4c22ed6c-16a1-47dc-bf44-f1e2f8019e9d',
+      title: 'Only me'
+    }
   ]
 
-  const setActiveSetting = (id: string) => {
-    const newActive: ActiveProps = {
-      everyone: id === '1',
-      peopleYouFollow: id === '2',
-      followersThatYouFollowBack: id === '3',
-      onlyMe: id === '4'
-    }
-    setActive(newActive)
+  useEffect(() => {
+    setUserFriendList([
+      { id: 'd356e1e4-afda-4035-8afa-48d8c309bb94', title: 'My boo' }
+    ])
+  }, [])
+
+  const handleActive = (id: string, title: string) => {
+    setActive({ id, title })
   }
 
-  const handleActive = (id: string) => {
-    setActiveSetting(id)
-  }
-
-  const handleFriendList = () => {}
+  useEffect(() => {
+    setPrivacy(active.title)
+  }, [active])
 
   return (
     <View style={styles.container}>
-      <View style={styles.layout}>
-        <View style={{ alignItems: 'center', gap: 10 }}>
-          <Text style={styles.textTitle}>Post Setting</Text>
-          <Text style={styles.textSubTitle}>Who can see your post</Text>
+      <ScrollView>
+        <View style={styles.layout}>
+          <View style={{ alignItems: 'center', gap: 10 }}>
+            <Text style={styles.textTitle}>Post Setting</Text>
+            <Text style={styles.textSubTitle}>Who can see your post</Text>
+          </View>
         </View>
-      </View>
 
-      <View style={{ paddingTop: 30 }}>
-        {settings.map(setting => (
+        <View style={{ paddingTop: 30 }}>
+          {settings.map(setting => (
+            <PostSettingList
+              key={setting.id}
+              title={setting.title}
+              handleActive={() => handleActive(setting.id, setting.title)}
+              active={active.id === setting.id}
+            />
+          ))}
+        </View>
+        <View style={{ paddingTop: 20, paddingHorizontal: 50 }}>
+          <Text style={styles.friendTextStyle}>Friend list</Text>
+        </View>
+
+        {userFriendList.map(item => (
           <PostSettingList
-            key={setting.id}
-            title={setting.title}
-            handleActive={() => handleActive(setting.id)}
-            active={active[setting.key as keyof ActiveProps] as boolean}
+            key={item.id}
+            title={item.title}
+            handleActive={() => handleActive(item.id, item.title)}
+            active={active.id === item.id}
           />
         ))}
-      </View>
-      <View style={{ paddingTop: 20, paddingHorizontal: 50 }}>
-        <Text style={styles.friendTextStyle}>Friend list</Text>
-      </View>
-
-      <PostSettingList
-        title={'My boo'}
-        handleActive={handleFriendList}
-        active={true}
-      />
+      </ScrollView>
     </View>
   )
 }

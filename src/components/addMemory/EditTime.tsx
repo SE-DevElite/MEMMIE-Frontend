@@ -1,21 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import { TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
 
-const EditTime: React.FC = () => {
+interface Props {
+  handleClose: () => void
+  handleSetTime: (time: Date) => void
+}
+
+const EditTime: React.FC<Props> = props => {
+  const { handleClose, handleSetTime } = props
+  const [current_time, setCurrentTime] = useState<Date>(new Date())
+
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity onPress={() => console.log('Cancle')}>
-            <Text style={styles.buttonStyle}>Cancle</Text>
+          <TouchableOpacity onPress={handleClose}>
+            <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>
 
           <Text style={styles.headingTextStyles}>Edit time</Text>
 
-          <TouchableOpacity onPress={() => console.log('Save')}>
+          <TouchableOpacity onPress={() => handleSetTime(current_time)}>
             <Text
               style={{
                 ...styles.buttonStyle,
@@ -32,10 +40,12 @@ const EditTime: React.FC = () => {
 
       <View style={styles.layout}>
         <RNDateTimePicker
-          value={new Date()}
+          value={current_time}
           mode="time"
           display="spinner"
-          onChange={() => console.log('Change')}
+          onChange={(event, value) => {
+            setCurrentTime(value || new Date())
+          }}
         />
       </View>
     </View>

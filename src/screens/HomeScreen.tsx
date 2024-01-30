@@ -1,5 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  RefreshControl
+} from 'react-native'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import BottomSheet from '@gorhom/bottom-sheet'
 import { themes } from '@/common/themes/themes'
@@ -21,6 +27,7 @@ import useProfile from '@/hooks/useProfile'
 
 const HomeScreen: React.FC = observer(() => {
   useProfile()
+  const [refreshing, setRefreshing] = useState(false)
   const navigation = useNavigation()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
 
@@ -60,9 +67,19 @@ const HomeScreen: React.FC = observer(() => {
     setCurrentDate(new Date())
   }
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 2000)
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={styles.topOutterContainer}>
           <View style={styles.topInnerContainer}>
             <UserHeading

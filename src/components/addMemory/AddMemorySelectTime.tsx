@@ -12,11 +12,13 @@ interface Props {
   date: number
   month: string
   year: number
+  hour: number
+  minute: number
   handleEditDate: () => void
 }
 
 const AddMemorySelectTime: React.FC<Props> = props => {
-  const { date, month, year, handleEditDate } = props
+  const { date, month, year, hour, minute, handleEditDate } = props
 
   const collectDate = [date, month, year]
 
@@ -48,7 +50,9 @@ const AddMemorySelectTime: React.FC<Props> = props => {
 
           <TouchableWithoutFeedback onPress={() => console.log('change time')}>
             <View>
-              <Text style={styles.timeText}>06:00</Text>
+              <Text style={styles.timeText}>
+                {hour} : {minute}
+              </Text>
             </View>
           </TouchableWithoutFeedback>
         </View>

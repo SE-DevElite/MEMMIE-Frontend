@@ -2,7 +2,7 @@ import AlignLeftIcon from '@/assets/svg/AlignLeft'
 import LanguageIcon from '@/assets/svg/Language'
 import NavArrowDownIcon from '@/assets/svg/NavArrowDown'
 import { themes } from '@/common/themes/themes'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Text,
   TextInput,
@@ -12,12 +12,30 @@ import {
 } from 'react-native'
 
 interface Props {
+  caption: string
+  privacy: string
+  mention: string
+  description: string
   handlePostSetting: () => void
   handleSelectFriend: () => void
 }
 
 const AddMemoryForm: React.FC<Props> = props => {
-  const { handlePostSetting, handleSelectFriend } = props
+  const {
+    caption,
+    privacy,
+    mention,
+    description,
+    handlePostSetting,
+    handleSelectFriend
+  } = props
+
+  const [memoryForm, setMemoryForm] = useState({
+    caption: '',
+    privacy: 'everyone',
+    mention: '',
+    description: ''
+  })
 
   return (
     <View style={styles.container}>
@@ -34,6 +52,7 @@ const AddMemoryForm: React.FC<Props> = props => {
             placeholder="Enter short caption"
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputText}
+            value={memoryForm.caption}
           />
         </View>
 

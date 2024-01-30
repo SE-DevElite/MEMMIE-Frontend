@@ -7,6 +7,18 @@ import AddMemoryDayAndMood from './AddMemoryDayAndMood'
 import AddMemoryForm from './AddMemoryForm'
 
 interface Props {
+  date: number
+  month: string
+  year: number
+  hour: number
+  minute: number
+  caption: string
+  privacy: string
+  mention: string
+  description: string
+  mood: number
+  weather: number
+  // picture
   handleEditDate: () => void
   handleClose: () => void
   handlePostSetting: () => void
@@ -14,8 +26,23 @@ interface Props {
 }
 
 const AddMemory: React.FC<Props> = props => {
-  const { handleEditDate, handleClose, handlePostSetting, handleSelectFriend } =
-    props
+  const {
+    date,
+    month,
+    year,
+    hour,
+    minute,
+    caption,
+    privacy,
+    mention,
+    description,
+    mood,
+    weather,
+    handleEditDate,
+    handleClose,
+    handlePostSetting,
+    handleSelectFriend
+  } = props
 
   return (
     <View style={styles.container}>
@@ -27,7 +54,7 @@ const AddMemory: React.FC<Props> = props => {
 
           <Text style={styles.headingTextStyles}>Add memory</Text>
 
-          <TouchableOpacity onPress={() => console.log('Post')}>
+          <TouchableOpacity onPress={() => console.log('post')}>
             <View
               style={{
                 backgroundColor: themes.light.tertiary.hex,
@@ -46,26 +73,31 @@ const AddMemory: React.FC<Props> = props => {
           </TouchableOpacity>
         </View>
       </View>
-
       <View style={styles.divider} />
-
       <View style={{ paddingHorizontal: 30, gap: 20 }}>
         <AddMemoryDayAndMood />
+
         <AddMemorySelectTime
-          date={6}
-          month="Jul"
-          year={2023}
+          date={date ? date : new Date().getDate()}
+          month={month ? month : String(new Date().getMonth())}
+          year={year ? year : new Date().getFullYear()}
           handleEditDate={handleEditDate}
+          hour={hour ? hour : new Date().getHours()}
+          minute={minute ? minute : new Date().getMinutes()}
         />
         <AddMemoryForm
+          caption={caption}
+          privacy={privacy}
+          mention={mention}
+          description={description}
           handlePostSetting={handlePostSetting}
           handleSelectFriend={handleSelectFriend}
         />
       </View>
-
       {/* add upload image component here */}
-      <View
-        style={{ flex: 1, backgroundColor: themes.light.tertiary.hex }}></View>
+      <View style={{ flex: 1, backgroundColor: themes.light.tertiary.hex }}>
+        <View></View>
+      </View>
     </View>
   )
 }

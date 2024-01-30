@@ -1,7 +1,7 @@
-import NavArrowRightIcon from '@/assets/svg/NavArrowRight'
 import XcloseIcon from '@/assets/svg/Xclose'
-import AvatarCommon from '@/common/Avatar.common'
 import { themes } from '@/common/themes/themes'
+import AvatarCommon from '@/common/Avatar.common'
+import NavArrowRightIcon from '@/assets/svg/NavArrowRight'
 import React from 'react'
 import {
   StyleSheet,
@@ -17,6 +17,7 @@ interface Props {
   username: string
   bio: string
   gender: string
+  avatar: string
   handleChangeProfile: (key: string, value: string) => void
 }
 
@@ -27,6 +28,7 @@ const EditProfile: React.FC<Props> = props => {
     username,
     bio,
     gender,
+    avatar,
     handleChangeProfile
   } = props
 
@@ -51,7 +53,7 @@ const EditProfile: React.FC<Props> = props => {
         <View style={styles.avatarContainer}>
           <Text style={styles.titleText}>Edit Profile</Text>
           <AvatarCommon
-            image={require('@/assets/mocks/nut-ronan.png')}
+            uri={avatar}
             borderRadius={100}
             width={70}
             height={70}
@@ -93,7 +95,7 @@ const EditProfile: React.FC<Props> = props => {
                 onPress={() =>
                   handleChangeProfile(item.label.toLowerCase(), '')
                 }>
-                {item.value.length > 0 ? (
+                {item.value?.length > 0 ? (
                   <View style={styles.closeIconContainer}>
                     <XcloseIcon />
                   </View>

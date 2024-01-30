@@ -14,7 +14,7 @@ const MemoryCardBody: React.FC = () => {
           style={memoryStyles.imageBackground}>
           <View style={memoryStyles.overlayContainer}>
             <MemoryCardTopRow />
-            <MemoryCardBottomRow />
+            {/* <MemoryCardBottomRow /> */}
           </View>
         </ImageBackground>
       </View>

@@ -4,6 +4,7 @@ import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import SelectGender from './SelectGender'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
+import profileStore from '@/stores/ProfileStore'
 
 interface Props {
   editProfileBottomSheetRef: React.RefObject<BottomSheetMethods>
@@ -33,6 +34,7 @@ const ProfileBottomSheet: React.FC<Props> = props => {
           name={name}
           username={username}
           bio={bio}
+          avatar={profileStore.avatar}
           gender={gender}
           handleGenderPress={() => selectGenderBottomSheet.current?.expand()}
           handleChangeProfile={handleChangeProfile}

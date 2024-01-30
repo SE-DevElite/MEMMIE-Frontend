@@ -19,10 +19,11 @@ const ButtonGroupService: React.FC = () => {
 
     if (result.type === 'success') {
       const access_token = result.url.split('?')[1].split('=')[1]
-      console.log('Token: ', access_token)
-      navigation.navigate('HomeScreen' as never)
 
-      saveAccessToken(access_token)
+      if (access_token) {
+        saveAccessToken(access_token)
+        navigation.navigate('HomeScreen' as never)
+      }
     }
   }
 

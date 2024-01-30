@@ -10,9 +10,6 @@ import * as WebBrowser from 'expo-web-browser'
 WebBrowser.maybeCompleteAuthSession()
 
 const App: React.FC = () => {
-  const isFirstOpen = useWelcomeScreen()
-  const [showWelcome, setShowWelcome] = useState<boolean | null>(isFirstOpen)
-
   const [fontsLoaded] = useFonts({
     'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
     'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
@@ -24,10 +21,6 @@ const App: React.FC = () => {
 
   if (!fontsLoaded) {
     return null
-  }
-
-  const handleShowWelcome = () => {
-    setShowWelcome(false)
   }
 
   return (

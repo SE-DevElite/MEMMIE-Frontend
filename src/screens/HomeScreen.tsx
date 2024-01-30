@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import BottomSheet from '@gorhom/bottom-sheet'
@@ -10,12 +10,20 @@ import DatePicker from '@/components/home/bottomContainer/DatePicker'
 import BottomSheetPicker from '@/components/home/bottomContainer/BottomSheetPicker'
 
 import { useNavigation } from '@react-navigation/native'
-import { MONTH } from '@/common/consts/DateTime.consts'
+import { MONTH, MONTH_TO_NUMBER } from '@/common/consts/DateTime.consts'
 import HomeBottomSheetProvider from '@/components/home/HomeBottomSheetProvider'
-        
-const HomeScreen: React.FC = () => {
-  const bottomSheetRef = useRef<BottomSheet>(null)
+import { RequestWithToken } from '@/api/DefaultRequest'
+import { getAccessToken } from '@/helpers/TokenHandler'
+import profileStore from '@/stores/ProfileStore'
+import { observer } from 'mobx-react'
+import { DailyResponse, ICalendar } from '@/interface/daily_response'
+import useProfile from '@/hooks/useProfile'
+
+const HomeScreen: React.FC = observer(() => {
+  useProfile()
   const navigation = useNavigation()
+
+  const bottomSheetRef = useRef<BottomSheet>(null)
   const albumBottomSheetRef = useRef<BottomSheet>(null)
   const addMemoryBottomSheetRef = useRef<BottomSheet>(null)
   const handleOpenPress = () => bottomSheetRef.current?.expand()
@@ -26,41 +34,38 @@ const HomeScreen: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<string>(
     new Date().getFullYear().toString()
   )
+  const [calendar, setCalendar] = useState<ICalendar[][]>([[]])
 
-  const handlePolygonPress = (type_case: number) => {
-    const currentMonthIndex = MONTH.findIndex(
-      month => month === selectedMonth
-    ) as number
+  useEffect(() => {
+    async function getCalendar() {
+      setCalendar([[]])
+      const token = await getAccessToken()
+      const monthNumber =
+        MONTH_TO_NUMBER[selectedMonth as keyof typeof MONTH_TO_NUMBER]
+      const dailyResponse: DailyResponse = await RequestWithToken(
+        token as string
+      )
+        .get(`/daily-memory/${selectedYear}/${monthNumber}`)
+        .then(res => res.data)
 
-    switch (currentMonthIndex) {
-      case 0:
-        if (type_case === -1) {
-          setSelectedMonth(MONTH[11])
-          setSelectedYear((parseInt(selectedYear) - 1).toString())
-        } else {
-          setSelectedMonth(MONTH[currentMonthIndex + type_case])
-        }
-        return
-      case 11:
-        if (type_case === 1) {
-          setSelectedMonth(MONTH[0])
-          setSelectedYear((parseInt(selectedYear) + 1).toString())
-        } else {
-          setSelectedMonth(MONTH[currentMonthIndex + type_case])
-        }
-        return
-      default:
-        setSelectedMonth(MONTH[currentMonthIndex + type_case])
-        return
+      setCalendar(dailyResponse.calendar)
     }
-  }
+
+    getCalendar()
+  }, [selectedMonth])
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.topOutterContainer}>
           <View style={styles.topInnerContainer}>
-            <UserHeading onPressAvatar={() => navigation.navigate('ProfileScreen' as never)} />
+            <UserHeading
+              onPressAvatar={() =>
+                navigation.navigate('ProfileScreen' as never)
+              }
+              avatar={profileStore.avatar}
+              username={profileStore.username}
+            />
             <MemoryContainer
               onAddAlbumPress={() => albumBottomSheetRef.current?.expand()}
               onAddMemoryPress={() => addMemoryBottomSheetRef.current?.expand()}
@@ -73,9 +78,10 @@ const HomeScreen: React.FC = () => {
               selectedMonth={selectedMonth}
               selectedYear={selectedYear}
               onOpenPress={handleOpenPress}
-              handlePolygonPress={handlePolygonPress}
+              setSelectedMonth={setSelectedMonth}
+              setSelectedYear={setSelectedYear}
             />
-            <Calendar />
+            <Calendar calendar={calendar} />
           </View>
         </View>
       </ScrollView>
@@ -94,7 +100,7 @@ const HomeScreen: React.FC = () => {
       />
     </SafeAreaView>
   )
-}
+})
 
 export default HomeScreen
 

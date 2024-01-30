@@ -13,7 +13,7 @@ const SelectGender: React.FC<Props> = props => {
   const [active, setActive] = useState({
     male: true,
     female: false,
-    preferNotToSay: false
+    other: false
   })
   const data = [
     {
@@ -25,8 +25,8 @@ const SelectGender: React.FC<Props> = props => {
       active: active.female
     },
     {
-      label: 'Prefer not to say',
-      active: active.preferNotToSay
+      label: 'Other',
+      active: active.other
     }
   ]
 
@@ -34,7 +34,7 @@ const SelectGender: React.FC<Props> = props => {
     setActive({
       male: label === 'Male',
       female: label === 'Female',
-      preferNotToSay: label === 'Prefer not to say'
+      other: label === 'Other'
     })
 
     handleChangeProfile('gender', label)

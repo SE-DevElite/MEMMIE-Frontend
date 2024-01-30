@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { themes } from '@/common/themes/themes'
 import {
   Image,
@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback
 } from 'react-native'
+import profileStore from '@/stores/ProfileStore'
 
 interface Props {
   onAddAlbumPress: () => void
@@ -31,22 +32,29 @@ const Album: React.FC<Props> = props => {
 
       <View style={styles.scrollContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {/* map this component under */}
-          <TouchableWithoutFeedback
-            onPress={() => console.log('click on album')}>
-            <View style={styles.albumContainer}>
-              <View style={styles.imageContainer}>
-                <Image
-                  source={require('@/assets/mocks/nut-ronan.png')}
-                  style={styles.albumImage}
-                />
+          {profileStore.albums.map(album => (
+            <TouchableWithoutFeedback
+              onPress={() => console.log(album.album_id)}
+              key={album.album_id}>
+              <View style={styles.albumContainer}>
+                <View style={styles.imageContainer}>
+                  <Image
+                    source={{ uri: album.album_thumbnail }}
+                    style={styles.albumImage}
+                  />
+                </View>
+                <View style={styles.textContainer}>
+                  <Text
+                    style={styles.albumTitle}
+                    numberOfLines={1}
+                    ellipsizeMode="tail">
+                    {album.album_name}
+                  </Text>
+                  <Text style={styles.albumCount}>{album.memories}</Text>
+                </View>
               </View>
-              <View style={styles.textContainer}>
-                <Text style={styles.albumTitle}>Travel</Text>
-                <Text style={styles.albumCount}>20</Text>
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+          ))}
         </ScrollView>
       </View>
     </View>
@@ -57,8 +65,8 @@ export default Album
 
 const styles = StyleSheet.create({
   box: {
-    width: 180,
-    height: 180,
+    flex: 1,
+    height: 170,
     borderRadius: 30,
     padding: 13,
     backgroundColor: themes.light.tertiary.hex
@@ -69,7 +77,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   textStyle: {
-    fontSize: 16,
+    fontSize: 14,
     color: themes.light.secondary.hex,
     fontFamily: themes.fonts.samiBold
   },
@@ -99,8 +107,8 @@ const styles = StyleSheet.create({
   },
   albumImage: {
     resizeMode: 'cover',
-    width: 130,
-    height: 90
+    width: 125,
+    height: 82
   },
   textContainer: {
     paddingLeft: 10,
@@ -109,12 +117,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   albumTitle: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: themes.fonts.medium,
-    color: themes.light.secondary.hex
+    color: themes.light.secondary.hex,
+    width: 100
   },
   albumCount: {
-    fontSize: 12,
+    fontSize: 10,
     fontFamily: themes.fonts.medium,
     color: themes.light.secondary.hex
   }

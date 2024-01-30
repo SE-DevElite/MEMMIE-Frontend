@@ -2,18 +2,19 @@ import React from 'react'
 import styled from 'styled-components/native'
 
 interface AvatarProps {
-  image: NodeRequire
+  image?: NodeRequire
   width?: number
   height?: number
   borderRadius?: number
+  uri?: string
 }
 
 const AvatarCommon: React.FC<AvatarProps> = props => {
-  const { image, width, height, borderRadius } = props
+  const { image, width, height, borderRadius, uri } = props
 
   return (
     <ImageCustom
-      source={image}
+      source={uri ? { uri } : image}
       width={width}
       height={height}
       borderRadius={borderRadius}

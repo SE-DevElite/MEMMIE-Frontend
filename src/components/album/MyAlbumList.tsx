@@ -8,13 +8,13 @@ import GarbageIcon from '@/assets/svg/Garbage'
 
 interface Props {
   album_id: string
-  thumbnail: NodeRequire
+  thumbnail: string
   title: string
   amount: number
 }
 
 const MyAlbumList: React.FC<Props> = props => {
-  const { album_id, title, amount, thumbnail } = props
+  const { title, amount, thumbnail } = props
 
   const renderRightActions = (progress: any, dragX: any) => {
     const trans = dragX.interpolate({
@@ -44,7 +44,7 @@ const MyAlbumList: React.FC<Props> = props => {
     <Swipeable renderRightActions={renderRightActions}>
       <View style={styles.boxList}>
         <View style={styles.circle}>
-          <Image style={styles.imageStyle} source={thumbnail} />
+          <Image style={styles.imageStyle} source={{ uri: thumbnail }} />
         </View>
         <View style={{ width: '70%' }}>
           <Text style={styles.titleTextNewAlbum}>{title}</Text>

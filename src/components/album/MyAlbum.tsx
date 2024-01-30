@@ -4,6 +4,7 @@ import { themes } from '@/common/themes/themes'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import MyAlbumList from './MyAlbumList'
+import profileStore from '@/stores/ProfileStore'
 
 interface Props {
   handlePress: () => void
@@ -47,19 +48,16 @@ const MyAlbum: React.FC<Props> = props => {
 
       <View style={styles.divider} />
 
-      <View style={{}}>
-        <MyAlbumList
-          album_id="1"
-          title="Travel"
-          amount={20}
-          thumbnail={require('@/assets/mocks/nutthanon-avatar.jpg')}
-        />
-        <MyAlbumList
-          album_id="2"
-          title="BFF"
-          amount={40}
-          thumbnail={require('@/assets/mocks/nutthanon-rb.png')}
-        />
+      <View>
+        {profileStore.albums.map(album => (
+          <MyAlbumList
+            key={album.album_id}
+            album_id={album.album_id}
+            title={album.album_name}
+            amount={album.memories}
+            thumbnail={album.album_thumbnail}
+          />
+        ))}
       </View>
     </View>
   )

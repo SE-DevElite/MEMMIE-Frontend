@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 20
+    gap: 15
   },
   imageStyle: {
     width: 50,

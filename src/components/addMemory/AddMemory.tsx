@@ -1,48 +1,60 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { themes } from '@/common/themes/themes'
-import { TouchableOpacity } from 'react-native'
+import { ScrollView, TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import AddMemorySelectTime from './AddMemorySelectTime'
 import AddMemoryDayAndMood from './AddMemoryDayAndMood'
 import AddMemoryForm from './AddMemoryForm'
+import AddMemoryUploadImage from './AddMemoryUploadImage'
 
 interface Props {
-  date: number
-  month: string
-  year: number
-  hour: number
-  minute: number
-  caption: string
+  date_time: Date
   privacy: string
-  mention: string
-  description: string
-  mood: number
-  weather: number
+  time_minute: {
+    hours: number
+    minutes: number
+  }
   // picture
   handleEditDate: () => void
+  handleEditTime: () => void
   handleClose: () => void
   handlePostSetting: () => void
   handleSelectFriend: () => void
 }
 
+export type MemoryForm = {
+  caption: string
+  privacy: string
+  mention: string
+  description: string
+}
+
 const AddMemory: React.FC<Props> = props => {
   const {
-    date,
-    month,
-    year,
-    hour,
-    minute,
-    caption,
+    date_time,
     privacy,
-    mention,
-    description,
-    mood,
-    weather,
     handleEditDate,
+    handleEditTime,
     handleClose,
     handlePostSetting,
-    handleSelectFriend
+    handleSelectFriend,
+    time_minute
   } = props
+
+  const [memory, setMemory] = useState<MemoryForm>({
+    caption: '',
+    privacy: privacy,
+    mention: '',
+    description: ''
+  })
+
+  useEffect(() => {
+    setMemory({ ...memory, privacy: privacy })
+  }, [privacy])
+
+  const handleChangeMemory = (key: keyof MemoryForm, value: string) => {
+    setMemory({ ...memory, [key]: value })
+  }
 
   return (
     <View style={styles.container}>
@@ -74,29 +86,33 @@ const AddMemory: React.FC<Props> = props => {
         </View>
       </View>
       <View style={styles.divider} />
-      <View style={{ paddingHorizontal: 30, gap: 20 }}>
-        <AddMemoryDayAndMood />
 
-        <AddMemorySelectTime
-          date={date ? date : new Date().getDate()}
-          month={month ? month : String(new Date().getMonth())}
-          year={year ? year : new Date().getFullYear()}
-          handleEditDate={handleEditDate}
-          hour={hour ? hour : new Date().getHours()}
-          minute={minute ? minute : new Date().getMinutes()}
-        />
-        <AddMemoryForm
-          caption={caption}
-          privacy={privacy}
-          mention={mention}
-          description={description}
-          handlePostSetting={handlePostSetting}
-          handleSelectFriend={handleSelectFriend}
-        />
-      </View>
-      {/* add upload image component here */}
-      <View style={{ flex: 1, backgroundColor: themes.light.tertiary.hex }}>
-        <View></View>
+      <View style={styles.bodyStyle}>
+        <ScrollView>
+          <View style={{ gap: 20 }}>
+            <View style={{ gap: 20, paddingHorizontal: 20 }}>
+              <AddMemoryDayAndMood date_time={date_time} />
+
+              <AddMemorySelectTime
+                handleEditDate={handleEditDate}
+                handleEditTime={handleEditTime}
+                date_time={date_time}
+                time_minute={time_minute}
+              />
+
+              <AddMemoryForm
+                {...memory}
+                handlePostSetting={handlePostSetting}
+                handleSelectFriend={handleSelectFriend}
+                handleChangeMemory={handleChangeMemory}
+              />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <AddMemoryUploadImage />
+            </View>
+          </View>
+        </ScrollView>
       </View>
     </View>
   )
@@ -132,6 +148,10 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: themes.light.primary.hex,
-    marginVertical: 20
+    marginTop: 20
+  },
+  bodyStyle: {
+    paddingVertical: 20,
+    flex: 1
   }
 })

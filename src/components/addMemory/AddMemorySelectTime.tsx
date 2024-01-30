@@ -1,26 +1,60 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  TouchableOpacity
-} from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
+import WeatherClearskyIcon from '@/assets/svg/WeatherClearsky'
+import WeatherCloudIcon from '@/assets/svg/WeatherCloud'
+import WeatherDownpourIcon from '@/assets/svg/WeatherDownpour'
+import WeatherSnowflakeIcon from '@/assets/svg/WeatherSnowflake'
+import WeatherSunnyIcon from '@/assets/svg/WeatherSunny'
 
 interface Props {
-  date: number
-  month: string
-  year: number
-  hour: number
-  minute: number
+  date_time: Date
+  time_minute: {
+    hours: number
+    minutes: number
+  }
   handleEditDate: () => void
+  handleEditTime: () => void
 }
 
 const AddMemorySelectTime: React.FC<Props> = props => {
-  const { date, month, year, hour, minute, handleEditDate } = props
+  const { date_time, handleEditDate, handleEditTime, time_minute } = props
 
-  const collectDate = [date, month, year]
+  const [weather, setWeather] = useState<number>(0)
+
+  const collectDate = [
+    date_time.getDate(),
+    MONTH_SHORT[date_time.getMonth()],
+    date_time.getFullYear()
+  ]
+
+  const handleSetWeather = () => {
+    setWeather((weather + 1) % 5)
+  }
+
+  const WeatherElement = [
+    {
+      label: 'Clearsky',
+      icon: <WeatherClearskyIcon width={30} height={30} />
+    },
+    {
+      label: 'Cloud',
+      icon: <WeatherCloudIcon width={30} height={30} />
+    },
+    {
+      label: 'Downpour',
+      icon: <WeatherDownpourIcon width={30} height={30} />
+    },
+    {
+      label: 'ShowFlake',
+      icon: <WeatherSnowflakeIcon width={30} height={30} />
+    },
+    {
+      label: 'Sunny',
+      icon: <WeatherSunnyIcon width={30} height={30} />
+    }
+  ]
 
   return (
     <View style={styles.container}>
@@ -43,18 +77,20 @@ const AddMemorySelectTime: React.FC<Props> = props => {
 
       <View>
         <View style={styles.timeInnerContainer}>
-          <TouchableWithoutFeedback
-            onPress={() => console.log('change waether')}>
-            <View style={styles.weatherIcon}></View>
-          </TouchableWithoutFeedback>
+          <TouchableOpacity onPress={handleSetWeather}>
+            <View style={styles.weatherIcon}>
+              {WeatherElement[weather].icon}
+            </View>
+          </TouchableOpacity>
 
-          <TouchableWithoutFeedback onPress={() => console.log('change time')}>
-            <View>
+          <TouchableOpacity onPress={handleEditTime}>
+            <View style={{ padding: 5 }}>
               <Text style={styles.timeText}>
-                {hour} : {minute}
+                {time_minute.hours.toString().padStart(2, '0')} :{' '}
+                {time_minute.minutes.toString().padStart(2, '0')}
               </Text>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -105,11 +141,12 @@ const styles = StyleSheet.create({
     gap: 5
   },
   weatherIcon: {
+    paddingTop: 4,
+    paddingLeft: 4,
     width: 40,
     height: 40,
     backgroundColor: '#d5d5d5d5',
     borderRadius: 100,
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
   },

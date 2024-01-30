@@ -11,58 +11,60 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native'
+import { Memory } from '@/interface/memory_response'
+import { themes } from '@/common/themes/themes'
 
-const MemoryGroup: React.FC = () => {
-  const memories = {
-    image_group1: [
-      require('@/assets/mocks/nutthanon-avatar.jpg'),
-      require('@/assets/mocks/nutthanon-rb.png'),
-      require('@/assets/mocks/nut-riw-ronan.png')
-    ],
-    image_group2: [
-      require('@/assets/mocks/nutthanon-rb.png'),
-      require('@/assets/mocks/nut-ronan.png')
-    ]
-  }
+interface Props {
+  memories: Memory[]
+}
+
+const MemoryGroup: React.FC<Props> = props => {
+  const { memories } = props
+  const memoryGroupOne = memories?.slice(0, memories.length / 2 + 1)
+  const memoryGroupTwo = memories?.slice(memories.length / 2 + 1)
 
   return (
-    <View style={styles.container}>
+    <>
       <ScrollView style={styles.scrollView}>
         <View style={styles.flexBox}>
           <View style={{ flex: 1 }}>
-            {memories['image_group1'].map((memory, index) => (
-              <TouchableOpacity key={index} style={styles.imageContainer}>
-                <Image source={memory} style={styles.imageStyle} />
+            {memoryGroupOne.map(memory => (
+              <TouchableOpacity
+                key={memory.memory_id}
+                onPress={() => console.log(memory.memory_id)}
+                style={{ ...styles.imageContainer }}>
+                <Image
+                  source={{ uri: memory.memory_lists[0].memory_url }}
+                  style={styles.imageStyle}
+                />
               </TouchableOpacity>
             ))}
           </View>
 
           <View style={{ flex: 1 }}>
-            {memories['image_group2'].map((memory, index) => (
-              <TouchableOpacity style={styles.imageContainer} key={index}>
-                <Image source={memory} style={styles.imageStyle} />
+            {memoryGroupTwo.map(memory => (
+              <TouchableOpacity
+                style={styles.imageContainer}
+                onPress={() => console.log(memory.memory_id)}
+                key={memory.memory_id}>
+                <Image
+                  source={{ uri: memory.memory_lists[0].memory_url }}
+                  style={styles.imageStyle}
+                />
               </TouchableOpacity>
             ))}
           </View>
         </View>
-        <View
-          style={{
-            height: 80,
-            backgroundColor: '#e5e5e5e5'
-          }}></View>
       </ScrollView>
-    </View>
+    </>
   )
 }
 
 export default MemoryGroup
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 16
-  },
   scrollView: {
-    height: hp('65%')
+    paddingHorizontal: 16
   },
   flexBox: {
     flexDirection: 'row',
@@ -70,16 +72,14 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    flex: 1,
     aspectRatio: 1,
     marginBottom: 8,
     overflow: 'hidden',
-    borderRadius: 64
+    borderRadius: 40
   },
   imageStyle: {
     flex: 1,
-    width: wp('43.5%'),
     resizeMode: 'cover',
-    borderRadius: 64
+    backgroundColor: themes.light.tertiary.hex
   }
 })

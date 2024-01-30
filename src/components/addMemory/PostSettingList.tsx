@@ -1,7 +1,7 @@
 import CheckboxCommon from '@/common/Checkbox.common'
 import { themes } from '@/common/themes/themes'
-import React, { useState } from 'react'
-import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import React from 'react'
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 
 interface Props {
   title: string
@@ -13,12 +13,12 @@ const PostSettingList: React.FC<Props> = props => {
   const { title, active, handleActive } = props
 
   return (
-    <TouchableWithoutFeedback onPress={handleActive}>
+    <TouchableOpacity onPress={handleActive}>
       <View style={styles.container}>
         <Text style={styles.textStyle}>{title}</Text>
         <CheckboxCommon active={active} />
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   )
 }
 

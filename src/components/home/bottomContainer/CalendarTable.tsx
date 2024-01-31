@@ -8,10 +8,11 @@ import SkeletonTable from './SkeletonTable'
 
 interface Props {
   calendar: ICalendar[][]
+  onReadMemoryPress: () => void
 }
 
 const CalendarTable: React.FC<Props> = props => {
-  const { calendar } = props
+  const { calendar, onReadMemoryPress } = props
 
   return (
     <View style={styles.container}>
@@ -36,7 +37,7 @@ const CalendarTable: React.FC<Props> = props => {
                           }
                         : require('@/assets/mocks/empty.png')
                     }>
-                    <TouchableOpacity onPress={() => console.log(value.date)}>
+                    <TouchableOpacity onPress={onReadMemoryPress}>
                       <View
                         style={{
                           ...styles.innerFlex,
@@ -74,6 +75,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     backgroundColor: themes.light.tertiary.hex,
+    // backgroundColor: 'red',
     alignItems: 'center',
     margin: 3,
     borderRadius: 15,

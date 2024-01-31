@@ -10,9 +10,9 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
-import { MemoryForm } from './AddMemory'
 import profileStore from '@/stores/ProfileStore'
 import AvatarCommon from '@/common/Avatar.common'
+import { MemoryForm } from '@/interface/memory_request'
 
 interface Props {
   caption: string

@@ -24,6 +24,7 @@ import profileStore from '@/stores/ProfileStore'
 import { observer } from 'mobx-react'
 import { DailyResponse, ICalendar } from '@/interface/daily_response'
 import useProfile from '@/hooks/useProfile'
+import { getProfile } from '@/helpers/GetHomeScreen'
 
 const HomeScreen: React.FC = observer(() => {
   useProfile()
@@ -45,21 +46,19 @@ const HomeScreen: React.FC = observer(() => {
   )
   const [calendar, setCalendar] = useState<ICalendar[][]>([[]])
 
+  async function getCalendar() {
+    setCalendar([[]])
+    const token = await getAccessToken()
+    const monthNumber =
+      MONTH_TO_NUMBER[selectedMonth as keyof typeof MONTH_TO_NUMBER]
+    const dailyResponse: DailyResponse = await RequestWithToken(token as string)
+      .get(`/daily-memory/${selectedYear}/${monthNumber}`)
+      .then(res => res.data)
+
+    setCalendar(dailyResponse.calendar)
+  }
+
   useEffect(() => {
-    async function getCalendar() {
-      setCalendar([[]])
-      const token = await getAccessToken()
-      const monthNumber =
-        MONTH_TO_NUMBER[selectedMonth as keyof typeof MONTH_TO_NUMBER]
-      const dailyResponse: DailyResponse = await RequestWithToken(
-        token as string
-      )
-        .get(`/daily-memory/${selectedYear}/${monthNumber}`)
-        .then(res => res.data)
-
-      setCalendar(dailyResponse.calendar)
-    }
-
     getCalendar()
   }, [selectedMonth])
 
@@ -68,11 +67,11 @@ const HomeScreen: React.FC = observer(() => {
     setCurrentDate(new Date())
   }
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true)
-    setTimeout(() => {
-      setRefreshing(false)
-    }, 2000)
+    await getProfile()
+    await getCalendar()
+    setRefreshing(false)
   }, [])
 
   return (

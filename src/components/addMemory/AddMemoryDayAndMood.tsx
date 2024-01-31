@@ -1,19 +1,14 @@
-import ManFunnyIcon from '@/assets/svg/ManFunny'
-import ManHappyIcon from '@/assets/svg/ManHappy'
-import ManNahIcon from '@/assets/svg/ManNah'
-import ManSadIcon from '@/assets/svg/ManSad'
-import WomanFunnyIcon from '@/assets/svg/WomanFunny'
-import WomanHappyIcon from '@/assets/svg/WomanHappy'
-import WomanNahIcon from '@/assets/svg/WomanNah'
-import WomanSadIcon from '@/assets/svg/WomanSad'
 import { DAY } from '@/common/consts/DateTime.consts'
+import { MoodElement } from '@/common/consts/MoodElement.consts'
 import { themes } from '@/common/themes/themes'
+import { MemoryForm } from '@/interface/memory_request'
 import profileStore from '@/stores/ProfileStore'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 
 interface Props {
   date_time: Date
+  handleChangeMemory: (key: keyof MemoryForm, value: string | number) => void
 }
 
 type MoodEle = {
@@ -22,48 +17,9 @@ type MoodEle = {
 }
 
 const AddMemoryDayAndMood: React.FC<Props> = props => {
-  const { date_time } = props
+  const { date_time, handleChangeMemory } = props
   const [mood, setMood] = useState<MoodEle[]>()
   const [selectMood, setSelectMood] = useState<number>(0)
-
-  const MoodElement = {
-    Male: [
-      {
-        label: 'Happy',
-        icon: <ManHappyIcon />
-      },
-      {
-        label: 'Sad',
-        icon: <ManSadIcon />
-      },
-      {
-        label: 'Nah',
-        icon: <ManNahIcon />
-      },
-      {
-        label: 'Funny',
-        icon: <ManFunnyIcon />
-      }
-    ],
-    Female: [
-      {
-        label: 'Happy',
-        icon: <WomanHappyIcon />
-      },
-      {
-        label: 'Sad',
-        icon: <WomanSadIcon />
-      },
-      {
-        label: 'Nah',
-        icon: <WomanNahIcon />
-      },
-      {
-        label: 'Funny',
-        icon: <WomanFunnyIcon />
-      }
-    ]
-  }
 
   useEffect(() => {
     const gender = profileStore.gender
@@ -76,7 +32,10 @@ const AddMemoryDayAndMood: React.FC<Props> = props => {
   }, [])
 
   const handleChangeMood = () => {
-    setSelectMood((selectMood + 1) % 4)
+    const current_idx = (selectMood + 1) % 4
+    setSelectMood(current_idx)
+
+    handleChangeMemory('mood', current_idx)
   }
 
   return (
@@ -131,7 +90,8 @@ const styles = StyleSheet.create({
     height: 45,
     backgroundColor: themes.light.tertiary.hex,
     borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    overflow: 'hidden'
   }
 })

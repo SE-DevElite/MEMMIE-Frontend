@@ -21,7 +21,7 @@ const MonthYearPicker: React.FC<MonthYearPickerProps> = props => {
   const yearArray = Array.from(
     { length: endYear - startYear + 1 },
     (_, index) => endYear - index
-  ).reverse()
+  )
 
   return (
     <View style={styles.container}>

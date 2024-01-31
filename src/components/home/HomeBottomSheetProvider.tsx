@@ -55,7 +55,7 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
         />
       </LongBottomSheetCommon>
 
-      <LongBottomSheetCommon ref={editDateBottomSheetRef}>
+      <LongBottomSheetCommon ref={editDateBottomSheetRef} snapPoint={['50%']}>
         <EditDate handleClose={() => editDateBottomSheetRef.current?.close()} />
       </LongBottomSheetCommon>
 

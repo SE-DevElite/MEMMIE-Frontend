@@ -10,11 +10,13 @@ import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import EditTime from '../addMemory/EditTime'
+import ReadMemory from '../readMemory/ReadMemory'
 
 interface Props {
   current_date: Date
   addMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
   albumBottomSheetRef: React.RefObject<BottomSheetMethods>
+  readMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
 }
 
 export type TimeSetter = {
@@ -23,7 +25,12 @@ export type TimeSetter = {
 }
 
 const HomeBottomSheetProvider: React.FC<Props> = props => {
-  const { current_date, addMemoryBottomSheetRef, albumBottomSheetRef } = props
+  const {
+    current_date,
+    addMemoryBottomSheetRef,
+    albumBottomSheetRef,
+    readMemoryBottomSheetRef
+  } = props
   const [date_time, setDateTime] = useState<Date>(current_date)
   const [privacy, setPrivacy] = useState<string>('aaa')
   const [time_minute, setTimeMinute] = useState<TimeSetter>({
@@ -37,6 +44,7 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const postSettingBottomSheetRef = useRef<BottomSheet>(null)
   const selectFriendBottomSheetRef = useRef<BottomSheet>(null)
   const editTimeBottomSheetRef = useRef<BottomSheet>(null)
+  // const readMemoryBottomSheetRef = useRef<BottomSheet>(null)
 
   const handleSetDateTime = (date: Date) => {
     setDateTime(date)
@@ -113,7 +121,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
         <SelectFriend />
       </LongBottomSheetCommon>
 
-      <LongBottomSheetCommon></LongBottomSheetCommon>
+      <LongBottomSheetCommon ref={readMemoryBottomSheetRef}>
+        <ReadMemory />
+      </LongBottomSheetCommon>
     </>
   )
 }

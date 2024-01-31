@@ -6,6 +6,12 @@ import AddMemorySelectTime from './AddMemorySelectTime'
 import AddMemoryDayAndMood from './AddMemoryDayAndMood'
 import AddMemoryForm from './AddMemoryForm'
 import AddMemoryUploadImage from './AddMemoryUploadImage'
+import {
+  DEFAULT_URL,
+  RequestWithToken,
+  UploadRequestWithToken
+} from '@/api/DefaultRequest'
+import { getAccessToken } from '@/helpers/TokenHandler'
 
 interface Props {
   date_time: Date
@@ -29,6 +35,11 @@ export type MemoryForm = {
   description: string
 }
 
+type ImageInfo = {
+  uri: string
+  id: string
+}
+
 const AddMemory: React.FC<Props> = props => {
   const {
     date_time,
@@ -47,6 +58,7 @@ const AddMemory: React.FC<Props> = props => {
     mention: '',
     description: ''
   })
+  const [imageUrl, setImageurl] = useState<ImageInfo[]>([])
 
   useEffect(() => {
     setMemory({ ...memory, privacy: privacy })
@@ -54,6 +66,47 @@ const AddMemory: React.FC<Props> = props => {
 
   const handleChangeMemory = (key: keyof MemoryForm, value: string) => {
     setMemory({ ...memory, [key]: value })
+  }
+
+  const handleSubmit = async () => {
+    if (imageUrl.length === 0) return
+
+    const access_token = await getAccessToken()
+    const body = {
+      // short_caption: memory.description,
+      // caption: memory.caption,
+      short_caption: "I'm so happy.",
+      caption: "I'm so happy but this is caption.",
+      // friend_list_id: ,
+      mood: 'sad',
+      weather: 'sunny',
+      day: 'monday',
+      location_name: "King's monkut university technology of thonburi.",
+      selected_datetime: '2024-01-27 23:03',
+      mention: []
+    }
+    console.log(body)
+
+    const post_res = await RequestWithToken(access_token as string)
+      .post('/memories/create', body)
+      .then(res => res.data)
+
+    // const memory_id = post_res.memory.memory_id
+
+    // const blobs: Blob[] = []
+
+    // for (const img of imageUrl) {
+    //   const res_img = await fetch(img.uri.replace('file:///', 'file:/'))
+    //   blobs.push(await res_img.blob())
+    // }
+
+    // const formData = new FormData()
+
+    // const upload_res = await UploadRequestWithToken(access_token as string)
+    //   .post('/memories/upload/2fcedc83-0a6a-4408-a836-05f39a8b4a1e', formData)
+    //   .then(res => res.data)
+
+    // console.log(upload_res)
   }
 
   return (
@@ -66,7 +119,7 @@ const AddMemory: React.FC<Props> = props => {
 
           <Text style={styles.headingTextStyles}>Add memory</Text>
 
-          <TouchableOpacity onPress={() => console.log('post')}>
+          <TouchableOpacity onPress={handleSubmit}>
             <View
               style={{
                 backgroundColor: themes.light.tertiary.hex,
@@ -109,7 +162,7 @@ const AddMemory: React.FC<Props> = props => {
             </View>
 
             <View style={{ flex: 1 }}>
-              <AddMemoryUploadImage />
+              <AddMemoryUploadImage image={imageUrl} setImage={setImageurl} />
             </View>
           </View>
         </ScrollView>

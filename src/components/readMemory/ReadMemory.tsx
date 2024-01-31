@@ -15,9 +15,25 @@ const ReadMemory: React.FC<Props> = props => {
         <ReadMemoryTime />
         <ReadMemoryForm /> */}
       </View>
-      {/* add upload image component here */}
-      <View style={{ flex: 1, backgroundColor: themes.light.tertiary.hex }}>
-        <View></View>
+      {/* Edit and Delete */}
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: themes.light.tertiary.hex,
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+          paddingHorizontal: 30
+        }}>
+        <TouchableOpacity onPress={() => console.log('Delete')}>
+          <View style={styles.BottomButton}>
+            <Text>Delete</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('Edit')}>
+          <View style={styles.BottomButton}>
+            <Text>Edit</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -54,5 +70,13 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: themes.light.primary.hex,
     marginVertical: 20
+  },
+  BottomButton: {
+    width: 170,
+    height: 35,
+    backgroundColor: themes.light.primary.hex,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100
   }
 })

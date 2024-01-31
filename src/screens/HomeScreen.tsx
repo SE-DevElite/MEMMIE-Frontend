@@ -34,6 +34,7 @@ const HomeScreen: React.FC = observer(() => {
   const bottomSheetRef = useRef<BottomSheet>(null)
   const albumBottomSheetRef = useRef<BottomSheet>(null)
   const addMemoryBottomSheetRef = useRef<BottomSheet>(null)
+  const readMemoryBottomSheetRef = useRef<BottomSheet>(null)
   const handleOpenPress = () => bottomSheetRef.current?.expand()
 
   const [selectedMonth, setSelectedMonth] = useState<string>(
@@ -104,7 +105,12 @@ const HomeScreen: React.FC = observer(() => {
               setSelectedMonth={setSelectedMonth}
               setSelectedYear={setSelectedYear}
             />
-            <Calendar calendar={calendar} />
+            <Calendar
+              calendar={calendar}
+              onReadMemoryPress={() =>
+                readMemoryBottomSheetRef.current?.expand()
+              }
+            />
           </View>
         </View>
       </ScrollView>
@@ -121,6 +127,7 @@ const HomeScreen: React.FC = observer(() => {
         current_date={currentDate}
         albumBottomSheetRef={albumBottomSheetRef}
         addMemoryBottomSheetRef={addMemoryBottomSheetRef}
+        readMemoryBottomSheetRef={readMemoryBottomSheetRef}
       />
     </SafeAreaView>
   )

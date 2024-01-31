@@ -6,13 +6,15 @@ import { DAY_SHORT } from '@/common/consts/DateTime.consts'
 
 import CalendarTable from './CalendarTable'
 import { ICalendar } from '@/interface/daily_response'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface Props {
   calendar: ICalendar[][]
+  onReadMemoryPress: () => void
 }
 
 const Calendar: React.FC<Props> = props => {
-  const { calendar } = props
+  const { calendar, onReadMemoryPress } = props
 
   return (
     <View style={styles.container}>
@@ -26,7 +28,10 @@ const Calendar: React.FC<Props> = props => {
         </View>
 
         <CalendarContainer style={styles.calendarContainer}>
-          <CalendarTable calendar={calendar} />
+          <CalendarTable
+            calendar={calendar}
+            onReadMemoryPress={onReadMemoryPress}
+          />
         </CalendarContainer>
       </View>
     </View>
@@ -61,6 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   textStyle: {
+    // backgroundColor: 'red',
     textAlign: 'center'
   }
 })

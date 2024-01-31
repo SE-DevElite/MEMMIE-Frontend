@@ -7,14 +7,14 @@ import { useNavigation } from '@react-navigation/native'
 import { View, StyleSheet } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { RequestWithToken } from '@/api/DefaultRequest'
+import { getAccessToken } from '@/helpers/TokenHandler'
 
 const SignInScreen: React.FC = () => {
   const navigation = useNavigation()
 
   useEffect(() => {
     async function alreadyAuthen() {
-      const token = await AsyncStorage.getItem('access_token')
-
+      const token = await getAccessToken()
       const res = await RequestWithToken(token as string)
         .get('/auth/checkToken')
         .then(res => res.data)

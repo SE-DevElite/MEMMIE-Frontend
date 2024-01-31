@@ -42,7 +42,7 @@ const AddMemorySelectTime: React.FC<Props> = props => {
       <View>
         <View style={styles.timeInnerContainer}>
           <TouchableWithoutFeedback
-            onPress={() => console.log('change waether')}>
+            onPress={() => console.log('change weather')}>
             <View style={styles.weatherIcon}></View>
           </TouchableWithoutFeedback>
 

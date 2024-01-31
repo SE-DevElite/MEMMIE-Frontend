@@ -5,7 +5,13 @@ import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import MyAlbumList from './MyAlbumList'
 
-const MyAlbum: React.FC = () => {
+interface Props {
+  handlePress: () => void
+}
+
+const MyAlbum: React.FC<Props> = props => {
+  const { handlePress } = props
+
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
@@ -22,9 +28,7 @@ const MyAlbum: React.FC = () => {
         </View>
       </View>
 
-      <TouchableOpacity
-        style={{ ...styles.layout }}
-        onPress={() => console.log('create new album')}>
+      <TouchableOpacity style={{ ...styles.layout }} onPress={handlePress}>
         <View style={styles.boxNewAlbum}>
           <View style={styles.circle}>
             <PlusIcon color="white" />
@@ -43,13 +47,15 @@ const MyAlbum: React.FC = () => {
 
       <View style={styles.divider} />
 
-      <View style={{ ...styles.layout, gap: 20 }}>
+      <View style={{}}>
         <MyAlbumList
+          album_id="1"
           title="Travel"
           amount={20}
           thumbnail={require('@/assets/mocks/nutthanon-avatar.jpg')}
         />
         <MyAlbumList
+          album_id="2"
           title="BFF"
           amount={40}
           thumbnail={require('@/assets/mocks/nutthanon-rb.png')}
@@ -90,7 +96,7 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: themes.light.primary.hex,
-    marginVertical: 20
+    marginTop: 20
   },
   boxNewAlbum: {
     flexDirection: 'row',

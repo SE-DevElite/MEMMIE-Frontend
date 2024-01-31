@@ -2,12 +2,15 @@ import { themes } from '@/common/themes/themes'
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 
-const UserBio: React.FC = () => {
+interface Props {
+  bio: String
+}
+
+const UserBio: React.FC<Props> = props => {
+  const { bio } = props
   return (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>
-        SMTE STUDENT ix {'\n'} APPLIED COMPUTER SCIENCE - KMUTT
-      </Text>
+      <Text style={styles.textStyle}>{bio}</Text>
     </View>
   )
 }

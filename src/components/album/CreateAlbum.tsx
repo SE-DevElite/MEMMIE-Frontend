@@ -6,7 +6,13 @@ import { StyleSheet, Text, View } from 'react-native'
 import InputUnderlineCommon from '@/common/InputUnderline.common'
 import PictureList from './PictureList'
 
-const CreateAlbum: React.FC = () => {
+interface Props {
+  handlePress: () => void
+}
+
+const CreateAlbum: React.FC<Props> = props => {
+  const { handlePress } = props
+
   const [albumName, setAlbumName] = useState<string>('')
   const image = [
     require('@/assets/mocks/nutthanon-avatar.jpg'),
@@ -38,7 +44,7 @@ const CreateAlbum: React.FC = () => {
           />
         </View>
 
-        <CreateAlbumSearch />
+        <CreateAlbumSearch handlePress={handlePress} />
         <CreateAlbumnTag />
       </View>
 

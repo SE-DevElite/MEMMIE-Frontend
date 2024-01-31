@@ -10,12 +10,16 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen'
 
-const UserHeading: React.FC = () => {
+interface UserHeadingProps {
+  onPressAvatar: () => void
+}
+
+const UserHeading: React.FC<UserHeadingProps> = ({ onPressAvatar }) => {
   return (
     <View style={styles.container}>
       <View style={styles.flexBox}>
         <View style={styles.flexChild}>
-          <TouchableOpacity onPress={() => console.log('Avatarrr')}>
+          <TouchableOpacity onPress={onPressAvatar}>
             <AvatarCommon
               image={require('@/assets/mocks/nutthanon-avatar.jpg')}
               width={61}
@@ -38,7 +42,6 @@ export default UserHeading
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: 'red'
     paddingTop: 10
   },
   flexBox: {

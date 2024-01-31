@@ -8,7 +8,7 @@ interface ButtonBackProps {
   handlePress: () => void
 }
 
-const ButtonBackCommon: React.FC<ButtonBackProps> = props => {
+const ButtonBackCommon: React.FC<ButtonBackProps> = (props) => {
   const { text, handlePress } = props
 
   return (
@@ -30,8 +30,6 @@ export default ButtonBackCommon
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     gap: 15

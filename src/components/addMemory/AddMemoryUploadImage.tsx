@@ -13,13 +13,18 @@ import PictureIcon from '@/assets/svg/Picture'
 import XcloseIcon from '@/assets/svg/Xclose'
 import uuid from 'react-native-uuid'
 
-type ImaegInfo = {
+type ImageInfo = {
   uri: string
   id: string
 }
 
-const AddMemoryUploadImage: React.FC = () => {
-  const [image, setImage] = useState<ImaegInfo[]>([])
+interface Props {
+  image: ImageInfo[]
+  setImage: React.Dispatch<React.SetStateAction<ImageInfo[]>>
+}
+
+const AddMemoryUploadImage: React.FC<Props> = props => {
+  const { image, setImage } = props
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -29,8 +34,6 @@ const AddMemoryUploadImage: React.FC = () => {
       aspect: [4, 3],
       quality: 1
     })
-
-    console.log(result)
 
     if (!result.canceled && image.length < 10) {
       setImage([

@@ -21,3 +21,13 @@ export const RequestWithoutToken = () => {
     }
   })
 }
+
+export const UploadRequestWithToken = (accessToken: string) => {
+  return axios.create({
+    baseURL: DEFAULT_URL,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${accessToken}`
+    }
+  })
+}

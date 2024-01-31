@@ -8,11 +8,11 @@ import MemoryContainer from '@/components/home/topContainer/MemoryContainer'
 import Calendar from '@/components/home/bottomContainer/Calendar'
 import DatePicker from '@/components/home/bottomContainer/DatePicker'
 import BottomSheetPicker from '@/components/home/bottomContainer/BottomSheetPicker'
-
 import { useNavigation } from '@react-navigation/native'
 import { MONTH } from '@/common/consts/DateTime.consts'
 import HomeBottomSheetProvider from '@/components/home/HomeBottomSheetProvider'
-        
+import BottomNavigationCommon from '@/common/BottomNavigation.common'
+
 const HomeScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null)
   const navigation = useNavigation()
@@ -60,7 +60,11 @@ const HomeScreen: React.FC = () => {
       <ScrollView>
         <View style={styles.topOutterContainer}>
           <View style={styles.topInnerContainer}>
-            <UserHeading onPressAvatar={() => navigation.navigate('ProfileScreen' as never)} />
+            <UserHeading
+              onPressAvatar={() =>
+                navigation.navigate('ProfileScreen' as never)
+              }
+            />
             <MemoryContainer
               onAddAlbumPress={() => albumBottomSheetRef.current?.expand()}
               onAddMemoryPress={() => addMemoryBottomSheetRef.current?.expand()}
@@ -92,6 +96,8 @@ const HomeScreen: React.FC = () => {
         albumBottomSheetRef={albumBottomSheetRef}
         addMemoryBottomSheetRef={addMemoryBottomSheetRef}
       />
+
+      <BottomNavigationCommon navigation={navigation} />
     </SafeAreaView>
   )
 }

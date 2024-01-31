@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { themes } from '@/common/themes/themes'
-import { ScrollView, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import AddMemorySelectTime from './AddMemorySelectTime'
 import AddMemoryDayAndMood from './AddMemoryDayAndMood'
 import AddMemoryForm from './AddMemoryForm'
 import AddMemoryUploadImage from './AddMemoryUploadImage'
-import {
-  DEFAULT_URL,
-  RequestWithToken,
-  UploadRequestWithToken
-} from '@/api/DefaultRequest'
+import { RequestWithToken, UploadRequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
+import { DAY } from '@/common/consts/DateTime.consts'
+import { ImageInfo, MemoryForm } from '@/interface/memory_request'
+import { MoodElement } from '@/common/consts/MoodElement.consts'
+import { WeatherElement } from '@/common/consts/WeatherElement.consts'
 
 interface Props {
   date_time: Date
@@ -26,18 +26,6 @@ interface Props {
   handleClose: () => void
   handlePostSetting: () => void
   handleSelectFriend: () => void
-}
-
-export type MemoryForm = {
-  caption: string
-  privacy: string
-  mention: string
-  description: string
-}
-
-type ImageInfo = {
-  uri: string
-  id: string
 }
 
 const AddMemory: React.FC<Props> = props => {
@@ -56,57 +44,73 @@ const AddMemory: React.FC<Props> = props => {
     caption: '',
     privacy: privacy,
     mention: '',
-    description: ''
+    description: '',
+    weather: 0,
+    mood: 0
   })
   const [imageUrl, setImageurl] = useState<ImageInfo[]>([])
+  const [waitState, setWaitState] = useState<boolean>(false)
 
   useEffect(() => {
     setMemory({ ...memory, privacy: privacy })
   }, [privacy])
 
-  const handleChangeMemory = (key: keyof MemoryForm, value: string) => {
+  const handleChangeMemory = (
+    key: keyof MemoryForm,
+    value: string | number
+  ) => {
     setMemory({ ...memory, [key]: value })
   }
 
   const handleSubmit = async () => {
     if (imageUrl.length === 0) return
+    if (memory.caption === '' || memory.description === '') return
 
+    setWaitState(true)
     const access_token = await getAccessToken()
+
+    const formData = new FormData()
+    for (const img of imageUrl) {
+      formData.append('files', {
+        uri: img.uri,
+        type: img.uri.split('.').pop() === 'png' ? 'image/png' : 'image/jpeg',
+        name: img.id
+      } as any)
+    }
+
+    const select_time = `${
+      date_time.toISOString().split('T')[0]
+    } ${time_minute.hours.toString().padStart(2, '0')}:${time_minute.minutes
+      .toString()
+      .padStart(2, '0')}`
+
     const body = {
-      // short_caption: memory.description,
-      // caption: memory.caption,
-      short_caption: "I'm so happy.",
-      caption: "I'm so happy but this is caption.",
-      // friend_list_id: ,
-      mood: 'sad',
-      weather: 'sunny',
-      day: 'monday',
+      short_caption: memory.caption,
+      caption: memory.description,
+      friend_list_id: '',
+      mood: MoodElement['Male'][memory.mood].label.toLocaleLowerCase(),
+      weather: WeatherElement[memory.weather].label.toLocaleLowerCase(),
+      day: DAY[date_time.getDay()].toLocaleLowerCase(),
       location_name: "King's monkut university technology of thonburi.",
-      selected_datetime: '2024-01-27 23:03',
+      selected_datetime: select_time,
       mention: []
     }
-    console.log(body)
 
     const post_res = await RequestWithToken(access_token as string)
       .post('/memories/create', body)
       .then(res => res.data)
 
-    // const memory_id = post_res.memory.memory_id
+    const memory_id = post_res.memory.memory_id
 
-    // const blobs: Blob[] = []
+    const upload_res = await UploadRequestWithToken(access_token as string)
+      .post(`/memories/upload/${memory_id}`, formData)
+      .then(res => res.data)
 
-    // for (const img of imageUrl) {
-    //   const res_img = await fetch(img.uri.replace('file:///', 'file:/'))
-    //   blobs.push(await res_img.blob())
-    // }
+    if (!upload_res.error) {
+      handleClose()
+    }
 
-    // const formData = new FormData()
-
-    // const upload_res = await UploadRequestWithToken(access_token as string)
-    //   .post('/memories/upload/2fcedc83-0a6a-4408-a836-05f39a8b4a1e', formData)
-    //   .then(res => res.data)
-
-    // console.log(upload_res)
+    setWaitState(false)
   }
 
   return (
@@ -119,23 +123,22 @@ const AddMemory: React.FC<Props> = props => {
 
           <Text style={styles.headingTextStyles}>Add memory</Text>
 
-          <TouchableOpacity onPress={handleSubmit}>
-            <View
-              style={{
-                backgroundColor: themes.light.tertiary.hex,
-                borderRadius: 30,
-                paddingHorizontal: 5
-              }}>
-              <Text
-                style={{
-                  ...styles.buttonStyle,
-                  fontFamily: themes.fonts.regular,
-                  color: themes.light.secondary.hex
-                }}>
-                Post
-              </Text>
-            </View>
-          </TouchableOpacity>
+          {waitState ? (
+            <ActivityIndicator style={{ width: 30 }} />
+          ) : (
+            <TouchableOpacity onPress={handleSubmit}>
+              <View style={styles.postPaddingStyle}>
+                <Text
+                  style={{
+                    ...styles.buttonStyle,
+                    fontFamily: themes.fonts.regular,
+                    color: themes.light.secondary.hex
+                  }}>
+                  Post
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <View style={styles.divider} />
@@ -144,13 +147,17 @@ const AddMemory: React.FC<Props> = props => {
         <ScrollView>
           <View style={{ gap: 20 }}>
             <View style={{ gap: 20, paddingHorizontal: 20 }}>
-              <AddMemoryDayAndMood date_time={date_time} />
+              <AddMemoryDayAndMood
+                date_time={date_time}
+                handleChangeMemory={handleChangeMemory}
+              />
 
               <AddMemorySelectTime
                 handleEditDate={handleEditDate}
                 handleEditTime={handleEditTime}
                 date_time={date_time}
                 time_minute={time_minute}
+                handleChangeMemory={handleChangeMemory}
               />
 
               <AddMemoryForm
@@ -206,5 +213,10 @@ const styles = StyleSheet.create({
   bodyStyle: {
     paddingVertical: 20,
     flex: 1
+  },
+  postPaddingStyle: {
+    backgroundColor: themes.light.tertiary.hex,
+    borderRadius: 30,
+    paddingHorizontal: 5
   }
 })

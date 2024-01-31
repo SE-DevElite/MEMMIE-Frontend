@@ -2,11 +2,8 @@ import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
-import WeatherClearskyIcon from '@/assets/svg/WeatherClearsky'
-import WeatherCloudIcon from '@/assets/svg/WeatherCloud'
-import WeatherDownpourIcon from '@/assets/svg/WeatherDownpour'
-import WeatherSnowflakeIcon from '@/assets/svg/WeatherSnowflake'
-import WeatherSunnyIcon from '@/assets/svg/WeatherSunny'
+import { WeatherElement } from '@/common/consts/WeatherElement.consts'
+import { MemoryForm } from '@/interface/memory_request'
 
 interface Props {
   date_time: Date
@@ -16,10 +13,18 @@ interface Props {
   }
   handleEditDate: () => void
   handleEditTime: () => void
+
+  handleChangeMemory: (key: keyof MemoryForm, value: string | number) => void
 }
 
 const AddMemorySelectTime: React.FC<Props> = props => {
-  const { date_time, handleEditDate, handleEditTime, time_minute } = props
+  const {
+    date_time,
+    handleEditDate,
+    handleEditTime,
+    time_minute,
+    handleChangeMemory
+  } = props
 
   const [weather, setWeather] = useState<number>(0)
 
@@ -30,31 +35,10 @@ const AddMemorySelectTime: React.FC<Props> = props => {
   ]
 
   const handleSetWeather = () => {
-    setWeather((weather + 1) % 5)
+    const current_idx = (weather + 1) % 5
+    setWeather(current_idx)
+    handleChangeMemory('weather', current_idx)
   }
-
-  const WeatherElement = [
-    {
-      label: 'Clearsky',
-      icon: <WeatherClearskyIcon width={30} height={30} />
-    },
-    {
-      label: 'Cloud',
-      icon: <WeatherCloudIcon width={30} height={30} />
-    },
-    {
-      label: 'Downpour',
-      icon: <WeatherDownpourIcon width={30} height={30} />
-    },
-    {
-      label: 'ShowFlake',
-      icon: <WeatherSnowflakeIcon width={30} height={30} />
-    },
-    {
-      label: 'Sunny',
-      icon: <WeatherSunnyIcon width={30} height={30} />
-    }
-  ]
 
   return (
     <View style={styles.container}>

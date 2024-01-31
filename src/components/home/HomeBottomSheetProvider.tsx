@@ -112,6 +112,8 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
         snapPoint={['50%', '70%']}>
         <SelectFriend />
       </LongBottomSheetCommon>
+
+      <LongBottomSheetCommon></LongBottomSheetCommon>
     </>
   )
 }

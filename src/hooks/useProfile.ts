@@ -1,6 +1,6 @@
 import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
-import { Memory, MemoryResponse } from '@/interface/memory_response'
+import { MemoryResponse } from '@/interface/memory_response'
 import { ProfileResponse } from '@/interface/profile_response'
 import profileStore from '@/stores/ProfileStore'
 import axios from 'axios'

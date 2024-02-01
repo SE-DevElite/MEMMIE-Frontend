@@ -14,10 +14,10 @@ import MemoryContainer from '@/components/home/topContainer/MemoryContainer'
 import Calendar from '@/components/home/bottomContainer/Calendar'
 import DatePicker from '@/components/home/bottomContainer/DatePicker'
 import BottomSheetPicker from '@/components/home/bottomContainer/BottomSheetPicker'
-
 import { useNavigation } from '@react-navigation/native'
 import { MONTH, MONTH_TO_NUMBER } from '@/common/consts/DateTime.consts'
 import HomeBottomSheetProvider from '@/components/home/HomeBottomSheetProvider'
+import BottomNavigationCommon from '@/common/BottomNavigation.common'
 import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import profileStore from '@/stores/ProfileStore'
@@ -29,6 +29,7 @@ import { getProfile } from '@/helpers/GetHomeScreen'
 const HomeScreen: React.FC = observer(() => {
   useProfile()
   const [refreshing, setRefreshing] = useState(false)
+  const bottomSheetRef = useRef<BottomSheet>(null)
   const navigation = useNavigation()
   const [currentDate, setCurrentDate] = useState<Date>(new Date())
 
@@ -133,6 +134,8 @@ const HomeScreen: React.FC = observer(() => {
         addMemoryBottomSheetRef={addMemoryBottomSheetRef}
         readMemoryBottomSheetRef={readMemoryBottomSheetRef}
       />
+
+      <BottomNavigationCommon navigation={navigation} />
     </SafeAreaView>
   )
 })

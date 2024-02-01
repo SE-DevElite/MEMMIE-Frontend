@@ -41,7 +41,7 @@ const AddMemoryDayAndMood: React.FC<Props> = props => {
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
-        <Text style={styles.dayText}>{DAY[date_time.getDay()]}</Text>
+        <Text style={styles.dayText}>{DAY[date_time.getDay() - 1]}</Text>
         <Text numberOfLines={1} style={styles.descriptionText}>
           King's Mongkut University technology of thonburi
         </Text>

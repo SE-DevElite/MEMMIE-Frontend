@@ -37,7 +37,10 @@ const CalendarTable: React.FC<Props> = props => {
                           }
                         : require('@/assets/mocks/empty.png')
                     }>
-                    <TouchableOpacity onPress={onReadMemoryPress}>
+                    <TouchableOpacity
+                      onPress={
+                        value.memories.length > 0 ? onReadMemoryPress : () => {}
+                      }>
                       <View
                         style={{
                           ...styles.innerFlex,

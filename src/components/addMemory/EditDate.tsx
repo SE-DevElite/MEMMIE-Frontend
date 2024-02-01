@@ -11,7 +11,7 @@ interface Props {
 
 const EditDate: React.FC<Props> = props => {
   const { handleClose, handleSaveEditDate } = props
-  const [date, setDate] = useState(new Date())
+  const [dateSelect, setDateSelect] = useState<Date>(new Date())
 
   return (
     <View style={styles.container}>
@@ -23,7 +23,7 @@ const EditDate: React.FC<Props> = props => {
 
           <Text style={styles.headingTextStyles}>Edit date</Text>
 
-          <TouchableOpacity onPress={() => handleSaveEditDate(date)}>
+          <TouchableOpacity onPress={() => handleSaveEditDate(dateSelect)}>
             <Text
               style={{
                 ...styles.buttonStyle,
@@ -40,11 +40,14 @@ const EditDate: React.FC<Props> = props => {
 
       <View style={styles.layout}>
         <RNDateTimePicker
-          value={date}
+          value={dateSelect}
           mode="date"
           display="spinner"
           onChange={(event, value) => {
-            setDate(value || new Date())
+            if (value) {
+              console.log('value: ', value)
+              setDateSelect(value || new Date())
+            }
           }}
         />
       </View>

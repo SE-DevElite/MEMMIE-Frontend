@@ -6,7 +6,6 @@ import { DAY_SHORT } from '@/common/consts/DateTime.consts'
 
 import CalendarTable from './CalendarTable'
 import { ICalendar } from '@/interface/daily_response'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface Props {
   calendar: ICalendar[][]

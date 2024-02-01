@@ -62,12 +62,12 @@ const DatePicker: React.FC<DatePickerProps> = props => {
         </TouchableOpacity>
 
         <View style={styles.iconGroup}>
-          <TouchableOpacity onPress={() => handlePolygonPress(1)}>
-            <PolygonUp />
-          </TouchableOpacity>
-
           <TouchableOpacity onPress={() => handlePolygonPress(-1)}>
             <PolygonDown />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => handlePolygonPress(1)}>
+            <PolygonUp />
           </TouchableOpacity>
         </View>
       </View>

@@ -47,7 +47,10 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   // const readMemoryBottomSheetRef = useRef<BottomSheet>(null)
 
   const handleSetDateTime = (date: Date) => {
-    setDateTime(date)
+    const fix_date = new Date(date.setDate(date.getDate() + 1))
+    console.log(fix_date)
+
+    setDateTime(fix_date)
     editDateBottomSheetRef.current?.close()
   }
 

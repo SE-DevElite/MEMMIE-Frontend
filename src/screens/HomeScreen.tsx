@@ -60,7 +60,7 @@ const HomeScreen: React.FC = observer(() => {
 
   useEffect(() => {
     getCalendar()
-  }, [selectedMonth])
+  }, [selectedMonth, selectedYear])
 
   const handleMemoryBottomSheet = () => {
     addMemoryBottomSheetRef.current?.expand()
@@ -68,6 +68,11 @@ const HomeScreen: React.FC = observer(() => {
   }
 
   const onRefresh = useCallback(async () => {
+    setSelectedMonth(
+      MONTH[new Date().getMonth() as keyof typeof MONTH] as string
+    )
+    setSelectedYear(new Date().getFullYear().toString())
+
     setRefreshing(true)
     await getProfile()
     await getCalendar()

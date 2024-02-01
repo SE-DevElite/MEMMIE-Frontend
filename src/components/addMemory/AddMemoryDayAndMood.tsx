@@ -1,21 +1,59 @@
+import { DAY } from '@/common/consts/DateTime.consts'
+import { MoodElement } from '@/common/consts/MoodElement.consts'
 import { themes } from '@/common/themes/themes'
-import React from 'react'
-import { TouchableWithoutFeedback, View, Text, StyleSheet } from 'react-native'
+import { MemoryForm } from '@/interface/memory_request'
+import profileStore from '@/stores/ProfileStore'
+import React, { useEffect, useState } from 'react'
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 
-const AddMemoryDayAndMood: React.FC = () => {
+interface Props {
+  date_time: Date
+  handleChangeMemory: (key: keyof MemoryForm, value: string | number) => void
+}
+
+type MoodEle = {
+  label: string
+  icon: React.JSX.Element
+}
+
+const AddMemoryDayAndMood: React.FC<Props> = props => {
+  const { date_time, handleChangeMemory } = props
+  const [mood, setMood] = useState<MoodEle[]>()
+  const [selectMood, setSelectMood] = useState<number>(0)
+
+  useEffect(() => {
+    const gender = profileStore.gender
+
+    setMood(MoodElement.Male)
+    // if (gender === 'Male') {
+    // } else if (gender === 'Female') {
+    //   setMood(MoodElement.Female)
+    // }
+  }, [])
+
+  const handleChangeMood = () => {
+    const current_idx = (selectMood + 1) % 4
+    setSelectMood(current_idx)
+
+    handleChangeMemory('mood', current_idx)
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
-        <Text style={styles.dayText}>Monday</Text>
+        <Text style={styles.dayText}>{DAY[date_time.getDay() - 1]}</Text>
         <Text numberOfLines={1} style={styles.descriptionText}>
           King's Mongkut University technology of thonburi
         </Text>
       </View>
-      <TouchableWithoutFeedback onPress={() => console.log('Change mood')}>
-        <View style={styles.moodContainer}>
-          <View style={styles.moodIcon} />
-        </View>
-      </TouchableWithoutFeedback>
+
+      {mood && (
+        <TouchableOpacity onPress={handleChangeMood}>
+          <View style={styles.moodContainer}>
+            <View style={styles.moodIcon}>{mood[selectMood].icon}</View>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   )
 }
@@ -51,6 +89,9 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     backgroundColor: themes.light.tertiary.hex,
-    borderRadius: 100
+    borderRadius: 100,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    overflow: 'hidden'
   }
 })

@@ -8,6 +8,7 @@ import {
   View
 } from 'react-native'
 import PlusIcon from '@/assets/svg/Plus'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 interface Props {
   onAddMemoryPress: () => void
@@ -23,7 +24,11 @@ const RandomMemory: React.FC<Props> = props => {
         style={styles.imageBackground}>
         <View style={styles.overlayContainer}>
           <View style={styles.topRow}>
-            <View style={styles.avatar} />
+            <MaterialCommunityIcons
+              name="white-balance-sunny"
+              size={30}
+              color="white"
+            />
             <View style={styles.textColumn}>
               <Text
                 numberOfLines={1}
@@ -65,7 +70,7 @@ export default RandomMemory
 
 const styles = StyleSheet.create({
   container: {
-    width: 180,
+    flex: 1,
     height: 180,
     borderRadius: 30,
     overflow: 'hidden',

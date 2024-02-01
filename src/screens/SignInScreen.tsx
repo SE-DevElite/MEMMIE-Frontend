@@ -1,32 +1,52 @@
-import React from 'react'
-import styled from 'styled-components/native'
+import React, { useEffect } from 'react'
 import SignInHeading from '@/components/signin/SignInHeading'
 import FormSubmit from '@/components/signin/FormSubmit'
 import ButtonGroupService from '@/components/signin/ButtonGroupService'
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { View, StyleSheet } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { RequestWithToken } from '@/api/DefaultRequest'
+import { getAccessToken } from '@/helpers/TokenHandler'
 
 const SignInScreen: React.FC = () => {
   const navigation = useNavigation()
 
+  useEffect(() => {
+    async function alreadyAuthen() {
+      const token = await getAccessToken()
+      const res = await RequestWithToken(token as string)
+        .get('/auth/checkToken')
+        .then(res => res.data)
+
+      if (!res.error) {
+        navigation.navigate('HomeScreen' as never)
+      }
+    }
+
+    alreadyAuthen()
+  }, [])
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <Center>
+      <View style={styles.container}>
         <SignInHeading />
-        <FormSubmit onPressSignIn={() => navigation.navigate('HomeScreen' as never)} />
+        <FormSubmit
+          onPressSignIn={() => navigation.navigate('HomeScreen' as never)}
+        />
         <ButtonGroupService />
-      </Center>
+      </View>
     </TouchableWithoutFeedback>
   )
 }
 
 export default SignInScreen
 
-const Center = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  /* padding: 10px; */
-
-  gap: 40px;
-`
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 30
+  }
+})

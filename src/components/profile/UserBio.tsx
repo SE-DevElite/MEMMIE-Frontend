@@ -10,7 +10,9 @@ const UserBio: React.FC<Props> = props => {
   const { bio } = props
   return (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>{bio}</Text>
+      <Text style={styles.textStyle}>
+        {bio ?? 'Rose are red violet are blue'}
+      </Text>
     </View>
   )
 }

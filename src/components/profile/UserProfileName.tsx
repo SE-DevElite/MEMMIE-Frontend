@@ -6,12 +6,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface Props {
   handleClickAvatar: () => void
-  name: String
-  username: String
+  name: string
+  username: string
+  avatar: string
 }
 
 const UserProfileName: React.FC<Props> = props => {
-  const { handleClickAvatar, name, username } = props
+  const { handleClickAvatar, name, username, avatar } = props
 
   return (
     <View style={styles.container}>
@@ -19,7 +20,7 @@ const UserProfileName: React.FC<Props> = props => {
         <TouchableOpacity onPress={handleClickAvatar}>
           <View style={styles.borderBox}>
             <AvatarCommon
-              image={require('@/assets/mocks/nutthanon-avatar.jpg')}
+              uri={avatar}
               width={60}
               height={60}
               borderRadius={120}

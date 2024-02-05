@@ -5,8 +5,16 @@ import { View, StyleSheet } from 'react-native'
 import { DAY_SHORT } from '@/common/consts/DateTime.consts'
 
 import CalendarTable from './CalendarTable'
+import { ICalendar } from '@/interface/daily_response'
 
-const Calendar: React.FC = () => {
+interface Props {
+  calendar: ICalendar[][]
+  onReadMemoryPress: () => void
+}
+
+const Calendar: React.FC<Props> = props => {
+  const { calendar, onReadMemoryPress } = props
+
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -19,7 +27,10 @@ const Calendar: React.FC = () => {
         </View>
 
         <CalendarContainer style={styles.calendarContainer}>
-          <CalendarTable />
+          <CalendarTable
+            calendar={calendar}
+            onReadMemoryPress={onReadMemoryPress}
+          />
         </CalendarContainer>
       </View>
     </View>
@@ -54,6 +65,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   textStyle: {
+    // backgroundColor: 'red',
     textAlign: 'center'
   }
 })

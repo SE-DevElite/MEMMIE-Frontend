@@ -5,6 +5,7 @@ import CreateAlbumSearch from './CreateAlbumSearch'
 import { StyleSheet, Text, View } from 'react-native'
 import InputUnderlineCommon from '@/common/InputUnderline.common'
 import PictureList from './PictureList'
+import profileStore from '@/stores/ProfileStore'
 
 interface Props {
   handlePress: () => void
@@ -12,16 +13,7 @@ interface Props {
 
 const CreateAlbum: React.FC<Props> = props => {
   const { handlePress } = props
-
   const [albumName, setAlbumName] = useState<string>('')
-  const image = [
-    require('@/assets/mocks/nutthanon-avatar.jpg'),
-    require('@/assets/mocks/nutthanon-rb.png'),
-    require('@/assets/mocks/nutthanon-avatar.jpg'),
-    require('@/assets/mocks/nutthanon-rb.png'),
-    require('@/assets/mocks/nut-riw-ronan.png')
-  ]
-
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
@@ -49,7 +41,7 @@ const CreateAlbum: React.FC<Props> = props => {
       </View>
 
       <View style={{ ...styles.layout, flex: 1 }}>
-        <PictureList image={image} />
+        <PictureList memories={profileStore.memories} />
       </View>
     </View>
   )

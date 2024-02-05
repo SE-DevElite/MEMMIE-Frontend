@@ -1,3 +1,4 @@
+import { Memory } from '@/interface/memory_response'
 import React from 'react'
 import {
   View,
@@ -8,18 +9,23 @@ import {
 } from 'react-native'
 
 interface Props {
-  image: NodeRequire[]
+  memories: Memory[]
 }
 
 const PictureList: React.FC<Props> = props => {
+  const { memories } = props
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.flexBox}>
-          {props.image &&
-            props.image.map((memory, index) => (
+          {memories &&
+            memories.map((memory, index) => (
               <TouchableOpacity key={index} style={styles.imageContainer}>
-                <Image source={memory} style={styles.imageStyle} />
+                <Image
+                  source={{ uri: memory.memory_lists[0].memory_url }}
+                  style={styles.imageStyle}
+                />
               </TouchableOpacity>
             ))}
         </View>

@@ -2,7 +2,7 @@ import AlignLeftIcon from '@/assets/svg/AlignLeft'
 import LanguageIcon from '@/assets/svg/Language'
 import NavArrowDownIcon from '@/assets/svg/NavArrowDown'
 import { themes } from '@/common/themes/themes'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Text,
   TextInput,
@@ -10,19 +10,37 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
+import profileStore from '@/stores/ProfileStore'
+import AvatarCommon from '@/common/Avatar.common'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
   handlePostSetting: () => void
   handleSelectFriend: () => void
 }
 
-const AddMemoryForm: React.FC<Props> = props => {
+const AddMemoryForm: React.FC<Props> = observer(props => {
   const { handlePostSetting, handleSelectFriend } = props
+  const [short_caption, setShortCaption] = useState<string>('')
+  const [long_caption, setLongCaption] = useState<string>('')
+
+  const handleShortCaption = (e: string) => {
+    setShortCaption(e)
+    addMemoryStore.short_caption = e
+  }
+
+  const handleLongCaption = (e: string) => {
+    setLongCaption(e)
+    addMemoryStore.caption = e
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <View style={styles.icon}></View>
+        <View style={styles.icon}>
+          <AvatarCommon uri={profileStore.avatar} width={42} height={42} />
+        </View>
       </View>
 
       <View style={styles.inputSection}>
@@ -34,6 +52,8 @@ const AddMemoryForm: React.FC<Props> = props => {
             placeholder="Enter short caption"
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputText}
+            value={short_caption}
+            onChange={e => handleShortCaption(e.nativeEvent.text)}
           />
         </View>
 
@@ -43,7 +63,12 @@ const AddMemoryForm: React.FC<Props> = props => {
               <View style={styles.iconBackground}>
                 <LanguageIcon width={15} height={15} />
               </View>
-              <Text style={styles.tagText}>Everyone</Text>
+              <Text
+                style={{ ...styles.tagText, maxWidth: 110 }}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {addMemoryStore.privacy}
+              </Text>
               <NavArrowDownIcon />
             </View>
           </TouchableOpacity>
@@ -59,18 +84,22 @@ const AddMemoryForm: React.FC<Props> = props => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.caption}>
+        <View>
           <TextInput
             multiline={true}
+            scrollEnabled={false}
+            spellCheck={true}
             placeholder="Type here ..."
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputCaption}
+            value={long_caption}
+            onChange={e => handleLongCaption(e.nativeEvent.text)}
           />
         </View>
       </View>
     </View>
   )
-}
+})
 
 export default AddMemoryForm
 
@@ -79,13 +108,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10
   },
-  iconContainer: {
-    // Add any additional styles for the icon container if needed
-  },
+  iconContainer: {},
   icon: {
     width: 42,
     height: 42,
-    backgroundColor: 'red',
+    backgroundColor: themes.light.tertiary.hex,
+    overflow: 'hidden',
     borderRadius: 100
   },
   inputSection: {
@@ -139,10 +167,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: themes.light.primary.hex
   },
-  caption: {},
   inputCaption: {
+    width: '100%',
     fontFamily: themes.fonts.regular,
     fontSize: 14,
-    color: themes.light.primary.hex
+    color: themes.light.primary.hex,
+    lineHeight: 20,
+    minHeight: 50
   }
 })

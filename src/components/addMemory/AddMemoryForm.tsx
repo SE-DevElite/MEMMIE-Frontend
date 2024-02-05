@@ -2,7 +2,7 @@ import AlignLeftIcon from '@/assets/svg/AlignLeft'
 import LanguageIcon from '@/assets/svg/Language'
 import NavArrowDownIcon from '@/assets/svg/NavArrowDown'
 import { themes } from '@/common/themes/themes'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Text,
   TextInput,
@@ -12,29 +12,28 @@ import {
 } from 'react-native'
 import profileStore from '@/stores/ProfileStore'
 import AvatarCommon from '@/common/Avatar.common'
-import { MemoryForm } from '@/interface/memory_request'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
-  caption: string
-  privacy: string
-  mention: string
-  description: string
-
-  handleChangeMemory: (key: keyof MemoryForm, value: string) => void
   handlePostSetting: () => void
   handleSelectFriend: () => void
 }
 
-const AddMemoryForm: React.FC<Props> = props => {
-  const {
-    caption,
-    privacy,
-    mention,
-    description,
-    handlePostSetting,
-    handleSelectFriend,
-    handleChangeMemory
-  } = props
+const AddMemoryForm: React.FC<Props> = observer(props => {
+  const { handlePostSetting, handleSelectFriend } = props
+  const [short_caption, setShortCaption] = useState<string>('')
+  const [long_caption, setLongCaption] = useState<string>('')
+
+  const handleShortCaption = (e: string) => {
+    setShortCaption(e)
+    addMemoryStore.short_caption = e
+  }
+
+  const handleLongCaption = (e: string) => {
+    setLongCaption(e)
+    addMemoryStore.caption = e
+  }
 
   return (
     <View style={styles.container}>
@@ -53,8 +52,8 @@ const AddMemoryForm: React.FC<Props> = props => {
             placeholder="Enter short caption"
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputText}
-            value={caption}
-            onChange={e => handleChangeMemory('caption', e.nativeEvent.text)}
+            value={short_caption}
+            onChange={e => handleShortCaption(e.nativeEvent.text)}
           />
         </View>
 
@@ -68,7 +67,7 @@ const AddMemoryForm: React.FC<Props> = props => {
                 style={{ ...styles.tagText, maxWidth: 110 }}
                 numberOfLines={1}
                 ellipsizeMode="tail">
-                {privacy}
+                {addMemoryStore.privacy}
               </Text>
               <NavArrowDownIcon />
             </View>
@@ -93,16 +92,14 @@ const AddMemoryForm: React.FC<Props> = props => {
             placeholder="Type here ..."
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputCaption}
-            value={description}
-            onChange={e =>
-              handleChangeMemory('description', e.nativeEvent.text)
-            }
+            value={long_caption}
+            onChange={e => handleLongCaption(e.nativeEvent.text)}
           />
         </View>
       </View>
     </View>
   )
-}
+})
 
 export default AddMemoryForm
 
@@ -111,9 +108,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10
   },
-  iconContainer: {
-    // Add any additional styles for the icon container if needed
-  },
+  iconContainer: {},
   icon: {
     width: 42,
     height: 42,

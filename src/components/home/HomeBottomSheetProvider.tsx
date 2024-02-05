@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import MyAlbum from '@/components/album/MyAlbum'
 import PostSetting from '../addMemory/PostSetting'
 import SelectFriend from '../addMemory/SelectFriend'
@@ -11,32 +11,20 @@ import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import EditTime from '../addMemory/EditTime'
 import ReadMemory from '../readMemory/ReadMemory'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Props {
-  current_date: Date
   addMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
   albumBottomSheetRef: React.RefObject<BottomSheetMethods>
   readMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
 }
 
-export type TimeSetter = {
-  hours: number
-  minutes: number
-}
-
 const HomeBottomSheetProvider: React.FC<Props> = props => {
   const {
-    current_date,
     addMemoryBottomSheetRef,
     albumBottomSheetRef,
     readMemoryBottomSheetRef
   } = props
-  const [date_time, setDateTime] = useState<Date>(current_date)
-  const [privacy, setPrivacy] = useState<string>('aaa')
-  const [time_minute, setTimeMinute] = useState<TimeSetter>({
-    hours: new Date().getHours(),
-    minutes: new Date().getMinutes()
-  })
 
   const createAlbumBottomSheetRef = useRef<BottomSheet>(null)
   const filterAlbumBottomSheetRef = useRef<BottomSheet>(null)
@@ -44,22 +32,10 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const postSettingBottomSheetRef = useRef<BottomSheet>(null)
   const selectFriendBottomSheetRef = useRef<BottomSheet>(null)
   const editTimeBottomSheetRef = useRef<BottomSheet>(null)
-  // const readMemoryBottomSheetRef = useRef<BottomSheet>(null)
-
-  const handleSetDateTime = (date: Date) => {
-    const fix_date = new Date(date.setDate(date.getDate() + 1))
-    console.log(fix_date)
-
-    setDateTime(fix_date)
-    editDateBottomSheetRef.current?.close()
-  }
 
   const handleSetTime = (time: Date) => {
-    setTimeMinute({
-      hours: time.getHours(),
-      minutes: time.getMinutes()
-    })
-
+    addMemoryStore.hours = time.getHours()
+    addMemoryStore.minutes = time.getMinutes()
     editTimeBottomSheetRef.current?.close()
   }
 
@@ -67,9 +43,6 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
     <>
       <LongBottomSheetCommon ref={addMemoryBottomSheetRef}>
         <AddMemory
-          date_time={date_time}
-          time_minute={time_minute}
-          privacy={privacy}
           handleEditDate={() => editDateBottomSheetRef.current?.expand()}
           handleEditTime={() => editTimeBottomSheetRef.current?.expand()}
           handleClose={() => addMemoryBottomSheetRef.current?.close()}
@@ -106,16 +79,13 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={editDateBottomSheetRef} snapPoint={['50%']}>
-        <EditDate
-          handleClose={() => editDateBottomSheetRef.current?.close()}
-          handleSaveEditDate={handleSetDateTime}
-        />
+        <EditDate handleClose={() => editDateBottomSheetRef.current?.close()} />
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon
         ref={postSettingBottomSheetRef}
         snapPoint={['50%']}>
-        <PostSetting setPrivacy={setPrivacy} />
+        <PostSetting />
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon

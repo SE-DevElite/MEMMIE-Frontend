@@ -46,7 +46,7 @@ const CalendarTable: React.FC<Props> = props => {
                           ...styles.innerFlex,
                           backgroundColor:
                             value.memories.length > 0
-                              ? 'rgba(255,255,255,0.4)'
+                              ? 'rgba(255,255,255,0.6)'
                               : 'transparent'
                         }}>
                         <Text style={styles.textStyle}>{value.date}</Text>

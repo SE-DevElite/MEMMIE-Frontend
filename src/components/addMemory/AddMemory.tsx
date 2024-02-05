@@ -1,26 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
-import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import AddMemorySelectTime from './AddMemorySelectTime'
 import AddMemoryDayAndMood from './AddMemoryDayAndMood'
 import AddMemoryForm from './AddMemoryForm'
 import AddMemoryUploadImage from './AddMemoryUploadImage'
-import { RequestWithToken, UploadRequestWithToken } from '@/api/DefaultRequest'
-import { getAccessToken } from '@/helpers/TokenHandler'
-import { DAY } from '@/common/consts/DateTime.consts'
-import { ImageInfo, MemoryForm } from '@/interface/memory_request'
-import { MoodElement } from '@/common/consts/MoodElement.consts'
-import { WeatherElement } from '@/common/consts/WeatherElement.consts'
+import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Props {
-  date_time: Date
-  privacy: string
-  time_minute: {
-    hours: number
-    minutes: number
-  }
-  // picture
   handleEditDate: () => void
   handleEditTime: () => void
   handleClose: () => void
@@ -30,82 +18,23 @@ interface Props {
 
 const AddMemory: React.FC<Props> = props => {
   const {
-    date_time,
-    privacy,
-    handleEditDate,
     handleEditTime,
     handleClose,
     handlePostSetting,
     handleSelectFriend,
-    time_minute
+    handleEditDate
   } = props
 
-  const [memory, setMemory] = useState<MemoryForm>({
-    caption: '',
-    privacy: privacy,
-    mention: '',
-    description: '',
-    weather: 0,
-    mood: 0
-  })
-  const [imageUrl, setImageurl] = useState<ImageInfo[]>([])
   const [waitState, setWaitState] = useState<boolean>(false)
 
-  useEffect(() => {
-    setMemory({ ...memory, privacy: privacy })
-  }, [privacy])
-
-  const handleChangeMemory = (
-    key: keyof MemoryForm,
-    value: string | number
-  ) => {
-    setMemory({ ...memory, [key]: value })
-  }
-
   const handleSubmit = async () => {
-    if (imageUrl.length === 0) return
-    if (memory.caption === '' || memory.description === '') return
+    if (addMemoryStore.image_info.length === 0) return
+    if (addMemoryStore.caption === '' || addMemoryStore.short_caption === '')
+      return
 
     setWaitState(true)
-    const access_token = await getAccessToken()
 
-    const formData = new FormData()
-    for (const img of imageUrl) {
-      formData.append('files', {
-        uri: img.uri,
-        type: img.uri.split('.').pop() === 'png' ? 'image/png' : 'image/jpeg',
-        name: img.id
-      } as any)
-    }
-
-    const select_time = `${
-      date_time.toISOString().split('T')[0]
-    } ${time_minute.hours.toString().padStart(2, '0')}:${time_minute.minutes
-      .toString()
-      .padStart(2, '0')}`
-
-    const body = {
-      short_caption: memory.caption,
-      caption: memory.description,
-      friend_list_id: '',
-      mood: MoodElement['Male'][memory.mood].label.toLocaleLowerCase(),
-      weather: WeatherElement[memory.weather].label.toLocaleLowerCase(),
-      day: DAY[date_time.getDay()].toLocaleLowerCase(),
-      location_name: "King's monkut university technology of thonburi.",
-      selected_datetime: select_time,
-      mention: []
-    }
-
-    const post_res = await RequestWithToken(access_token as string)
-      .post('/memories/create', body)
-      .then(res => res.data)
-
-    const memory_id = post_res.memory.memory_id
-
-    const upload_res = await UploadRequestWithToken(access_token as string)
-      .post(`/memories/upload/${memory_id}`, formData)
-      .then(res => res.data)
-
+    const upload_res = await addMemoryStore.submitMemory()
     if (!upload_res.error) {
       handleClose()
     }
@@ -147,29 +76,21 @@ const AddMemory: React.FC<Props> = props => {
         <ScrollView>
           <View style={{ gap: 20 }}>
             <View style={{ gap: 20, paddingHorizontal: 20 }}>
-              <AddMemoryDayAndMood
-                date_time={date_time}
-                handleChangeMemory={handleChangeMemory}
-              />
+              <AddMemoryDayAndMood />
 
               <AddMemorySelectTime
                 handleEditDate={handleEditDate}
                 handleEditTime={handleEditTime}
-                date_time={date_time}
-                time_minute={time_minute}
-                handleChangeMemory={handleChangeMemory}
               />
 
               <AddMemoryForm
-                {...memory}
                 handlePostSetting={handlePostSetting}
                 handleSelectFriend={handleSelectFriend}
-                handleChangeMemory={handleChangeMemory}
               />
             </View>
 
             <View style={{ flex: 1 }}>
-              <AddMemoryUploadImage image={imageUrl} setImage={setImageurl} />
+              <AddMemoryUploadImage />
             </View>
           </View>
         </ScrollView>

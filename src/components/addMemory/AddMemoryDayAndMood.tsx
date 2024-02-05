@@ -1,47 +1,39 @@
 import { DAY } from '@/common/consts/DateTime.consts'
 import { MoodElement } from '@/common/consts/MoodElement.consts'
 import { themes } from '@/common/themes/themes'
-import { MemoryForm } from '@/interface/memory_request'
-import profileStore from '@/stores/ProfileStore'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
-
-interface Props {
-  date_time: Date
-  handleChangeMemory: (key: keyof MemoryForm, value: string | number) => void
-}
 
 type MoodEle = {
   label: string
   icon: React.JSX.Element
 }
 
-const AddMemoryDayAndMood: React.FC<Props> = props => {
-  const { date_time, handleChangeMemory } = props
+const AddMemoryDayAndMood: React.FC = observer(() => {
   const [mood, setMood] = useState<MoodEle[]>()
   const [selectMood, setSelectMood] = useState<number>(0)
 
   useEffect(() => {
-    const gender = profileStore.gender
+    // const gender = profileStore.gender
 
     setMood(MoodElement.Male)
-    // if (gender === 'Male') {
-    // } else if (gender === 'Female') {
-    //   setMood(MoodElement.Female)
-    // }
   }, [])
 
   const handleChangeMood = () => {
     const current_idx = (selectMood + 1) % 4
     setSelectMood(current_idx)
 
-    handleChangeMemory('mood', current_idx)
+    addMemoryStore.mood = current_idx
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
-        <Text style={styles.dayText}>{DAY[date_time.getDay() - 1]}</Text>
+        <Text style={styles.dayText}>
+          {DAY[addMemoryStore.date_time.getDay()]}
+        </Text>
         <Text numberOfLines={1} style={styles.descriptionText}>
           King's Mongkut University technology of thonburi
         </Text>
@@ -56,7 +48,7 @@ const AddMemoryDayAndMood: React.FC<Props> = props => {
       )}
     </View>
   )
-}
+})
 
 export default AddMemoryDayAndMood
 

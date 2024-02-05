@@ -1,55 +1,20 @@
 import React from 'react'
-import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import PolygonDown from '@/assets/svg/PolygonDown'
 import PolygonUp from '@/assets/svg/PolygonUp'
-import { MONTH } from '@/common/consts/DateTime.consts'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface DatePickerProps {
-  selectedMonth: string
-  selectedYear: string
   onOpenPress: () => void
-  setSelectedYear: React.Dispatch<React.SetStateAction<string>>
-  setSelectedMonth: React.Dispatch<React.SetStateAction<string>>
 }
 
 const DatePicker: React.FC<DatePickerProps> = props => {
-  const {
-    selectedMonth,
-    selectedYear,
-    onOpenPress,
-    setSelectedMonth,
-    setSelectedYear
-  } = props
+  const { onOpenPress } = props
 
   const handlePolygonPress = (type_case: number) => {
-    const currentMonthIndex = MONTH.findIndex(
-      month => month === selectedMonth
-    ) as number
-
-    switch (currentMonthIndex) {
-      case 0:
-        if (type_case === -1) {
-          setSelectedMonth(MONTH[11])
-          setSelectedYear((parseInt(selectedYear) - 1).toString())
-        } else {
-          setSelectedMonth(MONTH[currentMonthIndex + type_case])
-        }
-        return
-      case 11:
-        if (type_case === 1) {
-          setSelectedMonth(MONTH[0])
-          setSelectedYear((parseInt(selectedYear) + 1).toString())
-        } else {
-          setSelectedMonth(MONTH[currentMonthIndex + type_case])
-        }
-        return
-      default:
-        setSelectedMonth(MONTH[currentMonthIndex + type_case])
-        return
-    }
+    addMemoryStore.handleUpDownMonth(type_case)
   }
 
   return (
@@ -57,7 +22,7 @@ const DatePicker: React.FC<DatePickerProps> = props => {
       <View style={styles.textBox}>
         <TouchableOpacity onPress={onOpenPress}>
           <Text style={styles.textStyle}>
-            {selectedMonth}, {selectedYear}
+            {addMemoryStore.select_month}, {addMemoryStore.select_year}
           </Text>
         </TouchableOpacity>
 

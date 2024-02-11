@@ -51,7 +51,7 @@ const ReadMemoryForm: React.FC<Props> = props => {
           </View>
           <Text
             style={styles.inputText}
-            value={memoryForm.caption}
+            // value={memoryForm.caption}
           />
         </View>
 

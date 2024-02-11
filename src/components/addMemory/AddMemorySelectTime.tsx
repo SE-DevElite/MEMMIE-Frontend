@@ -2,59 +2,33 @@ import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
-import WeatherClearskyIcon from '@/assets/svg/WeatherClearsky'
-import WeatherCloudIcon from '@/assets/svg/WeatherCloud'
-import WeatherDownpourIcon from '@/assets/svg/WeatherDownpour'
-import WeatherSnowflakeIcon from '@/assets/svg/WeatherSnowflake'
-import WeatherSunnyIcon from '@/assets/svg/WeatherSunny'
+import { WeatherElement } from '@/common/consts/WeatherElement.consts'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
-  date_time: Date
-  time_minute: {
-    hours: number
-    minutes: number
-  }
   handleEditDate: () => void
   handleEditTime: () => void
 }
 
-const AddMemorySelectTime: React.FC<Props> = props => {
-  const { date_time, handleEditDate, handleEditTime, time_minute } = props
-
+const AddMemorySelectTime: React.FC<Props> = observer(props => {
+  const { handleEditDate, handleEditTime } = props
   const [weather, setWeather] = useState<number>(0)
 
   const collectDate = [
-    date_time.getDate(),
-    MONTH_SHORT[date_time.getMonth()],
-    date_time.getFullYear()
+    addMemoryStore.date_time.getDate() - 1 == 0
+      ? 1
+      : addMemoryStore.date_time.getDate() - 1,
+    MONTH_SHORT[addMemoryStore.date_time.getMonth()],
+    addMemoryStore.date_time.getFullYear()
   ]
 
   const handleSetWeather = () => {
-    setWeather((weather + 1) % 5)
-  }
+    const current_idx = (weather + 1) % 5
+    setWeather(current_idx)
 
-  const WeatherElement = [
-    {
-      label: 'Clearsky',
-      icon: <WeatherClearskyIcon width={30} height={30} />
-    },
-    {
-      label: 'Cloud',
-      icon: <WeatherCloudIcon width={30} height={30} />
-    },
-    {
-      label: 'Downpour',
-      icon: <WeatherDownpourIcon width={30} height={30} />
-    },
-    {
-      label: 'ShowFlake',
-      icon: <WeatherSnowflakeIcon width={30} height={30} />
-    },
-    {
-      label: 'Sunny',
-      icon: <WeatherSunnyIcon width={30} height={30} />
-    }
-  ]
+    addMemoryStore.weather = current_idx
+  }
 
   return (
     <View style={styles.container}>
@@ -86,8 +60,8 @@ const AddMemorySelectTime: React.FC<Props> = props => {
           <TouchableOpacity onPress={handleEditTime}>
             <View style={{ padding: 5 }}>
               <Text style={styles.timeText}>
-                {time_minute.hours.toString().padStart(2, '0')} :{' '}
-                {time_minute.minutes.toString().padStart(2, '0')}
+                {addMemoryStore.hours.toString().padStart(2, '0')} :{' '}
+                {addMemoryStore.minutes.toString().padStart(2, '0')}
               </Text>
             </View>
           </TouchableOpacity>
@@ -95,7 +69,7 @@ const AddMemorySelectTime: React.FC<Props> = props => {
       </View>
     </View>
   )
-}
+})
 
 export default AddMemorySelectTime
 

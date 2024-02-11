@@ -1,59 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
-import { ScrollView, TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import AddMemorySelectTime from './AddMemorySelectTime'
 import AddMemoryDayAndMood from './AddMemoryDayAndMood'
 import AddMemoryForm from './AddMemoryForm'
 import AddMemoryUploadImage from './AddMemoryUploadImage'
+import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Props {
-  date_time: Date
-  privacy: string
-  time_minute: {
-    hours: number
-    minutes: number
-  }
-  // picture
   handleEditDate: () => void
   handleEditTime: () => void
   handleClose: () => void
+  handlePinPlace: () => void
   handlePostSetting: () => void
   handleSelectFriend: () => void
 }
 
-export type MemoryForm = {
-  caption: string
-  privacy: string
-  mention: string
-  description: string
-}
-
 const AddMemory: React.FC<Props> = props => {
   const {
-    date_time,
-    privacy,
-    handleEditDate,
     handleEditTime,
     handleClose,
     handlePostSetting,
     handleSelectFriend,
-    time_minute
+    handleEditDate,
+    handlePinPlace
   } = props
 
-  const [memory, setMemory] = useState<MemoryForm>({
-    caption: '',
-    privacy: privacy,
-    mention: '',
-    description: ''
-  })
+  const [waitState, setWaitState] = useState<boolean>(false)
 
-  useEffect(() => {
-    setMemory({ ...memory, privacy: privacy })
-  }, [privacy])
+  const handleSubmit = async () => {
+    if (addMemoryStore.image_info.length === 0) return
+    if (addMemoryStore.caption === '' || addMemoryStore.short_caption === '')
+      return
 
-  const handleChangeMemory = (key: keyof MemoryForm, value: string) => {
-    setMemory({ ...memory, [key]: value })
+    setWaitState(true)
+
+    const upload_res = await addMemoryStore.submitMemory()
+    if (!upload_res.error) {
+      handleClose()
+    }
+
+    setWaitState(false)
   }
 
   return (
@@ -66,23 +54,22 @@ const AddMemory: React.FC<Props> = props => {
 
           <Text style={styles.headingTextStyles}>Add memory</Text>
 
-          <TouchableOpacity onPress={() => console.log('post')}>
-            <View
-              style={{
-                backgroundColor: themes.light.tertiary.hex,
-                borderRadius: 30,
-                paddingHorizontal: 5
-              }}>
-              <Text
-                style={{
-                  ...styles.buttonStyle,
-                  fontFamily: themes.fonts.regular,
-                  color: themes.light.secondary.hex
-                }}>
-                Post
-              </Text>
-            </View>
-          </TouchableOpacity>
+          {waitState ? (
+            <ActivityIndicator style={{ width: 30 }} />
+          ) : (
+            <TouchableOpacity onPress={handleSubmit}>
+              <View style={styles.postPaddingStyle}>
+                <Text
+                  style={{
+                    ...styles.buttonStyle,
+                    fontFamily: themes.fonts.regular,
+                    color: themes.light.secondary.hex
+                  }}>
+                  Post
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <View style={styles.divider} />
@@ -91,20 +78,16 @@ const AddMemory: React.FC<Props> = props => {
         <ScrollView>
           <View style={{ gap: 20 }}>
             <View style={{ gap: 20, paddingHorizontal: 20 }}>
-              <AddMemoryDayAndMood date_time={date_time} />
+              <AddMemoryDayAndMood handlePinPlace={handlePinPlace} />
 
               <AddMemorySelectTime
                 handleEditDate={handleEditDate}
                 handleEditTime={handleEditTime}
-                date_time={date_time}
-                time_minute={time_minute}
               />
 
               <AddMemoryForm
-                {...memory}
                 handlePostSetting={handlePostSetting}
                 handleSelectFriend={handleSelectFriend}
-                handleChangeMemory={handleChangeMemory}
               />
             </View>
 
@@ -153,5 +136,10 @@ const styles = StyleSheet.create({
   bodyStyle: {
     paddingVertical: 20,
     flex: 1
+  },
+  postPaddingStyle: {
+    backgroundColor: themes.light.tertiary.hex,
+    borderRadius: 30,
+    paddingHorizontal: 5
   }
 })

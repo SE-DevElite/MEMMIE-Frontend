@@ -1,14 +1,99 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native'
 import { themes } from '@/common/themes/themes'
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
-import { StyleSheet, Text, View } from 'react-native'
+import ButtonCommon from '@/common/Button.common'
+import WeatherSunnyIcon from '@/assets/svg/WeatherSunny'
+import WeatherCloudIcon from '@/assets/svg/WeatherCloud'
+import WeatherDownpourIcon from '@/assets/svg/WeatherDownpour'
+import WeatherClearskyIcon from '@/assets/svg/WeatherClearsky'
+import WeatherSnowflakeIcon from '@/assets/svg/WeatherSnowflake'
+// import WeatherRGBClearskyIcon from '@/assets/svg/WeatherRGBClearsky'
+// import WeatherRGBSunnyIcon from '@/assets/svg/WeatherRGBSunny'
+// import WeatherRGBCloudIcon from '@/assets/svg/WeatherRGBCloud'
+// import WeatherRGBDownpourIcon from '@/assets/svg/WeatherRGBDownpour'
+// import WeatherRGBSnowflakeIcon from '@/assets/svg/WeatherRGBSnowflake'
+import WomanHappyIcon from '@/assets/svg/WomanHappy'
+import WomanFunnyIcon from '@/assets/svg/WomanFunny'
+import WomanNahIcon from '@/assets/svg/WomanNah'
+import WomanSadIcon from '@/assets/svg/WomanSad'
 
 interface Props {
   handleClose: () => void
+  handleSelectDateStart: () => void
+  handleSelectDateEnd: () => void
+  selectedDateStart: Date
+  selectedDateEnd: Date
 }
 
 const FilterAlbum: React.FC<Props> = props => {
-  const { handleClose } = props
+  const {
+    handleClose,
+    handleSelectDateStart,
+    handleSelectDateEnd,
+    selectedDateStart,
+    selectedDateEnd
+  } = props
+  const [currentDateStart, setCurrentDateStart] = useState('')
+  const [currentDateEnd, setCurrentDateEnd] = useState('')
+  const [selectedMood, setSelectedMood] = useState<number | null>(null)
+  const [selectedWeather, setSelectedWeather] = useState<number | null>(null)
+
+  useEffect(() => {
+    updateCurrentDateStart()
+    updateCurrentDateEnd()
+  }, [selectedDateStart, selectedDateEnd])
+
+  const updateCurrentDateStart = () => {
+    const today = selectedDateStart
+    const formattedDate = `${today.getDate()} ${today.toLocaleString(
+      'default',
+      { month: 'short' }
+    )} ${today.getFullYear()}`
+
+    setCurrentDateStart(formattedDate)
+  }
+
+  const updateCurrentDateEnd = () => {
+    const today = selectedDateEnd
+    const formattedDate = `${today.getDate()} ${today.toLocaleString(
+      'default',
+      { month: 'short' }
+    )} ${today.getFullYear()}`
+
+    setCurrentDateEnd(formattedDate)
+  }
+
+  const handleMoodSelection = (index: number) => {
+    setSelectedMood(index === selectedMood ? null : index)
+  }
+
+  const handleWeatherSelection = (index: number) => {
+    setSelectedWeather(index === selectedWeather ? null : index)
+  }
+
+  const weatherDefaultIcons = [
+    WeatherSunnyIcon,
+    WeatherCloudIcon,
+    WeatherClearskyIcon,
+    WeatherDownpourIcon,
+    WeatherSnowflakeIcon
+  ]
+
+  // const weatherRGBIcons = [
+  //   WeatherRGBSunnyIcon,
+  //   WeatherRGBCloudIcon,
+  //   WeatherRGBClearskyIcon,
+  //   WeatherRGBDownpourIcon,
+  //   WeatherRGBSnowflakeIcon
+  // ]
+
+  const moodIcons = [WomanHappyIcon, WomanFunnyIcon, WomanNahIcon, WomanSadIcon]
 
   return (
     <View style={styles.container}>
@@ -32,18 +117,54 @@ const FilterAlbum: React.FC<Props> = props => {
         <View style={{ paddingBottom: 20 }}>
           <Text style={styles.textTitle}>Date</Text>
           <View style={styles.dropDownGroup}>
-            {/* add dropdown component here */}
+            <ButtonCommon
+              title={currentDateStart}
+              onPress={() => handleSelectDateStart()}
+              width={140}
+              height={41}
+              font_size={14}
+            />
+
+            <Text style={styles.textTitle}>to</Text>
+            <ButtonCommon
+              title={currentDateEnd}
+              onPress={() => handleSelectDateEnd()}
+              width={140}
+              height={41}
+              font_size={14}
+            />
+          </View>
+        </View>
+
+        <View style={{ paddingBottom: 20 }}>
+          <Text style={styles.textTitle}>Mood</Text>
+          <View style={styles.moodGroup}>
+            {moodIcons.map((MoodIcons, index) => (
+              <TouchableWithoutFeedback
+                key={index}
+                onPress={() => handleMoodSelection(index)}>
+                <View
+                  style={[
+                    styles.moodContainer,
+                    selectedMood === index && styles.selectedMood
+                  ]}>
+                  <View style={styles.moodIcon}>
+                    <MoodIcons width={40} height={40} />
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            ))}
           </View>
         </View>
 
         <View>
-          <Text style={styles.textTitle}>Mood</Text>
-          <View style={styles.moodGroup}>
-            {new Array(4).fill(0).map((_, index) => (
+          <Text style={styles.textTitle}>Weather</Text>
+          <View style={styles.weatherGroup}>
+            {weatherDefaultIcons.map((WeatherDefaultIcon, index) => (
               <TouchableWithoutFeedback
                 key={index}
-                onPress={() => console.log(`Change mood ${index + 1}`)}>
-                <View key={index} style={styles.circleAvatar} />
+                onPress={() => handleWeatherSelection(index)}>
+                <WeatherDefaultIcon />
               </TouchableWithoutFeedback>
             ))}
           </View>
@@ -102,10 +223,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 15
   },
+  moodContainer: {
+    width: 43,
+    height: 43,
+    borderRadius: 25,
+    backgroundColor: themes.light.tertiary.hex,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  moodIcon: {
+    width: 45,
+    height: 45,
+    borderRadius: 100,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    overflow: 'hidden'
+  },
+  selectedMood: {
+    backgroundColor: themes.light.primary.hex
+  },
   circleAvatar: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: themes.light.tertiary.hex
+    backgroundColor: themes.light.tertiary.hex,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden'
+  },
+  weatherGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 25
   }
 })

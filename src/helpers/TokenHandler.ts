@@ -19,3 +19,12 @@ export const getAccessToken = async () => {
     console.error('Error retrieving access token:', error)
   }
 }
+
+export const deleteAccessToken = async () => {
+  try {
+    await AsyncStorage.removeItem('access_token')
+    console.log('access token removed')
+  } catch (error) {
+    console.error('Error deleting access token:', error)
+  }
+}

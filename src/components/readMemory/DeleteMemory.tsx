@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
   },
   layout: {
     paddingTop: 20,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    gap: 10
   },
   buttonStyle: {
     fontSize: 14,

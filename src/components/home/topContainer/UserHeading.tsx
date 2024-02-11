@@ -4,7 +4,6 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
 import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 import SwitchCommon from '@/common/Switch.common'
-import profileStore from '@/stores/ProfileStore'
 
 interface UserHeadingProps {
   onPressAvatar: () => void

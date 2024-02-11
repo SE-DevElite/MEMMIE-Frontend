@@ -37,13 +37,16 @@ const CalendarTable: React.FC<Props> = props => {
                           }
                         : require('@/assets/mocks/empty.png')
                     }>
-                    <TouchableOpacity onPress={onReadMemoryPress}>
+                    <TouchableOpacity
+                      onPress={
+                        value.memories.length > 0 ? onReadMemoryPress : () => {}
+                      }>
                       <View
                         style={{
                           ...styles.innerFlex,
                           backgroundColor:
                             value.memories.length > 0
-                              ? 'rgba(255,255,255,0.4)'
+                              ? 'rgba(255,255,255,0.6)'
                               : 'transparent'
                         }}>
                         <Text style={styles.textStyle}>{value.date}</Text>

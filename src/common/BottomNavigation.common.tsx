@@ -5,12 +5,17 @@ import SearchIcon from '@/assets/svg/Search'
 import SettingIcon from '@/assets/svg/Setting'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 
-interface BottomNavigationCommon{
-  currentState:number
+interface BottomNavigationCommon {
+  currentState: number
 }
 
-const BottomNavigationCommon: React.FC = (props) => {
-  // const {currentState} = props
+interface BottomNavigationCommonProps {
+  navigation: any
+}
+
+const BottomNavigationCommon: React.FC<BottomNavigationCommonProps> = ({
+  navigation
+}) => {
   const [currentState, setCurrentState] = useState<number>(0)
 
   const icons = [
@@ -65,19 +70,21 @@ const BottomNavigationCommon: React.FC = (props) => {
               <View />
             </View>
             <TouchableOpacity
-              onPress={() => setCurrentState(index)}
+              onPress={() => {
+                setCurrentState(index)
+                if (index === 3) {
+                  navigation.navigate('SettingScreen' as never)
+                }
+              }}
               style={{
                 ...styles.flexItem,
-
                 backgroundColor:
                   currentState === index ? '#A56073' : 'transparent'
-                }}>
+              }}>
               {item.icon}
             </TouchableOpacity>
 
-            {index === currentState && (
-              <View style={styles.curvedContainer} />
-            )}
+            {index === currentState && <View style={styles.curvedContainer} />}
 
             <View style={index === currentState ? styles.dot : {}}>
               <View />
@@ -86,9 +93,8 @@ const BottomNavigationCommon: React.FC = (props) => {
         ))}
       </View>
     </View>
-  );
-};
-
+  )
+}
 
 export default BottomNavigationCommon
 
@@ -108,15 +114,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderRadius: 32,
-    backgroundColor: '#ffffff'
+    backgroundColor: 'transparent'
   },
   flexBox: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    borderRadius: 32,
-    backgroundColor: '#e5e5e5'
+    borderRadius: 32
+    // backgroundColor: '#e5e5e5'
   },
   flexItem: {
     backgroundColor: '#fff',
@@ -136,40 +142,42 @@ const styles = StyleSheet.create({
     top: -15,
     zIndex: 1
   },
-  cruve:{
+  cruve: {
     position: 'absolute',
-    backgroundColor: '#e5e5e5',
-    width:20,
+    backgroundColor: 'green',
+    width: 20,
     height: 60,
-    top:'-21%',
-    left:'-28%',
-    borderRadius: 100,
+    top: '-21%',
+    left: '-28%',
+    borderRadius: 100
   },
-  cruve2:{
+  cruve2: {
     position: 'absolute',
-    backgroundColor: '#e5e5e5',
-    width:20,
+    backgroundColor: 'yellow',
+    width: 20,
     height: 60,
-    top:'-21%',
-    right:'-28%',
-    borderRadius: 100,
+    top: '-21%',
+    right: '-28%',
+    borderRadius: 100
   },
-  cruve3:{
+  cruve3: {
     position: 'absolute',
-    backgroundColor: '#fff',
-    width:20,
+    backgroundColor: 'transparent',
+    width: 20,
     height: 20,
-    top:'-38%',
-    left:'22%',
+    top: '-38%',
+    left: '22%',
     borderRadius: 100,
+    zIndex: 2
   },
-  cruve4:{
+  cruve4: {
     position: 'absolute',
-    backgroundColor: '#fff',
-    width:40,
+    backgroundColor: 'transparent',
+    width: 40,
     height: 20,
-    top:'-45%',
-    left:'-10%',
+    top: '-45%',
+    left: '-10%',
     borderRadius: 100,
-  },
+    zIndex: 2
+  }
 })

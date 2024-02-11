@@ -1,91 +1,49 @@
-import ManFunnyIcon from '@/assets/svg/ManFunny'
-import ManHappyIcon from '@/assets/svg/ManHappy'
-import ManNahIcon from '@/assets/svg/ManNah'
-import ManSadIcon from '@/assets/svg/ManSad'
-import WomanFunnyIcon from '@/assets/svg/WomanFunny'
-import WomanHappyIcon from '@/assets/svg/WomanHappy'
-import WomanNahIcon from '@/assets/svg/WomanNah'
-import WomanSadIcon from '@/assets/svg/WomanSad'
 import { DAY } from '@/common/consts/DateTime.consts'
+import { MoodElement } from '@/common/consts/MoodElement.consts'
 import { themes } from '@/common/themes/themes'
-import profileStore from '@/stores/ProfileStore'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
-
-interface Props {
-  date_time: Date
-}
 
 type MoodEle = {
   label: string
   icon: React.JSX.Element
 }
 
-const AddMemoryDayAndMood: React.FC<Props> = props => {
-  const { date_time } = props
+interface Props {
+  handlePinPlace: () => void
+}
+
+const AddMemoryDayAndMood: React.FC<Props> = observer(props => {
+  const { handlePinPlace } = props
   const [mood, setMood] = useState<MoodEle[]>()
   const [selectMood, setSelectMood] = useState<number>(0)
 
-  const MoodElement = {
-    Male: [
-      {
-        label: 'Happy',
-        icon: <ManHappyIcon />
-      },
-      {
-        label: 'Sad',
-        icon: <ManSadIcon />
-      },
-      {
-        label: 'Nah',
-        icon: <ManNahIcon />
-      },
-      {
-        label: 'Funny',
-        icon: <ManFunnyIcon />
-      }
-    ],
-    Female: [
-      {
-        label: 'Happy',
-        icon: <WomanHappyIcon />
-      },
-      {
-        label: 'Sad',
-        icon: <WomanSadIcon />
-      },
-      {
-        label: 'Nah',
-        icon: <WomanNahIcon />
-      },
-      {
-        label: 'Funny',
-        icon: <WomanFunnyIcon />
-      }
-    ]
-  }
-
   useEffect(() => {
-    const gender = profileStore.gender
+    // const gender = profileStore.gender
 
     setMood(MoodElement.Male)
-    // if (gender === 'Male') {
-    // } else if (gender === 'Female') {
-    //   setMood(MoodElement.Female)
-    // }
   }, [])
 
   const handleChangeMood = () => {
-    setSelectMood((selectMood + 1) % 4)
+    const current_idx = (selectMood + 1) % 4
+    setSelectMood(current_idx)
+
+    addMemoryStore.mood = current_idx
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
-        <Text style={styles.dayText}>{DAY[date_time.getDay()]}</Text>
-        <Text numberOfLines={1} style={styles.descriptionText}>
-          King's Mongkut University technology of thonburi
+        <Text style={styles.dayText}>
+          {DAY[addMemoryStore.date_time.getDay()]}
         </Text>
+        <TouchableOpacity onPress={handlePinPlace}>
+          <Text numberOfLines={1} style={styles.descriptionText}>
+            King's Mongkut University technology of thonburi
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {mood && (
@@ -97,7 +55,7 @@ const AddMemoryDayAndMood: React.FC<Props> = props => {
       )}
     </View>
   )
-}
+})
 
 export default AddMemoryDayAndMood
 
@@ -131,7 +89,8 @@ const styles = StyleSheet.create({
     height: 45,
     backgroundColor: themes.light.tertiary.hex,
     borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    overflow: 'hidden'
   }
 })

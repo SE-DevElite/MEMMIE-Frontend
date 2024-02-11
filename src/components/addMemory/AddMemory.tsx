@@ -12,6 +12,7 @@ interface Props {
   handleEditDate: () => void
   handleEditTime: () => void
   handleClose: () => void
+  handlePinPlace: () => void
   handlePostSetting: () => void
   handleSelectFriend: () => void
 }
@@ -22,7 +23,8 @@ const AddMemory: React.FC<Props> = props => {
     handleClose,
     handlePostSetting,
     handleSelectFriend,
-    handleEditDate
+    handleEditDate,
+    handlePinPlace
   } = props
 
   const [waitState, setWaitState] = useState<boolean>(false)
@@ -76,7 +78,7 @@ const AddMemory: React.FC<Props> = props => {
         <ScrollView>
           <View style={{ gap: 20 }}>
             <View style={{ gap: 20, paddingHorizontal: 20 }}>
-              <AddMemoryDayAndMood />
+              <AddMemoryDayAndMood handlePinPlace={handlePinPlace} />
 
               <AddMemorySelectTime
                 handleEditDate={handleEditDate}

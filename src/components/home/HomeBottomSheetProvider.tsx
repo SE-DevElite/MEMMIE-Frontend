@@ -12,6 +12,7 @@ import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSh
 import EditTime from '../addMemory/EditTime'
 import ReadMemory from '../readMemory/ReadMemory'
 import addMemoryStore from '@/stores/AddMemoryStore'
+import PinPlace from '../addMemory/PinPlace'
 
 interface Props {
   addMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
@@ -32,6 +33,7 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const postSettingBottomSheetRef = useRef<BottomSheet>(null)
   const selectFriendBottomSheetRef = useRef<BottomSheet>(null)
   const editTimeBottomSheetRef = useRef<BottomSheet>(null)
+  const pinPlaceBottomSheetRef = useRef<BottomSheet>(null)
 
   const handleSetTime = (time: Date) => {
     addMemoryStore.hours = time.getHours()
@@ -46,6 +48,7 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
           handleEditDate={() => editDateBottomSheetRef.current?.expand()}
           handleEditTime={() => editTimeBottomSheetRef.current?.expand()}
           handleClose={() => addMemoryBottomSheetRef.current?.close()}
+          handlePinPlace={() => pinPlaceBottomSheetRef.current?.expand()}
           handlePostSetting={() => postSettingBottomSheetRef.current?.expand()}
           handleSelectFriend={() =>
             selectFriendBottomSheetRef.current?.expand()
@@ -96,6 +99,10 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
 
       <LongBottomSheetCommon ref={readMemoryBottomSheetRef}>
         <ReadMemory />
+      </LongBottomSheetCommon>
+
+      <LongBottomSheetCommon ref={pinPlaceBottomSheetRef}>
+        <PinPlace />
       </LongBottomSheetCommon>
     </>
   )

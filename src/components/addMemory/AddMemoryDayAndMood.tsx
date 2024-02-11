@@ -11,7 +11,12 @@ type MoodEle = {
   icon: React.JSX.Element
 }
 
-const AddMemoryDayAndMood: React.FC = observer(() => {
+interface Props {
+  handlePinPlace: () => void
+}
+
+const AddMemoryDayAndMood: React.FC<Props> = observer(props => {
+  const { handlePinPlace } = props
   const [mood, setMood] = useState<MoodEle[]>()
   const [selectMood, setSelectMood] = useState<number>(0)
 
@@ -34,9 +39,11 @@ const AddMemoryDayAndMood: React.FC = observer(() => {
         <Text style={styles.dayText}>
           {DAY[addMemoryStore.date_time.getDay()]}
         </Text>
-        <Text numberOfLines={1} style={styles.descriptionText}>
-          King's Mongkut University technology of thonburi
-        </Text>
+        <TouchableOpacity onPress={handlePinPlace}>
+          <Text numberOfLines={1} style={styles.descriptionText}>
+            King's Mongkut University technology of thonburi
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {mood && (

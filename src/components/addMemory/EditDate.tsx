@@ -7,16 +7,23 @@ import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Props {
   handleClose: () => void
+  handleSave?: (date: Date, type_filter: string) => void
+  type_filter?: string
 }
 
 const EditDate: React.FC<Props> = props => {
-  const { handleClose } = props
+  const { handleClose, handleSave, type_filter } = props
   const [dateSelect, setDateSelect] = useState<Date>(addMemoryStore.date_time)
 
   const handleEditDate = (date: Date) => {
     let tmr = new Date(date)
     tmr.setDate(tmr.getDate() + 1)
     addMemoryStore.handleEditDateTime(tmr)
+
+    if (handleSave && type_filter) {
+      handleSave(date, type_filter)
+    }
+
     handleClose()
   }
 

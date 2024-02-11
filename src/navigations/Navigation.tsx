@@ -16,7 +16,7 @@ const AppNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName={showWelcome ? 'IndexWelcomeScreen' : 'MapStoryScreen'}
+      initialRouteName={showWelcome ? 'IndexWelcomeScreen' : 'SignInScreen'}
       screenOptions={{ headerShown: false }}>
       <Stack.Screen name="IndexWelcomeScreen" component={IndexWelcomeScreen} />
       <Stack.Screen name="SignInScreen" component={SignInScreen} />

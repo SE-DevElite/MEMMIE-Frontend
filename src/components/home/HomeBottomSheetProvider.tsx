@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import MyAlbum from '@/components/album/MyAlbum'
 import PostSetting from '../addMemory/PostSetting'
 import SelectFriend from '../addMemory/SelectFriend'
@@ -21,6 +21,11 @@ interface Props {
 }
 
 const HomeBottomSheetProvider: React.FC<Props> = props => {
+  const [filterDate, setFilterDate] = useState({
+    startDate: new Date(),
+    endDate: new Date()
+  })
+
   const {
     addMemoryBottomSheetRef,
     albumBottomSheetRef,
@@ -34,11 +39,26 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const selectFriendBottomSheetRef = useRef<BottomSheet>(null)
   const editTimeBottomSheetRef = useRef<BottomSheet>(null)
   const pinPlaceBottomSheetRef = useRef<BottomSheet>(null)
+  const filterDateStartBottomSheetRef = useRef<BottomSheet>(null)
+  const filterDateEndBottomSheetRef = useRef<BottomSheet>(null)
 
   const handleSetTime = (time: Date) => {
     addMemoryStore.hours = time.getHours()
     addMemoryStore.minutes = time.getMinutes()
     editTimeBottomSheetRef.current?.close()
+  }
+
+  const handleSaveDateRange = (selected_date: Date, type_filter: string) => {
+    switch (type_filter) {
+      case 'start':
+        setFilterDate({ ...filterDate, startDate: selected_date })
+        filterDateStartBottomSheetRef.current?.close()
+        break
+      case 'end':
+        setFilterDate({ ...filterDate, endDate: selected_date })
+        filterDateEndBottomSheetRef.current?.close()
+        break
+    }
   }
 
   return (
@@ -78,6 +98,36 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       <LongBottomSheetCommon ref={filterAlbumBottomSheetRef}>
         <FilterAlbum
           handleClose={() => filterAlbumBottomSheetRef.current?.close()}
+          handleSelectDateStart={() =>
+            filterDateStartBottomSheetRef.current?.expand()
+          }
+          handleSelectDateEnd={() =>
+            filterDateEndBottomSheetRef.current?.expand()
+          }
+          selectedDateEnd={filterDate.endDate}
+          selectedDateStart={filterDate.startDate}
+        />
+      </LongBottomSheetCommon>
+
+      {/* filter date start */}
+      <LongBottomSheetCommon
+        ref={filterDateStartBottomSheetRef}
+        snapPoint={['50%']}>
+        <EditDate
+          type_filter="start"
+          handleClose={() => editDateBottomSheetRef.current?.close()}
+          handleSave={handleSaveDateRange}
+        />
+      </LongBottomSheetCommon>
+
+      {/* filter date end */}
+      <LongBottomSheetCommon
+        ref={filterDateEndBottomSheetRef}
+        snapPoint={['50%']}>
+        <EditDate
+          type_filter="end"
+          handleClose={() => editDateBottomSheetRef.current?.close()}
+          handleSave={handleSaveDateRange}
         />
       </LongBottomSheetCommon>
 

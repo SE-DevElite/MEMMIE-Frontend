@@ -148,7 +148,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={readMemoryBottomSheetRef}>
-        <ReadMemory />
+        <ReadMemory
+          handleClose={() => readMemoryBottomSheetRef.current?.close()}
+        />
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={pinPlaceBottomSheetRef}>

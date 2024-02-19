@@ -29,6 +29,21 @@ class AddMemoryStore {
   constructor() {
     makeAutoObservable(this)
   }
+  @action
+  clearState = () => {
+    this.select_month = MONTH[new Date().getMonth()]
+    this.select_year = new Date().getFullYear().toString()
+    this.weather = 0
+    this.mood = 0
+    this.short_caption = ''
+    this.caption = ''
+    this.privacy = 'public'
+    this.hours = new Date().getHours()
+    this.minutes = new Date().getMinutes()
+
+    this.image_info = []
+    this.date_time = new Date()
+  }
 
   @action
   handleEditDateTime = (date: Date) => {
@@ -81,11 +96,10 @@ class AddMemoryStore {
       } as any)
     }
 
-    let yesterday = new Date(addMemoryStore.date_time)
-    yesterday.setDate(addMemoryStore.date_time.getDate() - 1)
+    let current_time = addMemoryStore.date_time
 
     const select_time = `${
-      yesterday.toISOString().split('T')[0]
+      current_time.toISOString().split('T')[0]
     } ${addMemoryStore.hours
       .toString()
       .padStart(2, '0')}:${addMemoryStore.minutes.toString().padStart(2, '0')}`
@@ -111,7 +125,7 @@ class AddMemoryStore {
     const upload_res = await UploadRequestWithToken(access_token as string)
       .post(`/memories/upload/${memory_id}`, formData)
       .then(res => res.data)
-
+    this.clearState()
     return upload_res
   }
 }

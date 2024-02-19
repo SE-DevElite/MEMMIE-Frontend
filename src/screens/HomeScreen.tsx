@@ -71,6 +71,11 @@ const HomeScreen: React.FC = observer(() => {
     setRefreshing(false)
   }, [])
 
+  // const [currentScreen, setCurrentScreen] = useState<string>('HomeScreen')
+  // const handleMapScreen = () =>{
+  //   setCurrentScreen(props)
+  // }
+
   return (
     <SafeAreaView style={styles.container} edges={['right', 'top']}>
       <ScrollView
@@ -85,6 +90,8 @@ const HomeScreen: React.FC = observer(() => {
               }
               avatar={profileStore.avatar}
               username={profileStore.username}
+              // currentScreen={currentScreen}
+              // setCurrentScreen={setCurrentScreen}
             />
             <MemoryContainer
               onAddAlbumPress={() => albumBottomSheetRef.current?.expand()}

@@ -1,6 +1,7 @@
 import AvatarCommon from '@/common/Avatar.common'
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 import SwitchCommon from '@/common/Switch.common'
@@ -9,10 +10,14 @@ interface UserHeadingProps {
   onPressAvatar: () => void
   avatar: string
   username: string
+  // currentScreen: string
+  // setCurrentScreen: () => string
 }
 
 const UserHeading: React.FC<UserHeadingProps> = props => {
   const { onPressAvatar, avatar, username } = props
+  const navigation = useNavigation()
+  // const [currentScreen, setCurrentScreen] = useState<string>('HomeScreen')
 
   return (
     <View style={styles.container}>
@@ -36,7 +41,20 @@ const UserHeading: React.FC<UserHeadingProps> = props => {
             <SubHeading>How was your day?</SubHeading>
           </View>
         </View>
-        <SwitchCommon />
+        <SwitchCommon
+        // active={currentScreen === 'MapStoryScreen' ? true : false}
+        // handleChange={() => {
+        //   setCurrentScreen(
+        //     currentScreen === 'MapStoryScreen'
+        //       ? 'HomeScreen'
+        //       : 'MapStoryScreen'
+        //   )
+        //   currentScreen === 'HomeScreen'
+        //     ? navigation.navigate('MapStoryScreen' as never)
+        //     : navigation.navigate('HomeScreen' as never)
+        //   console.log(currentScreen)
+        // }}
+        />
       </View>
     </View>
   )

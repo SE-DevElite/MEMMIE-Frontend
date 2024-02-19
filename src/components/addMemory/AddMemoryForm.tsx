@@ -22,8 +22,12 @@ interface Props {
 
 const AddMemoryForm: React.FC<Props> = observer(props => {
   const { handlePostSetting, handleSelectFriend } = props
-  const [short_caption, setShortCaption] = useState<string>('')
-  const [long_caption, setLongCaption] = useState<string>('')
+  const [short_caption, setShortCaption] = useState<string>(
+    addMemoryStore.short_caption
+  )
+  const [long_caption, setLongCaption] = useState<string>(
+    addMemoryStore.caption
+  )
 
   const handleShortCaption = (e: string) => {
     setShortCaption(e)

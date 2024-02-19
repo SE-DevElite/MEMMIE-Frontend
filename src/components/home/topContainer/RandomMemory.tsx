@@ -9,6 +9,8 @@ import {
 } from 'react-native'
 import PlusIcon from '@/assets/svg/Plus'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
 
 interface Props {
   onAddMemoryPress: () => void
@@ -16,6 +18,12 @@ interface Props {
 
 const RandomMemory: React.FC<Props> = props => {
   const { onAddMemoryPress } = props
+
+  const collectDate = [
+    addMemoryStore.date_time.getDate(),
+    MONTH_SHORT[addMemoryStore.date_time.getMonth()],
+    addMemoryStore.date_time.getFullYear()
+  ]
 
   return (
     <View style={styles.container}>
@@ -36,21 +44,31 @@ const RandomMemory: React.FC<Props> = props => {
                 style={styles.placeText}>
                 King mongkut's university of technology thonburi
               </Text>
-              <Text style={styles.timeText}>17 : 10</Text>
+              <Text style={styles.timeText}>
+                {addMemoryStore.date_time
+                  .getHours()
+                  .toString()
+                  .padStart(2, '0')}{' '}
+                :{' '}
+                {addMemoryStore.date_time
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, '0')}
+              </Text>
             </View>
           </View>
           <View style={styles.bottomRow}>
             <View style={styles.dateContainer}>
               <View style={styles.dateColumn}>
-                <Text style={styles.dateValue}>19</Text>
+                <Text style={styles.dateValue}>{collectDate[0]}</Text>
                 <Text style={styles.dateUnit}>Day</Text>
               </View>
               <View style={styles.dateColumn}>
-                <Text style={styles.dateValue}>10</Text>
+                <Text style={styles.dateValue}>{collectDate[1]}</Text>
                 <Text style={styles.dateUnit}>Month</Text>
               </View>
               <View style={styles.dateColumn}>
-                <Text style={styles.dateValue}>2021</Text>
+                <Text style={styles.dateValue}>{collectDate[2]}</Text>
                 <Text style={styles.dateUnit}>Year</Text>
               </View>
             </View>

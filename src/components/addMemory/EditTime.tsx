@@ -3,6 +3,7 @@ import { themes } from '@/common/themes/themes'
 import { TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Props {
   handleClose: () => void
@@ -12,18 +13,32 @@ interface Props {
 const EditTime: React.FC<Props> = props => {
   const { handleClose, handleSetTime } = props
   const [current_time, setCurrentTime] = useState<Date>(new Date())
-
+  const handleEditTime = (date: Date) => {
+    let tmr = new Date(date)
+    tmr.setHours(tmr.getHours() + 7)
+    addMemoryStore.handleEditDateTime(tmr)
+    handleSetTime(date)
+  }
+  // current_time.setHours(current_time.getHours() - 7)
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity onPress={handleClose}>
+          <TouchableOpacity
+            onPress={() => {
+              handleClose()
+              console.log(current_time)
+            }}>
             <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>
 
           <Text style={styles.headingTextStyles}>Edit time</Text>
 
-          <TouchableOpacity onPress={() => handleSetTime(current_time)}>
+          <TouchableOpacity
+            onPress={() => {
+              handleEditTime(current_time)
+              console.log(addMemoryStore.date_time)
+            }}>
             <Text
               style={{
                 ...styles.buttonStyle,
@@ -44,7 +59,7 @@ const EditTime: React.FC<Props> = props => {
           mode="time"
           display="spinner"
           onChange={(event, value) => {
-            setCurrentTime(value || new Date())
+            setCurrentTime(value || current_time)
           }}
         />
       </View>

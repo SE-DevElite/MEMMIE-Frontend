@@ -17,7 +17,7 @@ const EditDate: React.FC<Props> = props => {
 
   const handleEditDate = (date: Date) => {
     let tmr = new Date(date)
-    tmr.setDate(tmr.getDate() + 1)
+    tmr.setHours(tmr.getHours() + 7)
     addMemoryStore.handleEditDateTime(tmr)
 
     if (handleSave && type_filter) {

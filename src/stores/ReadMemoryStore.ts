@@ -67,37 +67,37 @@ class ReadMemoryStore {
     makeAutoObservable(this)
   }
 
-  // @action
-  // clearState = () => {
-  //   this.caption = ''
-  //   this.created_at = ''
-  //   this.day = ''
-  //   this.lat = ''
-  //   this.location_name = ''
-  //   this.long = ''
-  //   this.memory_id = ''
-  //   this.memory_lists = [
-  //     {
-  //       created_at: '',
-  //       memory_list_id: '',
-  //       memory_url: ''
-  //     }
-  //   ]
-  //   this.mood = ''
-  //   this.selected_datetime = ''
-  //   this.short_caption = ''
-  //   this.updated_at = ''
-  //   this.weather = ''
-  //   this.datetime = [
-  //     {
-  //       day_date: '',
-  //       month_date: '',
-  //       year_date: '',
-  //       hour_date: '',
-  //       minute_date: ''
-  //     }
-  //   ]
-  // }
+  @action
+  clearState = () => {
+    this.caption = ''
+    this.created_at = ''
+    this.day = ''
+    this.lat = ''
+    this.location_name = ''
+    this.long = ''
+    this.memory_id = ''
+    this.memory_lists = [
+      {
+        created_at: '',
+        memory_list_id: '',
+        memory_url: ''
+      }
+    ]
+    this.mood = ''
+    this.selected_datetime = ''
+    this.short_caption = ''
+    this.updated_at = ''
+    this.weather = ''
+    this.datetime = [
+      {
+        day_date: '',
+        month_date: '',
+        year_date: '',
+        hour_date: '',
+        minute_date: ''
+      }
+    ]
+  }
 
   updateMemoryDetails(details: Partial<ReadMemoryStore>) {
     Object.assign(this, details)

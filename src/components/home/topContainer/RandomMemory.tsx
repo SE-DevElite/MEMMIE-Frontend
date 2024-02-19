@@ -18,11 +18,11 @@ interface Props {
 
 const RandomMemory: React.FC<Props> = props => {
   const { onAddMemoryPress } = props
-
+  const currentTime: Date = new Date()
   const collectDate = [
-    addMemoryStore.date_time.getDate(),
-    MONTH_SHORT[addMemoryStore.date_time.getMonth()],
-    addMemoryStore.date_time.getFullYear()
+    currentTime.getDate(),
+    MONTH_SHORT[currentTime.getMonth()],
+    currentTime.getFullYear()
   ]
 
   return (
@@ -45,15 +45,8 @@ const RandomMemory: React.FC<Props> = props => {
                 King mongkut's university of technology thonburi
               </Text>
               <Text style={styles.timeText}>
-                {addMemoryStore.date_time
-                  .getHours()
-                  .toString()
-                  .padStart(2, '0')}{' '}
-                :{' '}
-                {addMemoryStore.date_time
-                  .getMinutes()
-                  .toString()
-                  .padStart(2, '0')}
+                {currentTime.getHours().toString().padStart(2, '0')} :{' '}
+                {currentTime.getMinutes().toString().padStart(2, '0')}
               </Text>
             </View>
           </View>

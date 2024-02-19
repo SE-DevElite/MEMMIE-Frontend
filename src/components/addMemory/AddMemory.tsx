@@ -44,12 +44,16 @@ const AddMemory: React.FC<Props> = observer(props => {
 
     setWaitState(false)
   }
+  const onPressClose = async () => {
+    handleClose()
+    addMemoryStore.clearState()
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity onPress={handleClose}>
+          <TouchableOpacity onPress={onPressClose}>
             <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>
 

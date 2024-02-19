@@ -12,6 +12,8 @@ import {
   TouchableOpacity
 } from 'react-native'
 import readMemoryStore from '@/stores/ReadMemoryStore'
+import AvatarCommon from '@/common/Avatar.common'
+import profileStore from '@/stores/ProfileStore'
 
 interface Props {
   // caption: string
@@ -42,7 +44,9 @@ const ReadMemoryForm: React.FC<Props> = props => {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <View style={styles.icon}></View>
+        <View style={styles.icon}>
+          <AvatarCommon uri={profileStore.avatar} width={42} height={42} />
+        </View>
       </View>
 
       <View style={styles.inputSection}>
@@ -50,7 +54,7 @@ const ReadMemoryForm: React.FC<Props> = props => {
           <View style={styles.iconBackground}>
             <AlignLeftIcon width={15} height={15} />
           </View>
-          <Text style={styles.inputText}>{readMemoryStore.caption}</Text>
+          <Text style={styles.inputText}>{readMemoryStore.short_caption}</Text>
         </View>
 
         <View style={styles.tagsContainer}>
@@ -74,7 +78,7 @@ const ReadMemoryForm: React.FC<Props> = props => {
         </View>
 
         <View style={styles.caption}>
-          <Text>{readMemoryStore.short_caption}</Text>
+          <Text>{readMemoryStore.caption}</Text>
         </View>
       </View>
     </View>
@@ -88,13 +92,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10
   },
-  iconContainer: {
-    // Add any additional styles for the icon container if needed
-  },
+  iconContainer: {},
   icon: {
     width: 42,
     height: 42,
-    backgroundColor: 'red',
+    backgroundColor: themes.light.tertiary.hex,
+    overflow: 'hidden',
     borderRadius: 100
   },
   inputSection: {

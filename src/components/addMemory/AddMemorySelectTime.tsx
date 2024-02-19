@@ -57,7 +57,11 @@ const AddMemorySelectTime: React.FC<Props> = observer(props => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={handleEditTime}>
+          <TouchableOpacity
+            onPress={() => {
+              handleEditTime()
+              // console.log(addMemoryStore.date_time)
+            }}>
             <View style={{ padding: 5 }}>
               <Text style={styles.timeText}>
                 {addMemoryStore.hours.toString().padStart(2, '0')} :{' '}

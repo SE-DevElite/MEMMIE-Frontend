@@ -17,15 +17,15 @@ const CalendarTable: React.FC<Props> = props => {
 
   const handleSelect = async memory => {
     onReadMemoryPress()
-
+    // readMemoryStore.clearState()
     readMemoryStore.updateMemoryDetails({
       ...memory.memories[0]
     })
     readMemoryStore.updateMemoryList(0, {
       ...memory.memories[0].memory_lists
     })
-    readMemoryStore.caption = memory.memories[0].caption
-    readMemoryStore.short_caption = memory.memories[0].short_caption
+    // readMemoryStore.caption = memory.memories[0].caption
+    // readMemoryStore.short_caption = memory.memories[0].short_caption
 
     const [datePart, timePart] = memory.memories[0].selected_datetime.split(' ')
     const [year, month, day] = datePart.split('-').map(Number)

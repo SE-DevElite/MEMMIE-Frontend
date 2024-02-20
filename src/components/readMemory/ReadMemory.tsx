@@ -9,13 +9,14 @@ import ReadMemoryForm from './ReadMemoryForm'
 import ReadMemoryImage from './ReadMemoryImage'
 import DeleteMemory from './DeleteMemory'
 import readMemoryStore from '@/stores/ReadMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
   // Memmory: []
   handleClose: () => void
 }
 
-const ReadMemory: React.FC<Props> = props => {
+const ReadMemory: React.FC<Props> = observer(props => {
   const { handleClose } = props
 
   return (
@@ -56,7 +57,7 @@ const ReadMemory: React.FC<Props> = props => {
       {/* Edit and Delete */}
     </View>
   )
-}
+})
 
 export default ReadMemory
 

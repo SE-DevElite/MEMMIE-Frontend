@@ -14,6 +14,7 @@ import {
 import readMemoryStore from '@/stores/ReadMemoryStore'
 import AvatarCommon from '@/common/Avatar.common'
 import profileStore from '@/stores/ProfileStore'
+import { observer } from 'mobx-react'
 
 interface Props {
   // caption: string
@@ -24,7 +25,7 @@ interface Props {
   // handleSelectFriend: () => void
 }
 
-const ReadMemoryForm: React.FC<Props> = props => {
+const ReadMemoryForm: React.FC<Props> = observer(props => {
   // const {
   //   caption,
   //   privacy,
@@ -83,7 +84,7 @@ const ReadMemoryForm: React.FC<Props> = props => {
       </View>
     </View>
   )
-}
+})
 
 export default ReadMemoryForm
 

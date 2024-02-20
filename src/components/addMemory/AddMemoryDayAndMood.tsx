@@ -37,7 +37,7 @@ const AddMemoryDayAndMood: React.FC<Props> = observer(props => {
     <View style={styles.container}>
       <View style={styles.dayContainer}>
         <Text style={styles.dayText}>
-          {DAY[addMemoryStore.date_time.getDay() + 1]}
+          {DAY[addMemoryStore.date_time.getDay()]}
         </Text>
         <TouchableOpacity onPress={handlePinPlace}>
           <Text numberOfLines={1} style={styles.descriptionText}>

@@ -6,13 +6,14 @@ import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import { ICalendar } from '@/interface/daily_response'
 import SkeletonTable from './SkeletonTable'
 import readMemoryStore from '@/stores/ReadMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
   calendar: ICalendar[][]
   onReadMemoryPress: () => void
 }
 
-const CalendarTable: React.FC<Props> = props => {
+const CalendarTable: React.FC<Props> = observer(props => {
   const { calendar, onReadMemoryPress } = props
 
   const handleSelect = async memory => {
@@ -92,7 +93,7 @@ const CalendarTable: React.FC<Props> = props => {
       )}
     </View>
   )
-}
+})
 
 export default CalendarTable
 

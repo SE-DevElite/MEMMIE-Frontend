@@ -13,7 +13,8 @@ import EditTime from '../addMemory/EditTime'
 import ReadMemory from '../readMemory/ReadMemory'
 import addMemoryStore from '@/stores/AddMemoryStore'
 import PinPlace from '../addMemory/PinPlace'
-
+import EditMemory from '../EditMemory/EditMemory'
+import DeleteMemory from '../readMemory/DeleteMemory'
 interface Props {
   addMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
   albumBottomSheetRef: React.RefObject<BottomSheetMethods>
@@ -41,6 +42,8 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const pinPlaceBottomSheetRef = useRef<BottomSheet>(null)
   const filterDateStartBottomSheetRef = useRef<BottomSheet>(null)
   const filterDateEndBottomSheetRef = useRef<BottomSheet>(null)
+  const editMemoryBottomSheetRef = useRef<BottomSheet>(null)
+  const deleteMemoryBottomSheetRef = useRef<BottomSheet>(null)
 
   const handleSetTime = (time: Date) => {
     addMemoryStore.hours = time.getHours()
@@ -149,12 +152,30 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
 
       <LongBottomSheetCommon ref={readMemoryBottomSheetRef}>
         <ReadMemory
-          handleClose={() => readMemoryBottomSheetRef.current?.close()}
+          onEditMemoryPress={() => editMemoryBottomSheetRef.current?.expand()}
+          onDeleteMemoryPress={() =>
+            deleteMemoryBottomSheetRef.current?.expand()
+          }
+        />
+      </LongBottomSheetCommon>
+
+      <LongBottomSheetCommon ref={editMemoryBottomSheetRef}>
+        <EditMemory
+          handlePinPlace={() => pinPlaceBottomSheetRef.current?.expand()}
+          handleClose={() => editMemoryBottomSheetRef.current?.close()}
         />
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={pinPlaceBottomSheetRef}>
         <PinPlace />
+      </LongBottomSheetCommon>
+
+      <LongBottomSheetCommon
+        snapPoint={['50%']}
+        ref={deleteMemoryBottomSheetRef}>
+        <DeleteMemory
+          handleClose={() => deleteMemoryBottomSheetRef.current?.close()}
+        />
       </LongBottomSheetCommon>
     </>
   )

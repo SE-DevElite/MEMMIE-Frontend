@@ -4,6 +4,7 @@ import styled from 'styled-components/native'
 import { useNavigation } from '@react-navigation/native'
 import { themes } from '@/common/themes/themes'
 import SettingPanel from '@/components/setting/SettingPanel'
+import SettingBottomSheetProvider from '@/components/setting/SettingBottomSheetProvider'
 
 const SettingScreen: React.FC = () => {
   const navigation = useNavigation()
@@ -16,6 +17,7 @@ const SettingScreen: React.FC = () => {
           <SettingPanel />
         </View>
       </ScrollView>
+      {/* <SettingBottomSheetProvider /> */}
     </SafeAreaView>
   )
 }

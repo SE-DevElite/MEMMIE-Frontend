@@ -38,7 +38,7 @@ const CalendarTable: React.FC<Props> = observer(props => {
     readMemoryStore.datetime[0].hour_date = hour
     readMemoryStore.datetime[0].minute_date = minute
 
-    console.log('\n\n', memory.memories[0], '\n\n', readMemoryStore)
+    // console.log('\n\n', memory.memories[0], '\n\n', readMemoryStore)
   }
 
   return (

@@ -1,5 +1,4 @@
 import AlignLeftIcon from '@/assets/svg/AlignLeft'
-import FriendIcon from '@/assets/svg/Friend'
 import LanguageIcon from '@/assets/svg/Language'
 import NavArrowDownIcon from '@/assets/svg/NavArrowDown'
 import { themes } from '@/common/themes/themes'
@@ -11,14 +10,36 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
-import readMemoryStore from '@/stores/ReadMemoryStore'
-import AvatarCommon from '@/common/Avatar.common'
 import profileStore from '@/stores/ProfileStore'
+import AvatarCommon from '@/common/Avatar.common'
+import addMemoryStore from '@/stores/AddMemoryStore'
 import { observer } from 'mobx-react'
+import editMemoryStore from '@/stores/EditMemoryStore'
 
-interface Props {}
+interface Props {
+  handlePostSetting: () => void
+  handleSelectFriend: () => void
+}
 
-const ReadMemoryForm: React.FC<Props> = observer(props => {
+const EditMemoryForm: React.FC<Props> = observer(props => {
+  const { handlePostSetting, handleSelectFriend } = props
+  const [short_caption, setShortCaption] = useState<string>(
+    editMemoryStore.short_caption
+  )
+  const [long_caption, setLongCaption] = useState<string>(
+    editMemoryStore.caption
+  )
+
+  const handleShortCaption = (e: string) => {
+    setShortCaption(e)
+    editMemoryStore.short_caption = e
+  }
+
+  const handleLongCaption = (e: string) => {
+    setLongCaption(e)
+    editMemoryStore.caption = e
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -32,22 +53,35 @@ const ReadMemoryForm: React.FC<Props> = observer(props => {
           <View style={styles.iconBackground}>
             <AlignLeftIcon width={15} height={15} />
           </View>
-          <Text style={styles.inputText}>{readMemoryStore.short_caption}</Text>
+          <TextInput
+            placeholder={'Enter short caption'}
+            placeholderTextColor={themes.light.secondary.hex}
+            style={styles.inputText}
+            value={editMemoryStore.short_caption || short_caption}
+            onChange={e => handleShortCaption(e.nativeEvent.text)}
+          />
         </View>
 
         <View style={styles.tagsContainer}>
-          <View style={styles.tag}>
-            <View style={styles.iconBackground}>
-              <LanguageIcon width={15} height={15} />
-            </View>
-            <Text style={styles.tagText}>Everyone</Text>
-            <NavArrowDownIcon />
-          </View>
-
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={handlePostSetting}>
             <View style={styles.tag}>
               <View style={styles.iconBackground}>
-                <FriendIcon width={15} height={15} />
+                <LanguageIcon width={15} height={15} />
+              </View>
+              <Text
+                style={{ ...styles.tagText, maxWidth: 110 }}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {addMemoryStore.privacy}
+              </Text>
+              <NavArrowDownIcon />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleSelectFriend}>
+            <View style={styles.tag}>
+              <View style={styles.iconBackground}>
+                <LanguageIcon width={15} height={15} />
               </View>
               <Text style={styles.tagText}>Friends</Text>
               <NavArrowDownIcon />
@@ -55,15 +89,24 @@ const ReadMemoryForm: React.FC<Props> = observer(props => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.caption}>
-          <Text>{readMemoryStore.caption}</Text>
+        <View>
+          <TextInput
+            multiline={true}
+            scrollEnabled={false}
+            spellCheck={true}
+            placeholder={'Type here ...'}
+            placeholderTextColor={themes.light.secondary.hex}
+            style={styles.inputCaption}
+            value={editMemoryStore.caption || long_caption}
+            onChange={e => handleLongCaption(e.nativeEvent.text)}
+          />
         </View>
       </View>
     </View>
   )
 })
 
-export default ReadMemoryForm
+export default EditMemoryForm
 
 const styles = StyleSheet.create({
   container: {
@@ -129,10 +172,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: themes.light.primary.hex
   },
-  caption: {},
   inputCaption: {
+    width: '100%',
     fontFamily: themes.fonts.regular,
     fontSize: 14,
-    color: themes.light.primary.hex
+    color: themes.light.primary.hex,
+    lineHeight: 20,
+    minHeight: 50
   }
 })

@@ -36,7 +36,7 @@ const ButtonLongCommon: React.FC<ButtonLongCommonProps> = props => {
       height={height}
       background_color={background_color}
       justifyCenter={prefix_icon ? false : true}>
-      <ButtonText color={color} font_size={font_size} fonts={fonts}>
+      <ButtonText color={color} font_size={font_size} fontWeight={fonts}>
         {title}
       </ButtonText>
     </ButtonCustom>

@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react'
 import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
-import CreateList from './CreateList'
+import CreateList from '../../components/setting/CreateList'
 
-interface Props {}
+interface Props {
+  createListBottomSheetRef: React.RefObject<BottomSheet>
+}
 
 const SettingBottomSheetProvider: React.FC<Props> = props => {
-  const {} = props
-
-  const createListBottomSheetRef = useRef<BottomSheet>(null)
+  const { createListBottomSheetRef } = props
 
   return (
     <>

@@ -1,13 +1,16 @@
-import * as React from 'react'
+import React, { useRef } from 'react'
 import { Text, StyleSheet, View, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import FriendlistContainer from '@/components/setting/FriendlistContainer'
 import Arrowback from '@/assets/svg/Arrowback'
 import { themes } from '@/common/themes/themes'
+import SettingBottomSheetProvider from '@/screens/setting/SettingBottomSheetProvider'
+import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 
 const Friendlist: React.FC = () => {
   const navigation = useNavigation()
-
+  const createListBottomSheetRef = useRef<BottomSheet>(null)
+  const onCreateListPress = () => createListBottomSheetRef.current?.expand()
   return (
     <View style={styles.friendlist}>
       <View style={styles.title}>
@@ -28,7 +31,10 @@ const Friendlist: React.FC = () => {
           <Arrowback />
         </View>
       </Pressable>
-      <FriendlistContainer />
+      <FriendlistContainer onCreateListPress={onCreateListPress} />
+      <SettingBottomSheetProvider
+        createListBottomSheetRef={createListBottomSheetRef}
+      />
     </View>
   )
 }

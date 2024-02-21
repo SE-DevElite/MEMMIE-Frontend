@@ -6,14 +6,15 @@ import NavArrowRight from '@/assets/svg/NavArrowRight'
 import Plus from '@/assets/svg/Plus'
 import BottomSheet from '@gorhom/bottom-sheet'
 import { useNavigation } from '@react-navigation/native'
-import SettingBottomSheetProvider from './SettingBottomSheetProvider'
+import SettingBottomSheetProvider from '../../screens/setting/SettingBottomSheetProvider'
 
-const FriendlistContainer = () => {
+interface Props {
+  onCreateListPress: () => void
+}
+
+const FriendlistContainer: React.FC<Props> = props => {
+  const { onCreateListPress } = props
   const navigation = useNavigation()
-
-  const handleCreateListPress = () => {
-    navigation.navigate('SettingBottomSheetProvider' as never)
-  }
 
   return (
     <>
@@ -33,7 +34,7 @@ const FriendlistContainer = () => {
         <View style={styles.manageFriendListChild} />
         <Pressable
           style={[styles.newList, styles.listParentFlexBox]}
-          onPress={handleCreateListPress}>
+          onPress={onCreateListPress}>
           <View style={styles.listParentFlexBox}>
             <View style={[styles.ellipseParent, styles.listParentFlexBox]}>
               <View style={styles.ellipseFrame}>
@@ -49,7 +50,6 @@ const FriendlistContainer = () => {
           </View>
           <NavArrowRight height={16} width={8} marginLeft={39} />
         </Pressable>
-        <SettingBottomSheetProvider />
       </View>
     </>
   )

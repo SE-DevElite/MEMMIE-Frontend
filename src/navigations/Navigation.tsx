@@ -10,7 +10,7 @@ import PasswordScreen from '@/screens/setting/PasswordScreen'
 import LinkAccount from '@/screens/setting/LinkedAccountScreen'
 import Friendlist from '@/screens/setting/FriendlistScreen'
 import CreateList from '@/components/setting/CreateList'
-import SettingBottomSheetProvider from '@/components/setting/SettingBottomSheetProvider'
+import SettingBottomSheetProvider from '@/screens/setting/SettingBottomSheetProvider'
 
 const Stack = createNativeStackNavigator()
 

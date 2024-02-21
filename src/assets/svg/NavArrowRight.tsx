@@ -6,10 +6,11 @@ interface Props {
   width?: number
   height?: number
   marginLeft?: number
+  style?: any
 }
 
 const NavArrowRightIcon: React.FC<Props> = props => {
-  const { color, width, height, marginLeft } = props
+  const { color, width, height, marginLeft, style } = props
 
   return (
     <Svg
@@ -17,7 +18,7 @@ const NavArrowRightIcon: React.FC<Props> = props => {
       height={height || 18}
       viewBox="0 0 10 18"
       fill="none"
-      style={{ marginLeft }}>
+      style={{ marginLeft, ...style }}>
       <Path
         d="M1 .833l8 8-8 8"
         stroke={color || '#A56073'}

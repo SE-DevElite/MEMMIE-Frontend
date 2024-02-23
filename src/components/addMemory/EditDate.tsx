@@ -13,18 +13,26 @@ interface Props {
 
 const EditDate: React.FC<Props> = props => {
   const { handleClose, handleSave, type_filter } = props
-  const [dateSelect, setDateSelect] = useState<Date>(addMemoryStore.date_time)
+  const [time_gmt, setTimeGMT] = useState<Date>(new Date())
+  const [current_time, setCurrentTime] = useState<Date>(
+    new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
+  )
 
-  const handleEditDate = (date: Date) => {
-    let tmr = new Date(date)
-    tmr.setHours(tmr.getHours() + 7)
-    addMemoryStore.handleEditDateTime(tmr)
+  const handleEditDate = () => {
+    addMemoryStore.handleEditDateTime(current_time, 'date')
 
     if (handleSave && type_filter) {
-      handleSave(date, type_filter)
+      handleSave(current_time, type_filter)
     }
 
     handleClose()
+  }
+
+  const handleChangeTime = (date: Date) => {
+    setTimeGMT(date)
+    var utc_date = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+
+    setCurrentTime(utc_date)
   }
 
   return (
@@ -37,7 +45,7 @@ const EditDate: React.FC<Props> = props => {
 
           <Text style={styles.headingTextStyles}>Edit date</Text>
 
-          <TouchableOpacity onPress={() => handleEditDate(dateSelect)}>
+          <TouchableOpacity onPress={handleEditDate}>
             <Text
               style={{
                 ...styles.buttonStyle,
@@ -54,12 +62,12 @@ const EditDate: React.FC<Props> = props => {
 
       <View style={styles.layout}>
         <RNDateTimePicker
-          value={dateSelect}
+          value={time_gmt}
           mode="date"
           display="spinner"
           onChange={(event, value) => {
             if (value) {
-              setDateSelect(value || new Date())
+              handleChangeTime(value)
             }
           }}
         />

@@ -11,7 +11,6 @@ import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import EditTime from '../addMemory/EditTime'
 import ReadMemory from '../readMemory/ReadMemory'
-import addMemoryStore from '@/stores/AddMemoryStore'
 import PinPlace from '../addMemory/PinPlace'
 import EditMemory from '../EditMemory/EditMemory'
 import DeleteMemory from '../readMemory/DeleteMemory'
@@ -44,12 +43,6 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const filterDateEndBottomSheetRef = useRef<BottomSheet>(null)
   const editMemoryBottomSheetRef = useRef<BottomSheet>(null)
   const deleteMemoryBottomSheetRef = useRef<BottomSheet>(null)
-
-  const handleSetTime = (time: Date) => {
-    addMemoryStore.hours = time.getHours()
-    addMemoryStore.minutes = time.getMinutes()
-    editTimeBottomSheetRef.current?.close()
-  }
 
   const handleSaveDateRange = (selected_date: Date, type_filter: string) => {
     switch (type_filter) {
@@ -94,7 +87,7 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       <LongBottomSheetCommon ref={editTimeBottomSheetRef} snapPoint={['50%']}>
         <EditTime
           handleClose={() => editTimeBottomSheetRef.current?.close()}
-          handleSetTime={handleSetTime}
+          handleSetTime={() => editTimeBottomSheetRef.current?.close()}
         />
       </LongBottomSheetCommon>
 

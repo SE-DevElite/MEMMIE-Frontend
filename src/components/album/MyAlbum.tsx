@@ -56,6 +56,7 @@ const MyAlbum: React.FC<Props> = props => {
             title={album.album_name}
             amount={album.memories}
             thumbnail={album.album_thumbnail}
+            handleDelete={() => console.log('tester')}
           />
         ))}
       </View>

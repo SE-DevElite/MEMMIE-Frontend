@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native'
 import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 import SwitchCommon from '@/common/Switch.common'
+import { useNavigation } from '@react-navigation/native'
+import profileStore from '@/stores/ProfileStore'
 
 interface UserHeadingProps {
   onPressAvatar: () => void
@@ -17,7 +19,14 @@ interface UserHeadingProps {
 const UserHeading: React.FC<UserHeadingProps> = props => {
   const { onPressAvatar, avatar, username } = props
   const navigation = useNavigation()
-  // const [currentScreen, setCurrentScreen] = useState<string>('HomeScreen')
+
+  const handleChange = () => {
+    const current = profileStore.currentScreen
+    profileStore.currentScreen =
+      current === 'MapStoryScreen' ? 'HomeScreen' : 'MapStoryScreen'
+
+    navigation.navigate(current as never)
+  }
 
   return (
     <View style={styles.container}>
@@ -42,18 +51,8 @@ const UserHeading: React.FC<UserHeadingProps> = props => {
           </View>
         </View>
         <SwitchCommon
-        // active={currentScreen === 'MapStoryScreen' ? true : false}
-        // handleChange={() => {
-        //   setCurrentScreen(
-        //     currentScreen === 'MapStoryScreen'
-        //       ? 'HomeScreen'
-        //       : 'MapStoryScreen'
-        //   )
-        //   currentScreen === 'HomeScreen'
-        //     ? navigation.navigate('MapStoryScreen' as never)
-        //     : navigation.navigate('HomeScreen' as never)
-        //   console.log(currentScreen)
-        // }}
+          handleChange={handleChange}
+          active={profileStore.currentScreen === 'MapStoryScreen'}
         />
       </View>
     </View>

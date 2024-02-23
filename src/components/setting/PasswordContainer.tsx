@@ -1,8 +1,27 @@
-import * as React from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import React, { useState, useRef } from 'react'
+import { Text, StyleSheet, View, TextInput } from 'react-native'
 import { themes } from '@/common/themes/themes'
 
-const PasswordContainer = () => {
+const PasswordContainer: React.FC = () => {
+  const [password, setPassword] = useState(['', '', '', '', '', ''])
+  const refs = useRef<(TextInput | null)[]>([
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ])
+
+  const handlePasswordChange = (text: string, index: number) => {
+    const newPassword = [...password]
+    newPassword[index] = text
+    setPassword(newPassword)
+    if (text.length === 1 && index < 5 && refs.current[index + 1]) {
+      refs.current[index + 1]?.focus()
+    }
+  }
+
   return (
     <View style={styles.body}>
       <View>
@@ -13,7 +32,20 @@ const PasswordContainer = () => {
         </Text>
       </View>
       <View style={styles.digitCodeParent}>
-        <View style={styles.digitCode}>{/* password 6  */}</View>
+        <View style={styles.digitCode}>
+          {password.map((value, index) => (
+            <TextInput
+              key={index}
+              style={styles.digitInput}
+              maxLength={1}
+              value={value}
+              onChangeText={text => handlePasswordChange(text, index)}
+              keyboardType="numeric"
+              secureTextEntry={true}
+              ref={ref => (refs.current[index] = ref)}
+            />
+          ))}
+        </View>
         <View style={styles.resendCode}>
           <Text style={[styles.resendCode1, styles.sPosition]}>
             Resend Code
@@ -26,6 +58,14 @@ const PasswordContainer = () => {
 }
 
 const styles = StyleSheet.create({
+  digitInput: {
+    borderBottomWidth: 1,
+    borderColor: 'black',
+    width: 40,
+    textAlign: 'center',
+    marginRight: 5,
+    color: themes.light.primary.hex
+  },
   toSetYourTypo: {
     fontFamily: themes.fonts.light,
     fontWeight: '300'
@@ -65,8 +105,8 @@ const styles = StyleSheet.create({
     color: themes.light.primary.hex
   },
   digitCode: {
-    flexDirection: 'row'
-    // padding: Padding.p_3xs,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   resendCode1: {
     left: 0,

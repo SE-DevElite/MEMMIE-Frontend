@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Image } from 'react-native'
 import { themes } from '@/common/themes/themes'
-import Xclose from '@/assets/svg/Xclose'
 import Search from '@/assets/svg/Search'
 import { Ionicons } from '@expo/vector-icons'
 
@@ -14,8 +13,7 @@ const CreateList = ({ onClose }: CreateListType) => {
 
   return (
     <View style={styles.createList}>
-      <View style={[styles.createListChild, styles.parentPosition1]} />
-      <View style={styles.underline} />
+      <View style={[styles.parentPosition1]} />
       <View style={[styles.createList1, styles.parentPosition1]}>
         <Text style={[styles.createList2, styles.listClr]}>Create list</Text>
         <View style={[styles.createListItem, styles.groupChildPosition]} />
@@ -27,23 +25,17 @@ const CreateList = ({ onClose }: CreateListType) => {
         <View style={[styles.lineParent, styles.parentPosition1]}>
           <View style={[styles.groupChild, styles.groupChildPosition]} />
           <Text style={[styles.list, styles.listTypo]}>List</Text>
-          {/* <Image
+          <Image
             style={[styles.deleteIcon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../../assets/icons/delete.png")}
-          /> */}
-          <Xclose />
+            resizeMode="cover"
+            source={require('../../assets/icons/delete.png')}
+          />
         </View>
       </View>
       <View style={[styles.searchBar, styles.namePosition]}>
         <View style={[styles.searchBarChild, styles.childPosition]} />
         <View style={styles.searchIconParent}>
-          {/* <Image
-            style={styles.searchIcon}
-            contentFit="cover"
-            source={require("../assets/search-icon.png")}
-          /> */}
-          <Search />
+          <Search width={12} height={14} color={themes.light.primary.hex} />
           <Text style={[styles.search, styles.listTypo]}>Search</Text>
         </View>
       </View>
@@ -51,13 +43,13 @@ const CreateList = ({ onClose }: CreateListType) => {
         <View style={[styles.createChild, styles.childPosition]} />
         <Text style={[styles.create1, styles.create1Typo]}>Create</Text>
       </View>
-      <View style={[styles.ntcnutt, styles.ntcPosition]}>
+      <View style={[styles.ntcnutt, styles.iconsPosition]}>
         <View style={styles.iconParent}>
-          {/* <Image
+          <Image
             style={[styles.icon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/icon.png")}
-          /> */}
+            resizeMode="cover"
+            source={require('../../assets/mocks/createList/icon.png')}
+          />
           <View style={styles.ntcnuttParent}>
             <Text style={[styles.ntcnutt1, styles.create1Typo]}>Ntc.nutt</Text>
             <Text style={[styles.nutthanonThongcharoen, styles.listTypo]}>
@@ -65,29 +57,25 @@ const CreateList = ({ onClose }: CreateListType) => {
             </Text>
           </View>
         </View>
-        {/* <Image
-          style={[styles.choiceIcon, styles.choiceIconLayout]}
-          contentFit="cover"
-          source={require("../assets/choice.png")}
-        /> */}
         <Ionicons
           name={isClicked ? 'ellipse' : 'ellipse-outline'}
           size={24}
           color={
             isClicked ? themes.light.primary.hex : themes.light.primary.hex
           }
+          style={{ marginLeft: 111 }}
           onPress={() => {
             setIsClicked(!isClicked)
           }}
         />
       </View>
-      <View style={[styles.sxxlr, styles.ntcPosition]}>
+      <View style={[styles.sxxlr, styles.iconsPosition]}>
         <View style={styles.iconGroup}>
-          {/* <Image
+          <Image
             style={styles.icon1}
-            contentFit="cover"
-            source={require("../assets/icon1.png")}
-          /> */}
+            resizeMode="cover"
+            source={require('../../assets/mocks/createList/icon1.png')}
+          />
           <View style={styles.sxxlrParent}>
             <Text style={[styles.ntcnutt1, styles.create1Typo]}>Sxxlr.</Text>
             <Text style={[styles.helloWorld, styles.listTypo]}>
@@ -101,18 +89,19 @@ const CreateList = ({ onClose }: CreateListType) => {
           color={
             isClicked ? themes.light.primary.hex : themes.light.primary.hex
           }
+          style={{ marginLeft: 173 }}
           onPress={() => {
             setIsClicked(!isClicked)
           }}
         />
       </View>
-      <View style={[styles.puay, styles.ntcPosition]}>
+      <View style={[styles.puay, styles.iconsPosition]}>
         <View style={styles.iconContainer}>
-          {/* <Image
+          <Image
             style={[styles.icon2, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/icon2.png")}
-          /> */}
+            resizeMode="cover"
+            source={require('../../assets/mocks/createList/icon2.png')}
+          />
           <View style={[styles.puayParent, styles.parentLayout]}>
             <Text style={[styles.ntcnutt1, styles.create1Typo]}>Puay</Text>
             <Text style={[styles.helloWorld, styles.listTypo]}>panapun</Text>
@@ -124,18 +113,19 @@ const CreateList = ({ onClose }: CreateListType) => {
           color={
             isClicked ? themes.light.primary.hex : themes.light.primary.hex
           }
+          style={{ marginLeft: 184 }}
           onPress={() => {
             setIsClicked(!isClicked)
           }}
         />
       </View>
-      <View style={[styles.ppunyie, styles.ntcPosition]}>
+      <View style={[styles.ppunyie, styles.iconsPosition]}>
         <View style={styles.groupView}>
-          {/* <Image
+          <Image
             style={[styles.icon3, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/icon3.png")}
-          /> */}
+            resizeMode="cover"
+            source={require('../../assets/mocks/createList/icon3.png')}
+          />
           <View style={[styles.ppunyieParent, styles.parentLayout]}>
             <Text style={[styles.ntcnutt1, styles.create1Typo]}>ppunyie</Text>
             <Text style={[styles.helloWorld, styles.listTypo]}>
@@ -149,18 +139,19 @@ const CreateList = ({ onClose }: CreateListType) => {
           color={
             isClicked ? themes.light.primary.hex : themes.light.primary.hex
           }
+          style={{ marginLeft: 124 }}
           onPress={() => {
             setIsClicked(!isClicked)
           }}
         />
       </View>
-      <View style={[styles.ntc, styles.ntcPosition]}>
+      <View style={[styles.ntc, styles.iconsPosition]}>
         <View style={styles.iconParent1}>
-          {/* <Image
+          <Image
             style={[styles.icon4, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/icon4.png")}
-          /> */}
+            resizeMode="cover"
+            source={require('../../assets/mocks/createList/icon4.png')}
+          />
           <View style={[styles.ntcParent, styles.parentLayout]}>
             <Text style={[styles.ntcnutt1, styles.create1Typo]}>n.tc_</Text>
             <Text style={[styles.helloWorld, styles.listTypo]}>NUTTHANON</Text>
@@ -172,18 +163,19 @@ const CreateList = ({ onClose }: CreateListType) => {
           color={
             isClicked ? themes.light.primary.hex : themes.light.primary.hex
           }
+          style={{ marginLeft: 169 }}
           onPress={() => {
             setIsClicked(!isClicked)
           }}
         />
       </View>
-      <View style={[styles.aaachloprtw, styles.ntcPosition]}>
+      <View style={[styles.aaachloprtw, styles.iconsPosition]}>
         <View style={styles.iconParent2}>
-          {/* <Image
+          <Image
             style={[styles.icon5, styles.iconPosition]}
-            contentFit="cover"
-            source={require("../assets/icon5.png")}
-          /> */}
+            resizeMode="cover"
+            source={require('../../assets/mocks/createList/icon5.png')}
+          />
           <View style={[styles.aaachloprtwParent, styles.parentPosition]}>
             <Text style={[styles.ntcnutt1, styles.create1Typo]}>
               aaachloprtw
@@ -199,18 +191,19 @@ const CreateList = ({ onClose }: CreateListType) => {
           color={
             isClicked ? themes.light.primary.hex : themes.light.primary.hex
           }
+          style={{ marginLeft: 49 }}
           onPress={() => {
             setIsClicked(!isClicked)
           }}
         />
       </View>
-      <View style={[styles.xpyl, styles.ntcPosition]}>
+      <View style={[styles.xpyl, styles.iconsPosition]}>
         <View style={styles.iconParent3}>
-          {/* <Image
+          <Image
             style={[styles.icon6, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/icon6.png")}
-          /> */}
+            resizeMode="cover"
+            source={require('../../assets/mocks/createList/icon6.png')}
+          />
           <View style={[styles.xpylParent, styles.parentLayout]}>
             <Text style={[styles.ntcnutt1, styles.create1Typo]}>_xpyl</Text>
             <Text style={[styles.helloWorld, styles.listTypo]}>
@@ -224,18 +217,19 @@ const CreateList = ({ onClose }: CreateListType) => {
           color={
             isClicked ? themes.light.primary.hex : themes.light.primary.hex
           }
+          style={{ marginLeft: 55 }}
           onPress={() => {
             setIsClicked(!isClicked)
           }}
         />
       </View>
-      <View style={[styles.i2oninn, styles.ntcPosition]}>
+      <View style={[styles.i2oninn, styles.iconsPosition]}>
         <View style={styles.iconParent2}>
-          {/* <Image
+          <Image
             style={[styles.icon7, styles.iconPosition]}
-            contentFit="cover"
-            source={require("../assets/icon7.png")}
-          /> */}
+            resizeMode="cover"
+            source={require('../../assets/mocks/createList/icon7.png')}
+          />
           <View style={[styles.i2oninnParent, styles.parentPosition]}>
             <Text style={[styles.ntcnutt1, styles.create1Typo]}>
               {`__   `}i2oninn
@@ -251,6 +245,7 @@ const CreateList = ({ onClose }: CreateListType) => {
           color={
             isClicked ? themes.light.primary.hex : themes.light.primary.hex
           }
+          style={{ marginLeft: 49 }}
           onPress={() => {
             setIsClicked(!isClicked)
           }}
@@ -261,16 +256,6 @@ const CreateList = ({ onClose }: CreateListType) => {
 }
 
 const styles = StyleSheet.create({
-  underline: {
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 1,
-    top: 22,
-    maxHeight: '100%',
-    width: '100%',
-    backgroundColor: themes.light.primary.hex
-  },
   parentPosition1: {
     right: '0%',
     position: 'absolute'
@@ -323,7 +308,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     position: 'absolute'
   },
-  ntcPosition: {
+  iconsPosition: {
     left: 30,
     flexDirection: 'row',
     alignItems: 'center',
@@ -350,25 +335,6 @@ const styles = StyleSheet.create({
     right: '0%',
     position: 'absolute'
   },
-  createListChild: {
-    // borderTopLeftRadius: Border.br_21xl,
-    // borderTopRightRadius: Border.br_21xl,
-    shadowColor: 'rgba(0, 0, 0, 0.25)',
-    shadowOffset: {
-      width: 0,
-      height: -4
-    },
-    shadowRadius: 6,
-    elevation: 6,
-    shadowOpacity: 1,
-    // backgroundColor: Color.colorWhite,
-    left: '0%',
-    bottom: '0%',
-    top: '0%',
-    width: '100%',
-    height: '100%'
-  },
-
   createList2: {
     left: '33.33%',
     fontSize: 24,
@@ -389,7 +355,7 @@ const styles = StyleSheet.create({
   },
   createList1: {
     height: '6.79%',
-    top: '6.57%',
+    top: 30,
     bottom: '86.64%',
     left: '0%',
     width: '100%'
@@ -445,15 +411,11 @@ const styles = StyleSheet.create({
   },
   name: {
     height: '6.38%',
-    top: '16.84%',
+    top: 110,
     bottom: '76.78%'
   },
   searchBarChild: {
-    // backgroundColor: Color.colorWhite,
-  },
-  searchIcon: {
-    width: 12,
-    height: 14
+    backgroundColor: themes.light.tertiary.hex
   },
   search: {
     width: 55,
@@ -473,7 +435,7 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     height: '4.96%',
-    top: '25.63%',
+    top: 175,
     bottom: '69.41%'
   },
   createChild: {
@@ -521,11 +483,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 35
   },
-  choiceIcon: {
-    marginLeft: 111
-  },
   ntcnutt: {
-    top: 263
+    top: 235
   },
   icon1: {
     width: 35,
@@ -548,11 +507,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     flexDirection: 'row'
   },
-  choiceIcon1: {
-    marginLeft: 173
-  },
   sxxlr: {
-    top: 314
+    top: 286
   },
   icon2: {
     width: '32.71%',
@@ -573,11 +529,8 @@ const styles = StyleSheet.create({
     width: 107,
     height: 35
   },
-  choiceIcon2: {
-    marginLeft: 184
-  },
   puay: {
-    top: 365
+    top: 337
   },
   icon3: {
     width: '20.96%',
@@ -598,11 +551,8 @@ const styles = StyleSheet.create({
     width: 167,
     height: 35
   },
-  choiceIcon3: {
-    marginLeft: 124
-  },
   ppunyie: {
-    top: 416
+    top: 388
   },
   icon4: {
     width: '28.69%',
@@ -627,7 +577,7 @@ const styles = StyleSheet.create({
     marginLeft: 169
   },
   ntc: {
-    top: 467
+    top: 439
   },
   icon5: {
     bottom: '0%',
@@ -641,11 +591,8 @@ const styles = StyleSheet.create({
     width: 242,
     height: 35
   },
-  choiceIcon5: {
-    marginLeft: 49
-  },
   aaachloprtw: {
-    top: 518
+    top: 490
   },
   icon6: {
     width: '14.83%',
@@ -666,11 +613,8 @@ const styles = StyleSheet.create({
     width: 236,
     height: 35
   },
-  choiceIcon6: {
-    marginLeft: 55
-  },
   xpyl: {
-    top: 569
+    top: 541
   },
   icon7: {
     height: '99.15%',
@@ -692,7 +636,7 @@ const styles = StyleSheet.create({
     top: '2.83%'
   },
   i2oninn: {
-    top: 620
+    top: 592
   },
   createList: {
     width: 375,

@@ -61,7 +61,9 @@ const HomeScreen: React.FC = () => {
         <View style={styles.topOutterContainer}>
           <View style={styles.topInnerContainer}>
             <UserHeading
-              onPressAvatar={() => navigation.navigate('CreateList' as never)}
+              onPressAvatar={() =>
+                navigation.navigate('ProfileScreen' as never)
+              }
             />
             <MemoryContainer
               onAddAlbumPress={() => albumBottomSheetRef.current?.expand()}

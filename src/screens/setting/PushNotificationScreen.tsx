@@ -1,16 +1,17 @@
 import * as React from 'react'
-import { StyleSheet, Pressable, View } from 'react-native'
-import DateOfBirthContainer from '@/components/setting/DateOfBirthContainer'
-import { useNavigation } from '@react-navigation/native'
+import { Text, StyleSheet, Pressable, View } from 'react-native'
+import PushNotificationContainer from '@/components/setting/PushNotificationContainer'
 import Arrowback from '@/assets/svg/Arrowback'
+import { useNavigation } from '@react-navigation/native'
 import { themes } from '@/common/themes/themes'
 
-const DateOfBirthScreen: React.FC = () => {
+const PushNotificationScreen: React.FC = () => {
   const navigation = useNavigation()
 
   return (
-    <View style={styles.account}>
-      <DateOfBirthContainer />
+    <View style={styles.pushNoti}>
+      <Text style={styles.pushNotification}>Push notification</Text>
+      <PushNotificationContainer />
       <Pressable
         style={styles.backToSetting}
         onPress={() => navigation.navigate('SettingScreen' as never)}>
@@ -23,6 +24,17 @@ const DateOfBirthScreen: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
+  pushNotification: {
+    top: 152,
+    left: 35,
+    fontSize: 20,
+    lineHeight: 23,
+    fontWeight: '600',
+    fontFamily: themes.fonts.samiBold,
+    color: themes.light.primary.hex,
+    textAlign: 'left',
+    position: 'absolute'
+  },
   icon: {
     height: '100%',
     width: '100%'
@@ -42,7 +54,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  account: {
+  pushNoti: {
+    // backgroundColor: Color.colorWhite,
     flex: 1,
     height: 812,
     overflow: 'hidden',
@@ -50,4 +63,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DateOfBirthScreen
+export default PushNotificationScreen

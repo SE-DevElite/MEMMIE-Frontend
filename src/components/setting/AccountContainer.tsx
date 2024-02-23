@@ -11,14 +11,6 @@ import NavArrowRight from '@/assets/svg/NavArrowRight'
 import { themes } from '@/common/themes/themes'
 import { useNavigation } from '@react-navigation/native'
 
-type AccountContainerProps = {
-  onEmailPress?: () => void
-  onDateOfBirthPress?: () => void
-  onPasswordPress?: () => void
-  onLinkedAccountPress?: () => void
-  onFriendListPress?: () => void
-}
-
 const AccountContainer: React.FC = () => {
   const navigation = useNavigation()
 

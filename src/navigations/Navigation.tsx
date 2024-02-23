@@ -11,6 +11,8 @@ import LinkAccount from '@/screens/setting/LinkedAccountScreen'
 import Friendlist from '@/screens/setting/FriendlistScreen'
 import CreateList from '@/components/setting/CreateList'
 import SettingBottomSheetProvider from '@/screens/setting/SettingBottomSheetProvider'
+import PushNotificationScreen from '@/screens/setting/PushNotificationScreen'
+import WidgetScreen from '@/screens/setting/WidgetScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -29,11 +31,16 @@ const AppNavigator = () => {
       <Stack.Screen name="PasswordScreen" component={PasswordScreen} />
       <Stack.Screen name="LinkedAccountScreen" component={LinkAccount} />
       <Stack.Screen name="FriendlistScreen" component={Friendlist} />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="SettingBottomSheetProvider"
         component={SettingBottomSheetProvider}
-      />
+      /> */}
       <Stack.Screen name="CreateList" component={CreateList} />
+      <Stack.Screen
+        name="PushNotificationScreen"
+        component={PushNotificationScreen}
+      />
+      <Stack.Screen name="WidgetScreen" component={WidgetScreen} />
     </Stack.Navigator>
   )
 }

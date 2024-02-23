@@ -81,11 +81,10 @@ class AddMemoryStore {
       } as any)
     }
 
-    let yesterday = new Date(addMemoryStore.date_time)
-    yesterday.setDate(addMemoryStore.date_time.getDate() - 1)
+    let current_time = addMemoryStore.date_time
 
     const select_time = `${
-      yesterday.toISOString().split('T')[0]
+      current_time.toISOString().split('T')[0]
     } ${addMemoryStore.hours
       .toString()
       .padStart(2, '0')}:${addMemoryStore.minutes.toString().padStart(2, '0')}`

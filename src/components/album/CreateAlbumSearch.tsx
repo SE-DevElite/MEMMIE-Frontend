@@ -58,7 +58,9 @@ const styles = StyleSheet.create({
   filterButton: {
     width: 40,
     height: 40,
-    backgroundColor: '#d5d5d5d5',
+    backgroundColor: 'white',
+    borderColor: themes.light.primary.hex,
+    borderWidth: 1,
     borderRadius: 40,
     justifyContent: 'center',
     alignItems: 'center'

@@ -2,16 +2,18 @@ import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import CreateAlbumnTag from './CreateAlbumnTag'
 import CreateAlbumSearch from './CreateAlbumSearch'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import InputUnderlineCommon from '@/common/InputUnderline.common'
 import PictureList from './PictureList'
 import profileStore from '@/stores/ProfileStore'
+import { observer } from 'mobx-react'
+import addAlbumStore from '@/stores/AddAlbumStore'
 
 interface Props {
   handlePress: () => void
 }
 
-const CreateAlbum: React.FC<Props> = props => {
+const CreateAlbum: React.FC<Props> = observer(props => {
   const { handlePress } = props
   const [albumName, setAlbumName] = useState<string>('')
   return (
@@ -43,9 +45,37 @@ const CreateAlbum: React.FC<Props> = props => {
       <View style={{ ...styles.layout, flex: 1 }}>
         <PictureList memories={profileStore.memories} />
       </View>
+
+      <TouchableOpacity onPress={addAlbumStore.handleSubmitAlbum}>
+        <View
+          style={{
+            width: '100%',
+            paddingHorizontal: 26,
+            position: 'absolute',
+            bottom: 25
+          }}>
+          <View
+            style={{
+              backgroundColor: themes.light.tertiary.hex,
+              height: 50,
+              borderRadius: 100,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontFamily: themes.fonts.regular,
+                color: themes.light.secondary.hex
+              }}>
+              Create
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
     </View>
   )
-}
+})
 
 export default CreateAlbum
 

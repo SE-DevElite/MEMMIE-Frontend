@@ -10,6 +10,7 @@ class ProfileStore {
   avatar: string = ''
   albums: Album[] = []
   memories: Memory[] = []
+  currentScreen: string = 'HomeScreen'
 
   constructor() {
     makeAutoObservable(this)

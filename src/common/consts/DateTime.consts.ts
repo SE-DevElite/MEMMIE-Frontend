@@ -62,3 +62,13 @@ export const MONTH_TO_NUMBER: { [key: string]: number } = {
   November: 11,
   December: 12
 }
+
+export const LONG_DAY_TO_SHORT = {
+  MONDAY: 'Mon',
+  TUESDAY: 'Tue',
+  WEDNESDAY: 'Wed',
+  THURSDAY: 'Thu',
+  FRIDAY: 'Fri',
+  SATURDAY: 'Sat',
+  SUNDAY: 'Sun'
+}

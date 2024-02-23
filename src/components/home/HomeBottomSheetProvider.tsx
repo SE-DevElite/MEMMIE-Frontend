@@ -168,6 +168,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
         ref={deleteMemoryBottomSheetRef}>
         <DeleteMemory
           handleClose={() => deleteMemoryBottomSheetRef.current?.close()}
+          handleCloseReadMemory={() =>
+            readMemoryBottomSheetRef.current?.close()
+          }
         />
       </LongBottomSheetCommon>
     </>

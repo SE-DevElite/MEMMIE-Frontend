@@ -56,7 +56,9 @@ const ReadMemoryForm: React.FC<Props> = observer(props => {
         </View>
 
         <View style={styles.caption}>
-          <Text>{readMemoryStore.caption}</Text>
+          <Text style={{ color: themes.light.primary.hex }}>
+            {readMemoryStore.caption}
+          </Text>
         </View>
       </View>
     </View>

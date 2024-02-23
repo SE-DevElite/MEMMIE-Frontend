@@ -11,37 +11,20 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
+import readMemoryStore from '@/stores/ReadMemoryStore'
+import AvatarCommon from '@/common/Avatar.common'
+import profileStore from '@/stores/ProfileStore'
+import { observer } from 'mobx-react'
 
-interface Props {
-  caption: string
-  privacy: string
-  mention: string
-  description: string
-  handlePostSetting: () => void
-  handleSelectFriend: () => void
-}
+interface Props {}
 
-const ReadMemoryForm: React.FC<Props> = props => {
-  const {
-    caption,
-    privacy,
-    mention,
-    description,
-    handlePostSetting,
-    handleSelectFriend
-  } = props
-
-  const [memoryForm, setMemoryForm] = useState({
-    caption: '',
-    privacy: 'everyone',
-    mention: '',
-    description: ''
-  })
-
+const ReadMemoryForm: React.FC<Props> = observer(props => {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <View style={styles.icon}></View>
+        <View style={styles.icon}>
+          <AvatarCommon uri={profileStore.avatar} width={42} height={42} />
+        </View>
       </View>
 
       <View style={styles.inputSection}>
@@ -49,24 +32,19 @@ const ReadMemoryForm: React.FC<Props> = props => {
           <View style={styles.iconBackground}>
             <AlignLeftIcon width={15} height={15} />
           </View>
-          <Text
-            style={styles.inputText}
-            // value={memoryForm.caption}
-          />
+          <Text style={styles.inputText}>{readMemoryStore.short_caption}</Text>
         </View>
 
         <View style={styles.tagsContainer}>
-          <TouchableOpacity onPress={handlePostSetting}>
-            <View style={styles.tag}>
-              <View style={styles.iconBackground}>
-                <LanguageIcon width={15} height={15} />
-              </View>
-              <Text style={styles.tagText}>Everyone</Text>
-              <NavArrowDownIcon />
+          <View style={styles.tag}>
+            <View style={styles.iconBackground}>
+              <LanguageIcon width={15} height={15} />
             </View>
-          </TouchableOpacity>
+            <Text style={styles.tagText}>Everyone</Text>
+            <NavArrowDownIcon />
+          </View>
 
-          <TouchableOpacity onPress={handleSelectFriend}>
+          <TouchableOpacity onPress={() => {}}>
             <View style={styles.tag}>
               <View style={styles.iconBackground}>
                 <FriendIcon width={15} height={15} />
@@ -78,17 +56,12 @@ const ReadMemoryForm: React.FC<Props> = props => {
         </View>
 
         <View style={styles.caption}>
-          <TextInput
-            multiline={true}
-            placeholder="Type here ..."
-            placeholderTextColor={themes.light.secondary.hex}
-            style={styles.inputCaption}
-          />
+          <Text>{readMemoryStore.caption}</Text>
         </View>
       </View>
     </View>
   )
-}
+})
 
 export default ReadMemoryForm
 
@@ -97,13 +70,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10
   },
-  iconContainer: {
-    // Add any additional styles for the icon container if needed
-  },
+  iconContainer: {},
   icon: {
     width: 42,
     height: 42,
-    backgroundColor: 'red',
+    backgroundColor: themes.light.tertiary.hex,
+    overflow: 'hidden',
     borderRadius: 100
   },
   inputSection: {

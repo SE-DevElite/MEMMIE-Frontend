@@ -1,6 +1,7 @@
 import AvatarCommon from '@/common/Avatar.common'
 import React, { useState } from 'react'
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 import SwitchCommon from '@/common/Switch.common'
@@ -11,6 +12,8 @@ interface UserHeadingProps {
   onPressAvatar: () => void
   avatar: string
   username: string
+  // currentScreen: string
+  // setCurrentScreen: () => string
 }
 
 const UserHeading: React.FC<UserHeadingProps> = props => {

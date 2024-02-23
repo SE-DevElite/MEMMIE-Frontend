@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Svg, { Image } from 'react-native-svg'
+import Svg, { Image, Path } from 'react-native-svg'
 
 interface FriendIconProps {
   width?: number
@@ -12,12 +12,22 @@ const FriendIcon: React.FC<FriendIconProps> = props => {
     <Svg
       width={width || 15}
       height={height || 15}
-      viewBox="0 0 15 15"
+      viewBox="0 0 21 23"
+      fill="none"
       {...props}>
-      <Image
-        width={width || 15}
-        height={height || 15}
-        xlinkHref="data:image/png;base64,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"
+      <Path
+        d="M1.5 22.086V20.8a9 9 0 0118 0v1.286"
+        stroke="#fff"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M10.5 11.8a5.143 5.143 0 100-10.286 5.143 5.143 0 000 10.286z"
+        stroke="#fff"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Svg>
   )

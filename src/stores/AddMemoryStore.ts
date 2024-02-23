@@ -10,27 +10,45 @@ import { configure } from 'mobx'
 configure({
   enforceActions: 'never'
 })
+const currentTime: Date = new Date()
+currentTime.setHours(currentTime.getHours())
 
 class AddMemoryStore {
-  select_month: string = MONTH[new Date().getMonth()]
-  select_year: string = new Date().getFullYear().toString()
+  select_month: string = MONTH[currentTime.getMonth()]
+  select_year: string = currentTime.getFullYear().toString()
   weather: number = 0
   mood: number = 0
   short_caption: string = ''
   caption: string = ''
   privacy: string = 'public'
-  hours: number = new Date().getHours()
-  minutes: number = new Date().getMinutes()
+  hours: number = currentTime.getHours()
+  minutes: number = currentTime.getMinutes()
 
   image_info: ImageInfo[] = []
 
-  date_time: Date = new Date()
+  date_time: Date = currentTime
 
   constructor() {
     makeAutoObservable(this)
   }
+  @action
+  clearState = () => {
+    this.select_month = MONTH[currentTime.getMonth()]
+    this.select_year = currentTime.getFullYear().toString()
+    this.weather = 0
+    this.mood = 0
+    this.short_caption = ''
+    this.caption = ''
+    this.privacy = 'public'
+    this.hours = currentTime.getHours()
+    this.minutes = currentTime.getMinutes()
+
+    this.image_info = []
+    this.date_time = currentTime
+  }
 
   @action
+
   handleEditDateTime = (date: Date, type_case: string) => {
     console.log('DATE STORE BEFORE CHNAGE: ', this.date_time)
     console.log('Date send: ', date)
@@ -121,7 +139,7 @@ class AddMemoryStore {
     const upload_res = await UploadRequestWithToken(access_token as string)
       .post(`/memories/upload/${memory_id}`, formData)
       .then(res => res.data)
-
+    this.clearState()
     return upload_res
   }
 }

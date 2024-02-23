@@ -1,68 +1,50 @@
 import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
+import { ActivityIndicator, TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
-import AddMemorySelectTime from './AddMemorySelectTime'
-import AddMemoryDayAndMood from './AddMemoryDayAndMood'
-import AddMemoryForm from './AddMemoryForm'
-import AddMemoryUploadImage from './AddMemoryUploadImage'
-import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native'
-import addMemoryStore from '@/stores/AddMemoryStore'
+import ButtonLongCommon from '@/common/ButtonLong.common'
 import { observer } from 'mobx-react'
+import { ScrollView } from 'react-native-gesture-handler'
+import EditMemoryDayAndMood from './EditMemoryDayAndMood'
+import EditMemorySelectTime from './EditMemorySelectTime'
+import EditMemoryForm from './EditMemoryForm'
+import EditMemoryUploadImage from './EditMemoryUploadImage'
 
 interface Props {
-  handleEditDate: () => void
-  handleEditTime: () => void
-  handleClose: () => void
   handlePinPlace: () => void
-  handlePostSetting: () => void
-  handleSelectFriend: () => void
+  handleClose: () => void
 }
 
-const AddMemory: React.FC<Props> = observer(props => {
-  const {
-    handleEditTime,
-    handleClose,
-    handlePostSetting,
-    handleSelectFriend,
-    handleEditDate,
-    handlePinPlace
-  } = props
-
+const EditMemory: React.FC<Props> = observer(props => {
+  const { handlePinPlace, handleClose } = props
   const [waitState, setWaitState] = useState<boolean>(false)
 
   const handleSubmit = async () => {
-    if (addMemoryStore.image_info.length === 0) return
-    if (addMemoryStore.caption === '' || addMemoryStore.short_caption === '')
-      return
-    console.log(addMemoryStore)
-    setWaitState(true)
-
-    const upload_res = await addMemoryStore.submitMemory()
-    if (!upload_res.error) {
-      handleClose()
-    }
-
-    setWaitState(false)
-  }
-  const onPressClose = async () => {
-    handleClose()
-    addMemoryStore.clearState()
+    // if (addMemoryStore.image_info.length === 0) return
+    // if (addMemoryStore.caption === '' || addMemoryStore.short_caption === '')
+    //   return
+    // setWaitState(true)
+    // const upload_res = await addMemoryStore.submitMemory()
+    // if (!upload_res.error) {
+    //   handleClose()
+    // }
+    // setWaitState(false)
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity onPress={onPressClose}>
+          <TouchableOpacity onPress={handleClose}>
             <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>
 
-          <Text style={styles.headingTextStyles}>Add memory</Text>
+          <Text style={styles.headingTextStyles}>Edit memory</Text>
 
           {waitState ? (
             <ActivityIndicator style={{ width: 30 }} />
           ) : (
-            <TouchableOpacity onPress={handleSubmit}>
+            <TouchableOpacity onPress={() => {}}>
               <View style={styles.postPaddingStyle}>
                 <Text
                   style={{
@@ -70,7 +52,7 @@ const AddMemory: React.FC<Props> = observer(props => {
                     fontFamily: themes.fonts.regular,
                     color: themes.light.secondary.hex
                   }}>
-                  Post
+                  Save
                 </Text>
               </View>
             </TouchableOpacity>
@@ -82,22 +64,28 @@ const AddMemory: React.FC<Props> = observer(props => {
       <View style={styles.bodyStyle}>
         <ScrollView>
           <View style={{ gap: 20 }}>
-            <View style={{ gap: 20, paddingHorizontal: 20 }}>
-              <AddMemoryDayAndMood handlePinPlace={handlePinPlace} />
-
-              <AddMemorySelectTime
-                handleEditDate={handleEditDate}
-                handleEditTime={handleEditTime}
+            <View style={{ gap: 20, paddingHorizontal: 30 }}>
+              <EditMemoryDayAndMood
+                handlePinPlace={handlePinPlace}
+                // handlePinPlace={handlePinPlace}
               />
 
-              <AddMemoryForm
-                handlePostSetting={handlePostSetting}
-                handleSelectFriend={handleSelectFriend}
+              <EditMemorySelectTime
+                handleEditDate={() => {}}
+                handleEditTime={() => {}}
+                // handleEditDate={handleEditDate}
+                // handleEditTime={handleEditTime}
               />
-            </View>
 
-            <View style={{ flex: 1 }}>
-              <AddMemoryUploadImage />
+              <EditMemoryForm
+                handlePostSetting={() => {}}
+                handleSelectFriend={() => {}}
+                // handlePostSetting={handlePostSetting}
+                // handleSelectFriend={handleSelectFriend}
+              />
+              <View style={{ flex: 1 }}>
+                <EditMemoryUploadImage />
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -106,7 +94,7 @@ const AddMemory: React.FC<Props> = observer(props => {
   )
 })
 
-export default AddMemory
+export default EditMemory
 
 const styles = StyleSheet.create({
   container: {

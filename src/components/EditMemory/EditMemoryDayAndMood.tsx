@@ -2,22 +2,22 @@ import { DAY } from '@/common/consts/DateTime.consts'
 import { MoodElement } from '@/common/consts/MoodElement.consts'
 import { themes } from '@/common/themes/themes'
 import addMemoryStore from '@/stores/AddMemoryStore'
+import readMemoryStore from '@/stores/ReadMemoryStore'
 import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
-import readMemoryStore from '@/stores/ReadMemoryStore'
-///ปักเหลือ Mood
+
 type MoodEle = {
   label: string
   icon: React.JSX.Element
 }
 
 interface Props {
-  //   handlePinPlace: () => void
+  handlePinPlace: () => void
 }
 
-const ReadMemoryDayAndMood: React.FC<Props> = observer(props => {
-  //   const { handlePinPlace } = props
+const EditMemoryDayAndMood: React.FC<Props> = observer(props => {
+  const { handlePinPlace } = props
   const [mood, setMood] = useState<MoodEle[]>()
   const [selectMood, setSelectMood] = useState<number>(0)
 
@@ -27,27 +27,36 @@ const ReadMemoryDayAndMood: React.FC<Props> = observer(props => {
     setMood(MoodElement.Male)
   }, [])
 
+  const handleChangeMood = () => {
+    const current_idx = (selectMood + 1) % 4
+    setSelectMood(current_idx)
+
+    addMemoryStore.mood = current_idx
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
-        <Text style={styles.dayText}>
-          {readMemoryStore.day.toLocaleUpperCase()}
-        </Text>
-        <Text numberOfLines={1} style={styles.descriptionText}>
-          {readMemoryStore.location_name}
-        </Text>
+        <Text style={styles.dayText}>{readMemoryStore.day.toUpperCase()}</Text>
+        <TouchableOpacity onPress={handlePinPlace}>
+          <Text numberOfLines={1} style={styles.descriptionText}>
+            King's Mongkut University technology of thonburi
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {mood && (
-        <View style={styles.moodContainer}>
-          <View style={styles.moodIcon}>{mood[selectMood].icon}</View>
-        </View>
+        <TouchableOpacity onPress={handleChangeMood}>
+          <View style={styles.moodContainer}>
+            <View style={styles.moodIcon}>{mood[selectMood].icon}</View>
+          </View>
+        </TouchableOpacity>
       )}
     </View>
   )
 })
 
-export default ReadMemoryDayAndMood
+export default EditMemoryDayAndMood
 
 const styles = StyleSheet.create({
   container: {

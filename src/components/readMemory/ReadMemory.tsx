@@ -2,42 +2,73 @@ import React from 'react'
 import { themes } from '@/common/themes/themes'
 import { TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
+import ButtonLongCommon from '@/common/ButtonLong.common'
+import ReadMemoryDayAndMood from './ReadMemoryDayAndMood'
+import ReadMemoryTime from './ReadMemoryTime'
+import ReadMemoryForm from './ReadMemoryForm'
+import ReadMemoryImage from './ReadMemoryImage'
+import DeleteMemory from './DeleteMemory'
+import { observer } from 'mobx-react'
+import editMemoryStore from '@/stores/EditMemoryStore'
+import readMemoryStore from '@/stores/ReadMemoryStore'
 
-interface Props {}
+interface Props {
+  onEditMemoryPress: () => void
+  onDeleteMemoryPress: () => void
+}
 
-const ReadMemory: React.FC<Props> = props => {
-  const {} = props
+const ReadMemory: React.FC<Props> = observer(props => {
+  const { onEditMemoryPress, onDeleteMemoryPress } = props
+  const onPressEdit = () => {
+    editMemoryStore.updateMemoryDetails({ ...readMemoryStore })
+    editMemoryStore.updateMemoryList(0, { ...readMemoryStore.memory_lists[0] })
 
+    onEditMemoryPress()
+    // console.log('\nEDIT ::: ', editMemoryStore.memory_lists)
+  }
   return (
     <View style={styles.container}>
       <View style={{ paddingHorizontal: 30, gap: 20 }}>
-        {/* <ReadMemoryDayAndMood />
+        <ReadMemoryDayAndMood />
         <ReadMemoryTime />
-        <ReadMemoryForm /> */}
+        <ReadMemoryForm />
+        <ReadMemoryImage />
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: themes.light.tertiary.hex,
+            justifyContent: 'space-between',
+            flexDirection: 'row'
+            // paddingHorizontal: 30
+          }}>
+          <ButtonLongCommon
+            title={'Delete'}
+            onPress={() => {
+              onDeleteMemoryPress()
+            }}
+            width={175}
+            height={40}
+            background_color={'#D9D9D9'}
+            color="#848484"
+            font_size={15}
+            fonts="sigular"
+          />
+          <ButtonLongCommon
+            title={'Edit'}
+            onPress={onPressEdit}
+            width={175}
+            height={40}
+            background_color={'#FFEAF2'}
+            color="#66023C"
+            font_size={15}
+            fonts="sigular"
+          />
+        </View>
       </View>
       {/* Edit and Delete */}
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: themes.light.tertiary.hex,
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          paddingHorizontal: 30
-        }}>
-        <TouchableOpacity onPress={() => console.log('Delete')}>
-          <View style={styles.BottomButton}>
-            <Text>Delete</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Edit')}>
-          <View style={styles.BottomButton}>
-            <Text>Edit</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
     </View>
   )
-}
+})
 
 export default ReadMemory
 

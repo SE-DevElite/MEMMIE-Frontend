@@ -14,29 +14,30 @@ import profileStore from '@/stores/ProfileStore'
 import AvatarCommon from '@/common/Avatar.common'
 import addMemoryStore from '@/stores/AddMemoryStore'
 import { observer } from 'mobx-react'
+import editMemoryStore from '@/stores/EditMemoryStore'
 
 interface Props {
   handlePostSetting: () => void
   handleSelectFriend: () => void
 }
 
-const AddMemoryForm: React.FC<Props> = observer(props => {
+const EditMemoryForm: React.FC<Props> = observer(props => {
   const { handlePostSetting, handleSelectFriend } = props
   const [short_caption, setShortCaption] = useState<string>(
-    addMemoryStore.short_caption
+    editMemoryStore.short_caption
   )
   const [long_caption, setLongCaption] = useState<string>(
-    addMemoryStore.caption
+    editMemoryStore.caption
   )
 
   const handleShortCaption = (e: string) => {
     setShortCaption(e)
-    addMemoryStore.short_caption = e
+    editMemoryStore.short_caption = e
   }
 
   const handleLongCaption = (e: string) => {
     setLongCaption(e)
-    addMemoryStore.caption = e
+    editMemoryStore.caption = e
   }
 
   return (
@@ -53,10 +54,10 @@ const AddMemoryForm: React.FC<Props> = observer(props => {
             <AlignLeftIcon width={15} height={15} />
           </View>
           <TextInput
-            placeholder="Enter short caption"
+            placeholder={'Enter short caption'}
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputText}
-            value={short_caption}
+            value={editMemoryStore.short_caption || short_caption}
             onChange={e => handleShortCaption(e.nativeEvent.text)}
           />
         </View>
@@ -93,10 +94,10 @@ const AddMemoryForm: React.FC<Props> = observer(props => {
             multiline={true}
             scrollEnabled={false}
             spellCheck={true}
-            placeholder="Type here ..."
+            placeholder={'Type here ...'}
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputCaption}
-            value={long_caption}
+            value={editMemoryStore.caption || long_caption}
             onChange={e => handleLongCaption(e.nativeEvent.text)}
           />
         </View>
@@ -105,7 +106,7 @@ const AddMemoryForm: React.FC<Props> = observer(props => {
   )
 })
 
-export default AddMemoryForm
+export default EditMemoryForm
 
 const styles = StyleSheet.create({
   container: {

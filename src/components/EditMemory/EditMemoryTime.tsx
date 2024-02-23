@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import { TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
@@ -7,29 +7,19 @@ import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Props {
   handleClose: () => void
-  handleSetTime: () => void
+  handleSetTime: (time: Date) => void
 }
 
-const EditTime: React.FC<Props> = props => {
+const EditMemoryTime: React.FC<Props> = props => {
   const { handleClose, handleSetTime } = props
-
-  const [time_gmt, setTimeGMT] = useState<Date>(new Date())
-  const [current_time, setCurrentTime] = useState<Date>(
-    new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
-  )
-
-  const handleSave = () => {
-    addMemoryStore.handleEditDateTime(current_time, 'time')
-    handleSetTime()
+  const [current_time, setCurrentTime] = useState<Date>(new Date())
+  const handleEditTime = (date: Date) => {
+    let tmr = new Date(date)
+    tmr.setHours(tmr.getHours() + 7)
+    addMemoryStore.handleEditDateTime(tmr)
+    handleSetTime(date)
   }
-
-  const handleChangeTime = (date: Date) => {
-    setTimeGMT(date)
-    var utc_date = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-
-    setCurrentTime(utc_date)
-  }
-
+  // current_time.setHours(current_time.getHours() - 7)
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
@@ -43,7 +33,12 @@ const EditTime: React.FC<Props> = props => {
           </TouchableOpacity>
 
           <Text style={styles.headingTextStyles}>Edit time</Text>
-          <TouchableOpacity onPress={handleSave}>
+
+          <TouchableOpacity
+            onPress={() => {
+              handleEditTime(current_time)
+              console.log(addMemoryStore.date_time)
+            }}>
             <Text
               style={{
                 ...styles.buttonStyle,
@@ -60,15 +55,11 @@ const EditTime: React.FC<Props> = props => {
 
       <View style={styles.layout}>
         <RNDateTimePicker
-          value={time_gmt}
+          value={current_time}
           mode="time"
           display="spinner"
           onChange={(event, value) => {
-
-            if (value) {
-              handleChangeTime(value)
-            }
-
+            setCurrentTime(value || current_time)
           }}
         />
       </View>
@@ -76,7 +67,7 @@ const EditTime: React.FC<Props> = props => {
   )
 }
 
-export default EditTime
+export default EditMemoryTime
 
 const styles = StyleSheet.create({
   container: {

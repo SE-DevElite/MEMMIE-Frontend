@@ -4,24 +4,22 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
 import { WeatherElement } from '@/common/consts/WeatherElement.consts'
 import addMemoryStore from '@/stores/AddMemoryStore'
+import editMemoryStore from '@/stores/EditMemoryStore'
 import { observer } from 'mobx-react'
-import readMemoryStore from '@/stores/ReadMemoryStore'
-//weather
+
 interface Props {
-  //   handleEditDate: () => void
-  //   handleEditTime: () => void
+  handleEditDate: () => void
+  handleEditTime: () => void
 }
 
-const ReadMemoryTime: React.FC<Props> = observer(props => {
-  //   const { handleEditDate, handleEditTime } = props
+const EditMemorySelectTime: React.FC<Props> = observer(props => {
+  const { handleEditDate, handleEditTime } = props
   const [weather, setWeather] = useState<number>(addMemoryStore.weather)
-
+  const Selected_date = new Date(editMemoryStore.selected_datetime)
   const collectDate = [
-    parseInt(readMemoryStore.datetime[0].day_date) == 0
-      ? 1
-      : readMemoryStore.datetime[0].day_date,
-    MONTH_SHORT[parseInt(readMemoryStore.datetime[0].month_date) - 1],
-    readMemoryStore.datetime[0].year_date
+    Selected_date.getDate() == 0 ? 1 : Selected_date.getDate(),
+    MONTH_SHORT[Selected_date.getMonth()],
+    Selected_date.getFullYear()
   ]
 
   const handleSetWeather = () => {
@@ -36,9 +34,11 @@ const ReadMemoryTime: React.FC<Props> = observer(props => {
       <View style={styles.dateSection}>
         {collectDate.map((item, index) => (
           <View style={styles.dateItemContainer} key={index}>
-            <View style={styles.dateContainer}>
-              <Text style={styles.dateTextStyle}>{item}</Text>
-            </View>
+            <TouchableOpacity onPress={handleEditDate}>
+              <View style={styles.dateContainer}>
+                <Text style={styles.dateTextStyle}>{item}</Text>
+              </View>
+            </TouchableOpacity>
             <View>
               <Text style={styles.timeTextStyle}>
                 {index === 0 ? 'Date' : index === 1 ? 'Month' : 'Year'}
@@ -47,34 +47,34 @@ const ReadMemoryTime: React.FC<Props> = observer(props => {
           </View>
         ))}
       </View>
-      {/* <TouchableOpacity
-        style={styles.dateContainer}
-        onPress={() => {
-          console.log(readMemoryStore.datetime[0].day_date)
-        }}
-      /> */}
+
       <View>
         <View style={styles.timeInnerContainer}>
-          <View style={styles.weatherIcon}>{WeatherElement[weather].icon}</View>
+          <TouchableOpacity onPress={handleSetWeather}>
+            <View style={styles.weatherIcon}>
+              {WeatherElement[weather].icon}
+            </View>
+          </TouchableOpacity>
 
-          <View style={{ padding: 5 }}>
-            <Text style={styles.timeText}>
-              {parseInt(readMemoryStore.datetime[0].hour_date)
-                .toString()
-                .padStart(2, '0')}{' '}
-              :{' '}
-              {parseInt(readMemoryStore.datetime[0].minute_date)
-                .toString()
-                .padStart(2, '0')}
-            </Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              handleEditTime()
+              // console.log(addMemoryStore.date_time)
+            }}>
+            <View style={{ padding: 5 }}>
+              <Text style={styles.timeText}>
+                {Selected_date.getHours().toString().padStart(2, '0')} :{' '}
+                {Selected_date.getMinutes().toString().padStart(2, '0')}
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
   )
 })
 
-export default ReadMemoryTime
+export default EditMemorySelectTime
 
 const styles = StyleSheet.create({
   container: {

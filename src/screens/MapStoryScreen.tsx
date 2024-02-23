@@ -5,7 +5,13 @@ import MapViewStory from '@/components/mapStory/MapViewStory'
 import { useNavigation } from '@react-navigation/native'
 import MapSearchBar from '@/components/mapStory/MapSearchBar'
 
-const MapStoryScreen: React.FC = () => {
+interface MapStoryScreenProps {
+  avatar: string
+  username: string
+}
+
+const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
+  const { avatar, username } = props
   const navigation = useNavigation()
 
   return (
@@ -16,7 +22,7 @@ const MapStoryScreen: React.FC = () => {
           avatar={
             'https://i.pinimg.com/564x/96/f4/eb/96f4eb050895ed555700f9ee77496c72.jpg'
           }
-          username={'Nutthanon Thongcharoen'}
+          username={username}
         />
       </View>
       <MapSearchBar />

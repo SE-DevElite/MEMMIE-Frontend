@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import { TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
@@ -7,43 +7,37 @@ import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Props {
   handleClose: () => void
-  handleSetTime: () => void
+  handleSave?: (date: Date, type_filter: string) => void
+  type_filter?: string
 }
 
-const EditTime: React.FC<Props> = props => {
-  const { handleClose, handleSetTime } = props
+const EditMemoryDate: React.FC<Props> = props => {
+  const { handleClose, handleSave, type_filter } = props
+  const [dateSelect, setDateSelect] = useState<Date>(addMemoryStore.date_time)
 
-  const [time_gmt, setTimeGMT] = useState<Date>(new Date())
-  const [current_time, setCurrentTime] = useState<Date>(
-    new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
-  )
+  const handleEditDate = (date: Date) => {
+    let tmr = new Date(date)
+    tmr.setHours(tmr.getHours() + 7)
+    addMemoryStore.handleEditDateTime(tmr)
 
-  const handleSave = () => {
-    addMemoryStore.handleEditDateTime(current_time, 'time')
-    handleSetTime()
-  }
+    if (handleSave && type_filter) {
+      handleSave(date, type_filter)
+    }
 
-  const handleChangeTime = (date: Date) => {
-    setTimeGMT(date)
-    var utc_date = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-
-    setCurrentTime(utc_date)
+    handleClose()
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity
-            onPress={() => {
-              handleClose()
-              console.log(current_time)
-            }}>
+          <TouchableOpacity onPress={handleClose}>
             <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>
 
-          <Text style={styles.headingTextStyles}>Edit time</Text>
-          <TouchableOpacity onPress={handleSave}>
+          <Text style={styles.headingTextStyles}>Edit date</Text>
+
+          <TouchableOpacity onPress={() => handleEditDate(dateSelect)}>
             <Text
               style={{
                 ...styles.buttonStyle,
@@ -60,15 +54,13 @@ const EditTime: React.FC<Props> = props => {
 
       <View style={styles.layout}>
         <RNDateTimePicker
-          value={time_gmt}
-          mode="time"
+          value={dateSelect}
+          mode="date"
           display="spinner"
           onChange={(event, value) => {
-
             if (value) {
-              handleChangeTime(value)
+              setDateSelect(value || new Date())
             }
-
           }}
         />
       </View>
@@ -76,7 +68,7 @@ const EditTime: React.FC<Props> = props => {
   )
 }
 
-export default EditTime
+export default EditMemoryDate
 
 const styles = StyleSheet.create({
   container: {

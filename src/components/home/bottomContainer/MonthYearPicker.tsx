@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingTop: 32
+    // backgroundColor: 'red'
   },
   monthPicker: {
     flex: 1

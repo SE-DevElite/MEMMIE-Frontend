@@ -31,8 +31,6 @@ class EditMemoryStore {
 
   // image_info: ImageInfo[] = []
 
-  // date_time: Date = new Date()
-
   caption: string = ''
   created_at: string = ''
   day: string = ''
@@ -62,6 +60,7 @@ class EditMemoryStore {
       minute_date: ''
     }
   ]
+  date_time: Date = new Date()
 
   constructor() {
     makeAutoObservable(this)

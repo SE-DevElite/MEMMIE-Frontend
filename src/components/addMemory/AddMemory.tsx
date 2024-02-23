@@ -34,7 +34,7 @@ const AddMemory: React.FC<Props> = observer(props => {
     if (addMemoryStore.image_info.length === 0) return
     if (addMemoryStore.caption === '' || addMemoryStore.short_caption === '')
       return
-
+    console.log(addMemoryStore)
     setWaitState(true)
 
     const upload_res = await addMemoryStore.submitMemory()

@@ -18,7 +18,7 @@ const CalendarTable: React.FC<Props> = observer(props => {
 
   const handleSelect = async memory => {
     onReadMemoryPress()
-    // readMemoryStore.clearState()
+
     readMemoryStore.updateMemoryDetails({
       ...memory.memories[0]
     })

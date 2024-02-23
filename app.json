@@ -15,7 +15,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.MEMMIE"
+      "bundleIdentifier": "com.anonymous.MEMMIE",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow access to your photo library to select images for uploading."
+      }
     },
     "android": {
       "adaptiveIcon": {

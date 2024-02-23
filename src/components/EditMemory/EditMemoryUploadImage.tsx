@@ -62,10 +62,14 @@ const EditMemoryUploadImage: React.FC = observer(() => {
                   <XcloseIcon color={themes.light.primary.hex} />
                 </TouchableWithoutFeedback>
               </View>
-              <Image
-                source={{ uri: item.memory_url }}
-                style={styles.imageStyle}
-              />
+              {item.memory_url ? (
+                <Image
+                  source={{ uri: item.memory_url }}
+                  style={styles.imageStyle}
+                />
+              ) : (
+                <></>
+              )}
             </TouchableWithoutFeedback>
           ))}
         </ScrollView>

@@ -92,16 +92,18 @@ const styles = StyleSheet.create({
     minHeight: 320
   },
   imageContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
+    marginHorizontal: 30
     // backgroundColor: 'red'
   },
   flexChild: {
-    width: windowWidth - 60,
+    width: windowWidth - windowWidth / 5.8,
     height: 190,
     borderRadius: 30,
     overflow: 'hidden',
-    backgroundColor: themes.light.tertiary.hex
+    backgroundColor: themes.light.tertiary.hex,
     // marginHorizontal: 16
+    marginHorizontal: 5
   },
   imageStyle: {
     minHeight: 190,

@@ -27,7 +27,9 @@ class AddMemoryStore {
   privacy: string = 'public'
   hours: number = currentTime.getHours()
   minutes: number = currentTime.getMinutes()
-
+  location_name: string = ''
+  lat: number = 0
+  long: number = 0
   image_info: ImageInfo[] = []
 
   date_time: Date = currentTime
@@ -173,7 +175,7 @@ class AddMemoryStore {
       mood: MoodElement['Male'][addMemoryStore.mood].label.toLocaleLowerCase(),
       weather: WeatherElement[addMemoryStore.weather].label.toLocaleLowerCase(),
       day: DAY[addMemoryStore.date_time.getDay()].toLocaleLowerCase(),
-      location_name: "King's monkut university technology of thonburi.",
+      location_name: this.location_name,
       selected_datetime: select_time,
       mention: []
     }

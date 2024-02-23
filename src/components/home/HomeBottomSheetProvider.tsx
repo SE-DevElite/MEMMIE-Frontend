@@ -159,7 +159,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
         />
       </LongBottomSheetCommon>
 
-      <LongBottomSheetCommon ref={pinPlaceBottomSheetRef}>
+      <LongBottomSheetCommon
+        snapPoint={['50%', '60%', '70%', '80%']}
+        ref={pinPlaceBottomSheetRef}>
         <PinPlace />
       </LongBottomSheetCommon>
 

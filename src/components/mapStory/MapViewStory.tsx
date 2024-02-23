@@ -37,6 +37,28 @@ const mock_data = [
 ]
 
 const MapViewStory: React.FC = () => {
+  const [location, setLocation] = useState<{
+    latitude: number
+    longitude: number
+  } | null>(null)
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync()
+      if (status === 'granted') {
+        const location = await Location.getCurrentPositionAsync({})
+        setLocation({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
+        })
+      } else {
+        console.log('Location permission denied')
+      }
+    }
+
+    requestLocationPermission()
+  }, [])
+
   const ref = React.useRef<MapView>(null)
   const [data, setData] = useState(mock_data)
 

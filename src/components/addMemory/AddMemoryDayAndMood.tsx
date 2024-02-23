@@ -41,7 +41,7 @@ const AddMemoryDayAndMood: React.FC<Props> = observer(props => {
         </Text>
         <TouchableOpacity onPress={handlePinPlace}>
           <Text numberOfLines={1} style={styles.descriptionText}>
-            King's Mongkut University technology of thonburi
+            {addMemoryStore.location_name}
           </Text>
         </TouchableOpacity>
       </View>

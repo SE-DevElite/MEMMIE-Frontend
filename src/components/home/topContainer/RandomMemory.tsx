@@ -13,12 +13,14 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
 import * as MediaLibrary from 'expo-media-library'
 import * as Permissions from 'expo-permissions'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
   onAddMemoryPress: () => void
 }
 
-const RandomMemory: React.FC<Props> = props => {
+const RandomMemory: React.FC<Props> = observer(props => {
   const { onAddMemoryPress } = props
   const currentTime: Date = new Date()
   const collectDate = [
@@ -65,7 +67,7 @@ const RandomMemory: React.FC<Props> = props => {
                   numberOfLines={1}
                   ellipsizeMode="tail"
                   style={styles.placeText}>
-                  King mongkut's university of technology thonburi
+                  {addMemoryStore.location_name}
                 </Text>
                 <Text style={styles.timeText}>
                   {currentTime.getHours().toString().padStart(2, '0')} :{' '}
@@ -99,7 +101,7 @@ const RandomMemory: React.FC<Props> = props => {
       )}
     </View>
   )
-}
+})
 
 export default RandomMemory
 

@@ -38,7 +38,7 @@ const EditTime: React.FC<Props> = props => {
           <TouchableOpacity
             onPress={() => {
               handleClose()
-              console.log(current_time)
+              // console.log(current_time)
             }}>
             <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>

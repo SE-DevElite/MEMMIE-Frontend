@@ -7,6 +7,7 @@ import AddMemoryForm from './AddMemoryForm'
 import AddMemoryUploadImage from './AddMemoryUploadImage'
 import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native'
 import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
   handleEditDate: () => void
@@ -17,7 +18,7 @@ interface Props {
   handleSelectFriend: () => void
 }
 
-const AddMemory: React.FC<Props> = props => {
+const AddMemory: React.FC<Props> = observer(props => {
   const {
     handleEditTime,
     handleClose,
@@ -99,7 +100,7 @@ const AddMemory: React.FC<Props> = props => {
       </View>
     </View>
   )
-}
+})
 
 export default AddMemory
 

@@ -31,9 +31,20 @@ class AddMemoryStore {
   }
 
   @action
-  handleEditDateTime = (date: Date) => {
-    console.log(date)
-    this.date_time = date
+  handleEditDateTime = (date: Date, type_case: string) => {
+    console.log('DATE STORE BEFORE CHNAGE: ', this.date_time)
+    console.log('Date send: ', date)
+
+    switch (type_case) {
+      case 'date':
+        this.date_time = date
+        console.log('DATE STORE AFTER CHNAGE: ', this.date_time)
+        return
+      case 'time':
+        this.hours = parseInt(date.toISOString().split('T')[1].split(':')[0])
+        this.minutes = parseInt(date.toISOString().split('T')[1].split(':')[1])
+        return
+    }
   }
 
   @action

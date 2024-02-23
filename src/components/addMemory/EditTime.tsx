@@ -15,6 +15,7 @@ const EditTime: React.FC<Props> = props => {
 
   const [time_gmt, setTimeGMT] = useState<Date>(new Date())
   const [current_time, setCurrentTime] = useState<Date>(
+    // new Date()
     new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
   )
 
@@ -61,14 +62,14 @@ const EditTime: React.FC<Props> = props => {
       <View style={styles.layout}>
         <RNDateTimePicker
           value={time_gmt}
+          // value={current_time}
           mode="time"
           display="spinner"
           onChange={(event, value) => {
-
+            // setCurrentTime(value || current_time)
             if (value) {
               handleChangeTime(value)
             }
-
           }}
         />
       </View>

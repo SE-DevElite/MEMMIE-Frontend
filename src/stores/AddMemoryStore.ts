@@ -6,6 +6,7 @@ import { getAccessToken } from '@/helpers/TokenHandler'
 import { ImageInfo } from '@/interface/memory_request'
 import { action, makeAutoObservable } from 'mobx'
 import { configure } from 'mobx'
+import { format, parse } from 'date-fns'
 
 configure({
   enforceActions: 'never'
@@ -14,6 +15,9 @@ const currentTime: Date = new Date()
 currentTime.setHours(currentTime.getHours())
 
 class AddMemoryStore {
+  date: number = currentTime.getDate()
+  month: number = currentTime.getMonth()
+  year: number = currentTime.getFullYear()
   select_month: string = MONTH[currentTime.getMonth()]
   select_year: string = currentTime.getFullYear().toString()
   weather: number = 0
@@ -33,6 +37,9 @@ class AddMemoryStore {
   }
   @action
   clearState = () => {
+    this.date = currentTime.getDate()
+    this.month = currentTime.getMonth()
+    this.year = currentTime.getFullYear()
     this.select_month = MONTH[currentTime.getMonth()]
     this.select_year = currentTime.getFullYear().toString()
     this.weather = 0
@@ -48,19 +55,60 @@ class AddMemoryStore {
   }
 
   @action
-
   handleEditDateTime = (date: Date, type_case: string) => {
-    console.log('DATE STORE BEFORE CHNAGE: ', this.date_time)
-    console.log('Date send: ', date)
-
+    let formattedDateTime = format(new Date(), 'yyyy-MM-dd HH:mm')
     switch (type_case) {
       case 'date':
-        this.date_time = date
-        console.log('DATE STORE AFTER CHNAGE: ', this.date_time)
+        this.date = parseInt(date.toISOString().split('T')[0].split('-')[2])
+        this.month =
+          parseInt(date.toISOString().split('T')[0].split('-')[1]) - 1
+        this.year = parseInt(date.toISOString().split('T')[0].split('-')[0])
+        this.select_month = MONTH[this.month]
+        const update_date = new Date(
+          this.year,
+          this.month,
+          this.date,
+          this.hours + 7,
+          this.minutes
+        )
+        formattedDateTime = format(update_date, 'yyyy-MM-dd HH:mm')
+        // this.date_time = formattedDateTime
+        this.date_time = parse(
+          formattedDateTime,
+          'yyyy-MM-dd HH:mm',
+          new Date()
+        )
+        // console.log(
+        //   'Push Date time : ',
+        //   this.hours,
+        //   this.minutes,
+        //   formattedDateTime,
+        //   this.date_time
+        // )
         return
       case 'time':
         this.hours = parseInt(date.toISOString().split('T')[1].split(':')[0])
         this.minutes = parseInt(date.toISOString().split('T')[1].split(':')[1])
+        const update_time = new Date(
+          this.year,
+          this.month,
+          this.date,
+          this.hours + 7,
+          this.minutes
+        )
+        formattedDateTime = format(update_time, 'yyyy-MM-dd HH:mm')
+        this.date_time = parse(
+          formattedDateTime,
+          'yyyy-MM-dd HH:mm',
+          new Date()
+        )
+        // console.log(
+        //   'Push Date time : ',
+        //   this.hours,
+        //   this.minutes,
+        //   formattedDateTime,
+        //   this.date_time
+        // )
         return
     }
   }

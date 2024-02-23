@@ -20,18 +20,17 @@ const EditDate: React.FC<Props> = props => {
 
   const handleEditDate = () => {
     addMemoryStore.handleEditDateTime(current_time, 'date')
-
+    console.log(current_time)
     if (handleSave && type_filter) {
       handleSave(current_time, type_filter)
     }
-
     handleClose()
   }
 
   const handleChangeTime = (date: Date) => {
     setTimeGMT(date)
     var utc_date = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-
+    // console.log(utc_date)
     setCurrentTime(utc_date)
   }
 

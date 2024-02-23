@@ -18,7 +18,7 @@ const AddMemorySelectTime: React.FC<Props> = observer(props => {
   const collectDate = [
     addMemoryStore.date_time.getDate() == 0
       ? 1
-      : addMemoryStore.date_time.getDate(),
+      : addMemoryStore.date_time.getDate() - 1,
     MONTH_SHORT[addMemoryStore.date_time.getMonth()],
     addMemoryStore.date_time.getFullYear()
   ]

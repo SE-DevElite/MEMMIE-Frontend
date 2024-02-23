@@ -1,17 +1,36 @@
-import React from 'react'
-import { themes } from '@/common/themes/themes'
-import { Dimensions, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { ActivityIndicator, Dimensions } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import ButtonLongCommon from '@/common/ButtonLong.common'
+import { RequestWithToken } from '@/api/DefaultRequest'
+import { getAccessToken } from '@/helpers/TokenHandler'
+import readMemoryStore from '@/stores/ReadMemoryStore'
 
 interface Props {
   handleClose: () => void
+  handleCloseReadMemory: () => void
 }
 
 const windowWidth = Dimensions.get('window').width
 
 const DeleteMemory: React.FC<Props> = props => {
-  const { handleClose } = props
+  const { handleClose, handleCloseReadMemory } = props
+  const [wait, setWait] = useState(false)
+
+  const handleDelete = async () => {
+    setWait(true)
+    const token = await getAccessToken()
+
+    console.log(readMemoryStore.memory_id)
+
+    await RequestWithToken(token as string)
+      .delete(`/memories/delete/${readMemoryStore.memory_id}`)
+      .then(res => {
+        handleClose()
+        handleCloseReadMemory()
+        setWait(false)
+      })
+  }
 
   return (
     <View style={styles.container}>
@@ -24,18 +43,24 @@ const DeleteMemory: React.FC<Props> = props => {
           if you change your mind, you'll have to past a new{' '}
           <Text style={styles.boldText}>memory</Text> agian.
         </Text>
-        <ButtonLongCommon
-          onPress={handleClose}
-          title="Delete"
-          background_color="#66023C"
-          color="#ffffff"
-          width={windowWidth - 120}
-          font_size={16}
-        />
+        {wait ? (
+          <View>
+            <ActivityIndicator size="large" color="#66023C" />
+          </View>
+        ) : (
+          <ButtonLongCommon
+            onPress={handleDelete}
+            title="Delete"
+            background_color="#66023C"
+            color="#ffffff"
+            width={windowWidth - 64}
+            font_size={16}
+          />
+        )}
         <ButtonLongCommon
           onPress={handleClose}
           title="Cancel"
-          width={windowWidth - 120}
+          width={windowWidth - 64}
           font_size={16}
           fonts="normal"
         />
@@ -65,7 +90,7 @@ const styles = StyleSheet.create({
   description: {
     marginVertical: 8,
     marginBottom: 16,
-    marginHorizontal: 50,
+    marginHorizontal: 16,
     textAlign: 'center',
     fontSize: 16,
     fontWeight: 'normal',

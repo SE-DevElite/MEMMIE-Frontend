@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { themes } from '@/common/themes/themes'
-import { TouchableOpacity } from 'react-native'
+import { Dimensions, TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import ButtonLongCommon from '@/common/ButtonLong.common'
 import ReadMemoryDayAndMood from './ReadMemoryDayAndMood'
@@ -17,6 +17,8 @@ interface Props {
   onDeleteMemoryPress: () => void
 }
 
+const width = Dimensions.get('window').width
+
 const ReadMemory: React.FC<Props> = observer(props => {
   const { onEditMemoryPress, onDeleteMemoryPress } = props
   const onPressEdit = () => {
@@ -26,6 +28,11 @@ const ReadMemory: React.FC<Props> = observer(props => {
     onEditMemoryPress()
     // console.log('\nEDIT ::: ', editMemoryStore.memory_lists)
   }
+
+  useEffect(() => {
+    console.log('ReadMemoryStore ::: ', readMemoryStore.memory_id)
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={{ paddingHorizontal: 30, gap: 20 }}>
@@ -46,7 +53,7 @@ const ReadMemory: React.FC<Props> = observer(props => {
             onPress={() => {
               onDeleteMemoryPress()
             }}
-            width={175}
+            width={width / 2 - 35}
             height={40}
             background_color={'#D9D9D9'}
             color="#848484"
@@ -56,7 +63,7 @@ const ReadMemory: React.FC<Props> = observer(props => {
           <ButtonLongCommon
             title={'Edit'}
             onPress={onPressEdit}
-            width={175}
+            width={width / 2 - 35}
             height={40}
             background_color={'#FFEAF2'}
             color="#66023C"

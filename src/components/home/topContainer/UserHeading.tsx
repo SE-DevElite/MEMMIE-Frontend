@@ -1,11 +1,10 @@
 import AvatarCommon from '@/common/Avatar.common'
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 import SwitchCommon from '@/common/Switch.common'
-import { useNavigation } from '@react-navigation/native'
 import profileStore from '@/stores/ProfileStore'
 
 interface UserHeadingProps {

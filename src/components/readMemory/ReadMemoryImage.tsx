@@ -58,11 +58,12 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red'
   },
   flexChild: {
-    width: windowWidth - 60,
+    width: windowWidth - 70,
     height: 190,
     borderRadius: 30,
     overflow: 'hidden',
-    backgroundColor: themes.light.tertiary.hex
+    backgroundColor: themes.light.tertiary.hex,
+    marginHorizontal: 5
   },
   imageStyle: {
     minHeight: 190,

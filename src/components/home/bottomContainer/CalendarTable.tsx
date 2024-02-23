@@ -16,7 +16,7 @@ interface Props {
 const CalendarTable: React.FC<Props> = observer(props => {
   const { calendar, onReadMemoryPress } = props
 
-  const handleSelect = async memory => {
+  const handleSelect = async (memory: any) => {
     onReadMemoryPress()
 
     readMemoryStore.updateMemoryDetails({

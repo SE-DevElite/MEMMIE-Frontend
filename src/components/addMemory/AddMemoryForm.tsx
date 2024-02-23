@@ -56,7 +56,7 @@ const AddMemoryForm: React.FC<Props> = observer(props => {
             placeholder="Enter short caption"
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputText}
-            value={short_caption}
+            value={addMemoryStore.short_caption}
             onChange={e => handleShortCaption(e.nativeEvent.text)}
           />
         </View>
@@ -96,7 +96,7 @@ const AddMemoryForm: React.FC<Props> = observer(props => {
             placeholder="Type here ..."
             placeholderTextColor={themes.light.secondary.hex}
             style={styles.inputCaption}
-            value={long_caption}
+            value={addMemoryStore.caption}
             onChange={e => handleLongCaption(e.nativeEvent.text)}
           />
         </View>

@@ -81,6 +81,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       <LongBottomSheetCommon ref={createAlbumBottomSheetRef}>
         <CreateAlbum
           handlePress={() => filterAlbumBottomSheetRef.current?.expand()}
+          handleCloseBottomSheet={() =>
+            createAlbumBottomSheetRef.current?.close()
+          }
         />
       </LongBottomSheetCommon>
 

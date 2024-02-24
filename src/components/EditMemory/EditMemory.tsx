@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import { ActivityIndicator, TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
-import ButtonLongCommon from '@/common/ButtonLong.common'
 import { observer } from 'mobx-react'
 import { ScrollView } from 'react-native-gesture-handler'
 import EditMemoryDayAndMood from './EditMemoryDayAndMood'
 import EditMemorySelectTime from './EditMemorySelectTime'
 import EditMemoryForm from './EditMemoryForm'
 import EditMemoryUploadImage from './EditMemoryUploadImage'
+import editMemoryStore from '@/stores/EditMemoryStore'
 
 interface Props {
   handlePinPlace: () => void
@@ -20,15 +20,18 @@ const EditMemory: React.FC<Props> = observer(props => {
   const [waitState, setWaitState] = useState<boolean>(false)
 
   const handleSubmit = async () => {
-    // if (addMemoryStore.image_info.length === 0) return
-    // if (addMemoryStore.caption === '' || addMemoryStore.short_caption === '')
-    //   return
-    // setWaitState(true)
-    // const upload_res = await addMemoryStore.submitMemory()
-    // if (!upload_res.error) {
-    //   handleClose()
-    // }
-    // setWaitState(false)
+    if (editMemoryStore.memory_lists.length === 0) return
+    if (editMemoryStore.caption === '' || editMemoryStore.short_caption === '')
+      return
+    setWaitState(true)
+
+    const upload_res = await editMemoryStore.handleSubmitUpdateMemory()
+
+    if (upload_res) {
+      handleClose()
+    }
+
+    setWaitState(false)
   }
 
   return (
@@ -44,7 +47,7 @@ const EditMemory: React.FC<Props> = observer(props => {
           {waitState ? (
             <ActivityIndicator style={{ width: 30 }} />
           ) : (
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={handleSubmit}>
               <View style={styles.postPaddingStyle}>
                 <Text
                   style={{

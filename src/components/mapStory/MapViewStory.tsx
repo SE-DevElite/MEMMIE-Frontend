@@ -1,6 +1,6 @@
 import uuid from 'react-native-uuid'
 import * as Location from 'expo-location'
-import { Platform, View } from 'react-native'
+import { Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import CustomMarker from '@/components/mapStory/CustomMarker'

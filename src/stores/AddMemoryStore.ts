@@ -12,7 +12,6 @@ configure({
   enforceActions: 'never'
 })
 const currentTime: Date = new Date()
-currentTime.setHours(currentTime.getHours())
 
 class AddMemoryStore {
   date: number = currentTime.getDate()
@@ -33,7 +32,7 @@ class AddMemoryStore {
   image_info: ImageInfo[] = []
 
   date_time: Date = currentTime
-
+  check: boolean = false
   constructor() {
     makeAutoObservable(this)
   }
@@ -51,13 +50,16 @@ class AddMemoryStore {
     this.privacy = 'public'
     this.hours = currentTime.getHours()
     this.minutes = currentTime.getMinutes()
-
+    this.location_name = ''
+    this.lat = 0
+    this.long = 0
     this.image_info = []
     this.date_time = currentTime
   }
 
   @action
   handleEditDateTime = (date: Date, type_case: string) => {
+    this.check = true
     let formattedDateTime = format(new Date(), 'yyyy-MM-dd HH:mm')
     switch (type_case) {
       case 'date':
@@ -160,7 +162,13 @@ class AddMemoryStore {
       } as any)
     }
 
+    this.check
+      ? addMemoryStore.date_time
+      : addMemoryStore.date_time.setHours(
+          addMemoryStore.date_time.getHours() + 7
+        )
     let current_time = addMemoryStore.date_time
+    console.log(current_time)
 
     const select_time = `${
       current_time.toISOString().split('T')[0]
@@ -175,11 +183,12 @@ class AddMemoryStore {
       mood: MoodElement['Male'][addMemoryStore.mood].label.toLocaleLowerCase(),
       weather: WeatherElement[addMemoryStore.weather].label.toLocaleLowerCase(),
       day: DAY[addMemoryStore.date_time.getDay()].toLocaleLowerCase(),
-      location_name: this.location_name,
       selected_datetime: select_time,
+      location_name: addMemoryStore.location_name,
+      lat: addMemoryStore.lat,
+      long: addMemoryStore.long,
       mention: []
     }
-
     const post_res = await RequestWithToken(access_token as string)
       .post('/memories/create', body)
       .then(res => res.data)

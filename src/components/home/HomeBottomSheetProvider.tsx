@@ -14,6 +14,7 @@ import ReadMemory from '../readMemory/ReadMemory'
 import PinPlace from '../addMemory/PinPlace'
 import EditMemory from '../EditMemory/EditMemory'
 import DeleteMemory from '../readMemory/DeleteMemory'
+import ReadMemoryPinPlace from '../readMemory/ReadMemoryPinPlace'
 interface Props {
   addMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
   albumBottomSheetRef: React.RefObject<BottomSheetMethods>
@@ -43,6 +44,7 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const filterDateEndBottomSheetRef = useRef<BottomSheet>(null)
   const editMemoryBottomSheetRef = useRef<BottomSheet>(null)
   const deleteMemoryBottomSheetRef = useRef<BottomSheet>(null)
+  const readMemoryPinPlaceBottomSheetRef = useRef<BottomSheet>(null)
 
   const handleSaveDateRange = (selected_date: Date, type_filter: string) => {
     switch (type_filter) {
@@ -149,6 +151,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
           onDeleteMemoryPress={() =>
             deleteMemoryBottomSheetRef.current?.expand()
           }
+          handleReadPinPlace={() =>
+            readMemoryPinPlaceBottomSheetRef.current?.expand()
+          }
         />
       </LongBottomSheetCommon>
 
@@ -163,6 +168,12 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
         snapPoint={['50%', '60%', '70%', '80%']}
         ref={pinPlaceBottomSheetRef}>
         <PinPlace />
+      </LongBottomSheetCommon>
+
+      <LongBottomSheetCommon
+        snapPoint={['50%', '60%', '70%', '80%']}
+        ref={readMemoryPinPlaceBottomSheetRef}>
+        <ReadMemoryPinPlace />
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon

@@ -15,12 +15,13 @@ import readMemoryStore from '@/stores/ReadMemoryStore'
 interface Props {
   onEditMemoryPress: () => void
   onDeleteMemoryPress: () => void
+  handleReadPinPlace: () => void
 }
 
 const width = Dimensions.get('window').width
 
 const ReadMemory: React.FC<Props> = observer(props => {
-  const { onEditMemoryPress, onDeleteMemoryPress } = props
+  const { onEditMemoryPress, onDeleteMemoryPress, handleReadPinPlace } = props
   const onPressEdit = () => {
     editMemoryStore.updateMemoryDetails({ ...readMemoryStore })
     editMemoryStore.updateMemoryList(0, { ...readMemoryStore.memory_lists[0] })
@@ -29,14 +30,14 @@ const ReadMemory: React.FC<Props> = observer(props => {
     // console.log('\nEDIT ::: ', editMemoryStore.memory_lists)
   }
 
-  useEffect(() => {
-    console.log('ReadMemoryStore ::: ', readMemoryStore.memory_id)
-  }, [])
+  // useEffect(() => {
+  //   console.log('ReadMemoryStore ::: ', readMemoryStore.lat)
+  // }, [])
 
   return (
     <View style={styles.container}>
       <View style={{ paddingHorizontal: 30, gap: 20 }}>
-        <ReadMemoryDayAndMood />
+        <ReadMemoryDayAndMood handleReadPinPlace={handleReadPinPlace} />
         <ReadMemoryTime />
         <ReadMemoryForm />
         <ReadMemoryImage />

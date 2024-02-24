@@ -34,8 +34,8 @@ class EditMemoryStore {
   caption: string = ''
   created_at: string = ''
   day: string = ''
-  lat: string = ''
   location_name: string = ''
+  lat: string = ''
   long: string = ''
   memory_id: string = ''
   memory_lists: MemoryList[] = [
@@ -71,8 +71,8 @@ class EditMemoryStore {
     this.caption = ''
     this.created_at = ''
     this.day = ''
-    this.lat = ''
     this.location_name = ''
+    this.lat = ''
     this.long = ''
     this.memory_id = ''
     this.memory_lists = [

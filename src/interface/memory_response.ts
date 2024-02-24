@@ -13,8 +13,8 @@ export interface Memory {
   day: string
   location_name: string
   selected_datetime: string
-  lat: any
-  long: any
+  lat: number
+  long: number
   caption: string
   short_caption: string
   created_at: string

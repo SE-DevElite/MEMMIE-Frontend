@@ -8,14 +8,6 @@ import { observer } from 'mobx-react'
 import readMemoryStore from '@/stores/ReadMemoryStore'
 
 const ReadMemoryPinPlace: React.FC = observer(() => {
-  //   useEffect(() => {
-  //     console.log(
-  //       'Lat : ',
-  //       readMemoryStore.lat,
-  //       '\n Long : ',
-  //       readMemoryStore.long
-  //     )
-  //   })
   return (
     <>
       <MapView
@@ -24,10 +16,8 @@ const ReadMemoryPinPlace: React.FC = observer(() => {
         style={{ width: '100%', height: '100%' }}
         minZoomLevel={15}
         initialRegion={{
-          //   latitude: readMemoryStore.lat,
-          //   longitude: readMemoryStore.long,
-          latitude: 100,
-          longitude: 13.0,
+          latitude: parseFloat(readMemoryStore.lat) || 0,
+          longitude: parseFloat(readMemoryStore.long) || 0,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
         }}

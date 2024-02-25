@@ -48,14 +48,14 @@ const PinPlace: React.FC = observer(() => {
       const locationText = `${address.name}, ${address.city}, ${address.region}, ${address.country}`
       setLocationName(locationText)
       addMemoryStore.location_name = locationText
-      addMemoryStore.lat = latitude
-      addMemoryStore.long = longitude
-      console.log(
-        'LO LAT LONG :: ',
-        addMemoryStore.location_name,
-        addMemoryStore.lat.toString(),
-        addMemoryStore.long.toString()
-      )
+      addMemoryStore.lat = latitude.toString()
+      addMemoryStore.long = longitude.toString()
+      // console.log(
+      //   'LO LAT LONG :: ',
+      //   addMemoryStore.location_name,
+      //   addMemoryStore.lat.toString(),
+      //   addMemoryStore.long.toString()
+      // )
     } catch (error) {
       console.error('Error fetching location name:', error)
     }

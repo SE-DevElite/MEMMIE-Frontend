@@ -12,6 +12,7 @@ configure({
   enforceActions: 'never'
 })
 const currentTime: Date = new Date()
+let check: boolean = false
 
 class AddMemoryStore {
   date: number = currentTime.getDate()
@@ -27,12 +28,11 @@ class AddMemoryStore {
   hours: number = currentTime.getHours()
   minutes: number = currentTime.getMinutes()
   location_name: string = ''
-  lat: number = 0
-  long: number = 0
+  lat: string = ''
+  long: string = ''
   image_info: ImageInfo[] = []
 
   date_time: Date = currentTime
-  check: boolean = false
   constructor() {
     makeAutoObservable(this)
   }
@@ -51,15 +51,15 @@ class AddMemoryStore {
     this.hours = currentTime.getHours()
     this.minutes = currentTime.getMinutes()
     this.location_name = ''
-    this.lat = 0
-    this.long = 0
+    this.lat = ''
+    this.long = ''
     this.image_info = []
     this.date_time = currentTime
   }
 
   @action
   handleEditDateTime = (date: Date, type_case: string) => {
-    this.check = true
+    check = true
     let formattedDateTime = format(new Date(), 'yyyy-MM-dd HH:mm')
     switch (type_case) {
       case 'date':
@@ -162,13 +162,13 @@ class AddMemoryStore {
       } as any)
     }
 
-    this.check
+    check
       ? addMemoryStore.date_time
       : addMemoryStore.date_time.setHours(
           addMemoryStore.date_time.getHours() + 7
         )
     let current_time = addMemoryStore.date_time
-    console.log(current_time)
+    // console.log(current_time)
 
     const select_time = `${
       current_time.toISOString().split('T')[0]

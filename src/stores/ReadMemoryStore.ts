@@ -19,20 +19,6 @@ interface DateTime {
 }
 
 class ReadMemoryStore {
-  // month: string = ''
-  // year: string = ''
-  // weather: number = 0
-  // mood: number = 0
-  // short_caption: string = ''
-  // caption: string = ''
-  // privacy: string = 'public'
-  // hours: number = new Date().getHours()
-  // minutes: number = new Date().getMinutes()
-
-  // image_info: ImageInfo[] = []
-
-  // date_time: Date = new Date()
-
   caption: string = ''
   created_at: string = ''
   day: string = ''

@@ -25,10 +25,7 @@ const CalendarTable: React.FC<Props> = observer(props => {
     readMemoryStore.updateMemoryList(0, {
       ...memory.memories[0].memory_lists
     })
-    // readMemoryStore.lat = memory[0].lat
-    // readMemoryStore.long = memory[0].long
-    // readMemoryStore.caption = memory.memories[0].caption
-    // readMemoryStore.short_caption = memory.memories[0].short_caption
+    console.log(memory.memories.length)
 
     const [datePart, timePart] = memory.memories[0].selected_datetime.split(' ')
     const [year, month, day] = datePart.split('-').map(Number)
@@ -39,7 +36,7 @@ const CalendarTable: React.FC<Props> = observer(props => {
     readMemoryStore.datetime[0].hour_date = hour
     readMemoryStore.datetime[0].minute_date = minute
 
-    console.log('\n\n', memory.memories[0], '\n\n', readMemoryStore)
+    console.log('\n\n', memory.memories[0], '\n\n')
   }
 
   return (

@@ -27,12 +27,7 @@ const ReadMemory: React.FC<Props> = observer(props => {
     editMemoryStore.updateMemoryList(0, { ...readMemoryStore.memory_lists[0] })
 
     onEditMemoryPress()
-    // console.log('\nEDIT ::: ', editMemoryStore.memory_lists)
   }
-
-  // useEffect(() => {
-  //   console.log('ReadMemoryStore ::: ', readMemoryStore.lat)
-  // }, [])
 
   return (
     <View style={styles.container}>

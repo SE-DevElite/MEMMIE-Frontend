@@ -32,6 +32,13 @@ class AddAlbumStore {
   }
 
   @action
+  clear_store = () => {
+    this.album_name = ''
+    this.memories = []
+    this.tags = []
+  }
+
+  @action
   handleSubmitAlbum = async () => {
     const token = await getAccessToken()
 
@@ -41,10 +48,13 @@ class AddAlbumStore {
       tags: this.tags
     }
 
+    console.log(body)
+
     const res = await RequestWithToken(token as string)
       .post('/albums/create', body)
       .then(res => {
         console.log(res.data)
+        this.clear_store()
       })
       .catch(err => {
         console.log(err)

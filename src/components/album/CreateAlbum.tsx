@@ -69,7 +69,12 @@ const CreateAlbum: React.FC<Props> = observer(props => {
         <PictureList memories={profileStore.memories} />
       </View>
 
-      <TouchableOpacity onPress={handleSubmit}>
+      <TouchableOpacity
+        onPress={handleSubmit}
+        disabled={
+          addAlbumStore.album_name.length === 0 ||
+          addAlbumStore.memories.length === 0
+        }>
         <View
           style={{
             width: '100%',
@@ -79,7 +84,11 @@ const CreateAlbum: React.FC<Props> = observer(props => {
           }}>
           <View
             style={{
-              backgroundColor: themes.light.tertiary.hex,
+              backgroundColor:
+                addAlbumStore.album_name.length === 0 ||
+                addAlbumStore.memories.length === 0
+                  ? 'rgba(0, 0, 0, 0.2)'
+                  : themes.light.tertiary.hex,
               height: 50,
               borderRadius: 100,
               justifyContent: 'center',

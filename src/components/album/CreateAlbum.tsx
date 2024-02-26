@@ -2,18 +2,43 @@ import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import CreateAlbumnTag from './CreateAlbumnTag'
 import CreateAlbumSearch from './CreateAlbumSearch'
-import { StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import InputUnderlineCommon from '@/common/InputUnderline.common'
 import PictureList from './PictureList'
 import profileStore from '@/stores/ProfileStore'
+import { observer } from 'mobx-react'
+import addAlbumStore from '@/stores/AddAlbumStore'
 
 interface Props {
   handlePress: () => void
+  handleCloseBottomSheet: () => void
 }
 
-const CreateAlbum: React.FC<Props> = props => {
-  const { handlePress } = props
+const CreateAlbum: React.FC<Props> = observer(props => {
+  const { handlePress, handleCloseBottomSheet } = props
   const [albumName, setAlbumName] = useState<string>('')
+  const [wait, setWait] = useState<boolean>(false)
+
+  const handleAlbumName = (text: string) => {
+    setAlbumName(text)
+    addAlbumStore.album_name = text
+  }
+
+  const handleSubmit = async () => {
+    setWait(true)
+
+    await addAlbumStore.handleSubmitAlbum()
+
+    setWait(false)
+    handleCloseBottomSheet()
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
@@ -29,7 +54,7 @@ const CreateAlbum: React.FC<Props> = props => {
           <Text style={styles.albumTextStyle}>Album name</Text>
           <InputUnderlineCommon
             placeholder="Album"
-            handleChangeText={setAlbumName}
+            handleChangeText={handleAlbumName}
             value={albumName}
             keyBoardType="default"
             deleteButton={albumName.length > 0}
@@ -43,9 +68,44 @@ const CreateAlbum: React.FC<Props> = props => {
       <View style={{ ...styles.layout, flex: 1 }}>
         <PictureList memories={profileStore.memories} />
       </View>
+
+      <TouchableOpacity onPress={handleSubmit}>
+        <View
+          style={{
+            width: '100%',
+            paddingHorizontal: 26,
+            position: 'absolute',
+            bottom: 25
+          }}>
+          <View
+            style={{
+              backgroundColor: themes.light.tertiary.hex,
+              height: 50,
+              borderRadius: 100,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            {wait ? (
+              <ActivityIndicator
+                color={themes.light.primary.hex}
+                size="small"
+              />
+            ) : (
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontFamily: themes.fonts.regular,
+                  color: themes.light.secondary.hex
+                }}>
+                Create
+              </Text>
+            )}
+          </View>
+        </View>
+      </TouchableOpacity>
     </View>
   )
-}
+})
 
 export default CreateAlbum
 

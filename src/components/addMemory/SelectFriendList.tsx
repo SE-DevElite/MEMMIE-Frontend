@@ -29,9 +29,7 @@ const SelectFriendList: React.FC<Props> = props => {
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
       <View style={styles.container}>
-        <View>
-          <Image style={styles.imageStyle} source={image} />
-        </View>
+        <View>{/* <Image style={styles.imageStyle} source={image} /> */}</View>
         <View style={{ width: '70%' }}>
           <Text style={styles.nameStyle}>{name}</Text>
           <Text style={styles.usernameStyle}>{username}</Text>

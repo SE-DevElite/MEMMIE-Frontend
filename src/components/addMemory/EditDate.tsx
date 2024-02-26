@@ -3,15 +3,37 @@ import { themes } from '@/common/themes/themes'
 import { TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Props {
   handleClose: () => void
-  handleSaveEditDate: (date: Date) => void
+  handleSave?: (date: Date, type_filter: string) => void
+  type_filter?: string
 }
 
 const EditDate: React.FC<Props> = props => {
-  const { handleClose, handleSaveEditDate } = props
-  const [dateSelect, setDateSelect] = useState<Date>(new Date())
+  const { handleClose, handleSave, type_filter } = props
+  const [time_gmt, setTimeGMT] = useState<Date>(new Date())
+  const [current_time, setCurrentTime] = useState<Date>(
+    new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
+  )
+
+  const handleEditDate = () => {
+    addMemoryStore.handleEditDateTime(current_time, 'date')
+
+    if (handleSave && type_filter) {
+      handleSave(current_time, type_filter)
+    }
+
+    handleClose()
+  }
+
+  const handleChangeTime = (date: Date) => {
+    setTimeGMT(date)
+    var utc_date = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+
+    setCurrentTime(utc_date)
+  }
 
   return (
     <View style={styles.container}>
@@ -23,7 +45,7 @@ const EditDate: React.FC<Props> = props => {
 
           <Text style={styles.headingTextStyles}>Edit date</Text>
 
-          <TouchableOpacity onPress={() => handleSaveEditDate(dateSelect)}>
+          <TouchableOpacity onPress={handleEditDate}>
             <Text
               style={{
                 ...styles.buttonStyle,
@@ -40,13 +62,12 @@ const EditDate: React.FC<Props> = props => {
 
       <View style={styles.layout}>
         <RNDateTimePicker
-          value={dateSelect}
+          value={time_gmt}
           mode="date"
           display="spinner"
           onChange={(event, value) => {
             if (value) {
-              console.log('value: ', value)
-              setDateSelect(value || new Date())
+              handleChangeTime(value)
             }
           }}
         />

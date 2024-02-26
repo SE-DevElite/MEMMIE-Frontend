@@ -2,9 +2,11 @@ import NavArrowRightIcon from '@/assets/svg/NavArrowRight'
 import PlusIcon from '@/assets/svg/Plus'
 import { themes } from '@/common/themes/themes'
 import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import MyAlbumList from './MyAlbumList'
 import profileStore from '@/stores/ProfileStore'
+import { getAccessToken } from '@/helpers/TokenHandler'
+import { RequestWithToken } from '@/api/DefaultRequest'
 
 interface Props {
   handlePress: () => void
@@ -12,6 +14,29 @@ interface Props {
 
 const MyAlbum: React.FC<Props> = props => {
   const { handlePress } = props
+
+  const handleAlert = (album_id: string) => {
+    Alert.alert('Delete Album', 'Are you sure to delete this album?', [
+      {
+        text: 'Cancel',
+        style: 'cancel'
+      },
+      {
+        text: 'OK',
+        onPress: () => handleDelete(album_id)
+      }
+    ])
+  }
+
+  const handleDelete = async (album_id: string) => {
+    const token = await getAccessToken()
+
+    await RequestWithToken(token as string)
+      .delete(`/albums/delete/${album_id}`)
+      .then(res => {
+        console.log(res.data)
+      })
+  }
 
   return (
     <View style={styles.container}>
@@ -56,6 +81,7 @@ const MyAlbum: React.FC<Props> = props => {
             title={album.album_name}
             amount={album.memories}
             thumbnail={album.album_thumbnail}
+            handleDelete={handleAlert}
           />
         ))}
       </View>

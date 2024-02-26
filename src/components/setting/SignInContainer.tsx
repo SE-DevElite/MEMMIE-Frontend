@@ -9,6 +9,7 @@ import {
 import LogOutIcon from '@/assets/svg/LogOut'
 import { themes } from '@/common/themes/themes'
 import { useNavigation } from '@react-navigation/native'
+import { deleteAccessToken } from '@/helpers/TokenHandler'
 
 type SignInContainerType = {
   onButtonPress?: () => void
@@ -30,8 +31,9 @@ const SignInContainer: React.FC<SignInContainerType> = ({
       <Text style={[styles.signIn1, styles.signTypo]}>Sign in</Text>
       <Pressable
         style={[styles.button, styles.buttonLayout]}
-        onPress={() => {
+        onPress={async () => {
           onButtonPress?.()
+          await deleteAccessToken()
           navigation.navigate('SignInScreen' as never)
         }}>
         <View style={[styles.buttonChild, styles.buttonLayout]} />

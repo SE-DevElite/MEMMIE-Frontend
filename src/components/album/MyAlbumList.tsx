@@ -11,18 +11,20 @@ interface Props {
   thumbnail: string
   title: string
   amount: number
+  handleDelete: (album_id: string) => void
 }
 
 const MyAlbumList: React.FC<Props> = props => {
-  const { title, amount, thumbnail } = props
+  const { album_id, title, amount, thumbnail, handleDelete } = props
 
   const renderRightActions = (progress: any, dragX: any) => {
     const trans = dragX.interpolate({
       inputRange: [0, 50, 100, 101],
       outputRange: [0, 0, 0, 1]
     })
+
     return (
-      <RectButton onPress={() => console.log('Deleete Memories')}>
+      <RectButton onPress={() => handleDelete(album_id)}>
         <Animated.View
           style={[
             {

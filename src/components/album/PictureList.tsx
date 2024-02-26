@@ -1,12 +1,14 @@
-import { Memory } from '@/interface/memory_response'
 import React from 'react'
+import { themes } from '@/common/themes/themes'
+import { Memory } from '@/interface/memory_response'
 import {
   View,
   ScrollView,
   StyleSheet,
   Image,
-  TouchableOpacity
+  TouchableWithoutFeedback
 } from 'react-native'
+import Picture from './Picture'
 
 interface Props {
   memories: Memory[]
@@ -21,12 +23,7 @@ const PictureList: React.FC<Props> = props => {
         <View style={styles.flexBox}>
           {memories &&
             memories.map((memory, index) => (
-              <TouchableOpacity key={index} style={styles.imageContainer}>
-                <Image
-                  source={{ uri: memory.memory_lists[0].memory_url }}
-                  style={styles.imageStyle}
-                />
-              </TouchableOpacity>
+              <Picture key={index} memory={memory} />
             ))}
         </View>
       </ScrollView>
@@ -48,17 +45,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
-    width: '100%'
+    width: '100%',
+    paddingBottom: 70
   },
   imageContainer: {
     marginBottom: 8,
-    width: '48%'
+    width: '48%',
+    position: 'relative'
   },
   imageStyle: {
     flex: 1,
     width: '100%',
     height: 300,
     resizeMode: 'cover',
-    borderRadius: 32
+    borderRadius: 32,
+    backgroundColor: themes.light.tertiary.hex
+  },
+  dot: {
+    width: 30,
+    height: 30,
+    borderRadius: 100,
+    position: 'absolute',
+    backgroundColor: themes.light.tertiary.hex,
+    right: 12
   }
 })

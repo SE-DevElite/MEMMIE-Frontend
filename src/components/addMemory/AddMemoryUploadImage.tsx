@@ -1,5 +1,5 @@
 import { themes } from '@/common/themes/themes'
-import React, { useState } from 'react'
+import React from 'react'
 import {
   View,
   StyleSheet,
@@ -12,50 +12,37 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import PictureIcon from '@/assets/svg/Picture'
 import XcloseIcon from '@/assets/svg/Xclose'
 import uuid from 'react-native-uuid'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
-type ImageInfo = {
-  uri: string
-  id: string
-}
-
-interface Props {
-  image: ImageInfo[]
-  setImage: React.Dispatch<React.SetStateAction<ImageInfo[]>>
-}
-
-const AddMemoryUploadImage: React.FC<Props> = props => {
-  const { image, setImage } = props
-
+const AddMemoryUploadImage: React.FC = observer(() => {
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      // allowsEditing: true,
       aspect: [4, 3],
       quality: 1
     })
 
-    if (!result.canceled && image.length < 10) {
-      setImage([
+    if (!result.canceled && addMemoryStore.image_info.length < 10) {
+      addMemoryStore.image_info = [
         { uri: result.assets[0].uri as string, id: uuid.v4() as string },
-        ...image
-      ])
+        ...addMemoryStore.image_info
+      ]
     }
   }
 
   const handleDelete = (id: string) => {
-    setImage(image.filter(item => item.id !== id))
+    addMemoryStore.image_info = addMemoryStore.image_info.filter(
+      item => item.id !== id
+    )
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {image.map((item, index) => (
-            <TouchableWithoutFeedback
-              key={item.id}
-              // onPress={pickImage}
-              style={styles.flexChild}>
+          {addMemoryStore.image_info.map(item => (
+            <TouchableWithoutFeedback key={item.id} style={styles.flexChild}>
               <View style={styles.closeIcon}>
                 <TouchableWithoutFeedback onPress={() => handleDelete(item.id)}>
                   <XcloseIcon color={themes.light.primary.hex} />
@@ -74,7 +61,7 @@ const AddMemoryUploadImage: React.FC<Props> = props => {
       </View>
     </View>
   )
-}
+})
 
 export default AddMemoryUploadImage
 

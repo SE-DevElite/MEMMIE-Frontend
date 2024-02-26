@@ -25,5 +25,8 @@ export const themes = {
     light: 'Poppins-Light',
     thin: 'Poppins-Thin',
     samiBold: 'Poppins-SemiBold'
+  },
+  success: {
+    checkbox: '#10B981'
   }
 }

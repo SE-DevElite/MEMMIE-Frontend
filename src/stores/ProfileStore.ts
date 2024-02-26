@@ -10,6 +10,7 @@ class ProfileStore {
   avatar: string = ''
   albums: Album[] = []
   memories: Memory[] = []
+  currentScreen: string = 'HomeScreen'
 
   constructor() {
     makeAutoObservable(this)
@@ -29,6 +30,9 @@ class ProfileStore {
   public memoryInit = (data: MemoryResponse) => {
     this.memories = data.memory
   }
+
+  @action
+  public setMemoryShown = (album_id: string) => {}
 }
 
 const profileStore = new ProfileStore()

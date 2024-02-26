@@ -3,41 +3,31 @@ import { themes } from '@/common/themes/themes'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
 import { WeatherElement } from '@/common/consts/WeatherElement.consts'
-import { MemoryForm } from '@/interface/memory_request'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
-  date_time: Date
-  time_minute: {
-    hours: number
-    minutes: number
-  }
   handleEditDate: () => void
   handleEditTime: () => void
-
-  handleChangeMemory: (key: keyof MemoryForm, value: string | number) => void
 }
 
-const AddMemorySelectTime: React.FC<Props> = props => {
-  const {
-    date_time,
-    handleEditDate,
-    handleEditTime,
-    time_minute,
-    handleChangeMemory
-  } = props
-
-  const [weather, setWeather] = useState<number>(0)
+const AddMemorySelectTime: React.FC<Props> = observer(props => {
+  const { handleEditDate, handleEditTime } = props
+  const [weather, setWeather] = useState<number>(addMemoryStore.weather)
 
   const collectDate = [
-    date_time.getDate() - 1 == 0 ? 1 : date_time.getDate() - 1,
-    MONTH_SHORT[date_time.getMonth()],
-    date_time.getFullYear()
+    addMemoryStore.date_time.getDate() == 0
+      ? 1
+      : addMemoryStore.date_time.getDate() - 1,
+    MONTH_SHORT[addMemoryStore.date_time.getMonth()],
+    addMemoryStore.date_time.getFullYear()
   ]
 
   const handleSetWeather = () => {
     const current_idx = (weather + 1) % 5
     setWeather(current_idx)
-    handleChangeMemory('weather', current_idx)
+
+    addMemoryStore.weather = current_idx
   }
 
   return (
@@ -67,11 +57,15 @@ const AddMemorySelectTime: React.FC<Props> = props => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={handleEditTime}>
+          <TouchableOpacity
+            onPress={() => {
+              handleEditTime()
+              // console.log(addMemoryStore.date_time)
+            }}>
             <View style={{ padding: 5 }}>
               <Text style={styles.timeText}>
-                {time_minute.hours.toString().padStart(2, '0')} :{' '}
-                {time_minute.minutes.toString().padStart(2, '0')}
+                {addMemoryStore.hours.toString().padStart(2, '0')} :{' '}
+                {addMemoryStore.minutes.toString().padStart(2, '0')}
               </Text>
             </View>
           </TouchableOpacity>
@@ -79,7 +73,7 @@ const AddMemorySelectTime: React.FC<Props> = props => {
       </View>
     </View>
   )
-}
+})
 
 export default AddMemorySelectTime
 

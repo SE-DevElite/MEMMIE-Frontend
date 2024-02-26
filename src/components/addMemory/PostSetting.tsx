@@ -2,19 +2,14 @@ import { themes } from '@/common/themes/themes'
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import PostSettingList from './PostSettingList'
-
-interface Props {
-  setPrivacy: React.Dispatch<React.SetStateAction<string>>
-}
+import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Setting {
   id: string
   title: string
 }
 
-const PostSetting: React.FC<Props> = props => {
-  const { setPrivacy } = props
-
+const PostSetting: React.FC = () => {
   const [userFriendList, setUserFriendList] = useState<Setting[]>([])
   const [active, setActive] = useState<Setting>({
     id: '4c22ed6c-16a1-47dc-bf44-f1e2f8019e9d',
@@ -43,7 +38,7 @@ const PostSetting: React.FC<Props> = props => {
   }
 
   useEffect(() => {
-    setPrivacy(active.title)
+    addMemoryStore.privacy = active.title
   }, [active])
 
   return (

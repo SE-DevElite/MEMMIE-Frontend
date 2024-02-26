@@ -5,7 +5,6 @@ import ButtonGroupService from '@/components/signin/ButtonGroupService'
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { View, StyleSheet } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
 

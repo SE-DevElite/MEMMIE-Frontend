@@ -3,7 +3,6 @@ import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 import { View, StyleSheet } from 'react-native'
 import { DAY_SHORT } from '@/common/consts/DateTime.consts'
-
 import CalendarTable from './CalendarTable'
 import { ICalendar } from '@/interface/daily_response'
 

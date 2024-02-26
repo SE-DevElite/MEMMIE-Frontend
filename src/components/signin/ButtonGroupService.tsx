@@ -12,9 +12,6 @@ const ButtonGroupService: React.FC = () => {
 
   const handleGoogleSignIn = async () => {
     const redirectUrl = Linking.makeUrl('')
-
-    console.log(redirectUrl)
-
     const authUrl = `${DEFAULT_URL}/auth/google/redirect`
 
     const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUrl)

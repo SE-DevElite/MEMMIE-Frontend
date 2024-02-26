@@ -2,18 +2,9 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import { MONTH } from '@/common/consts/DateTime.consts'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
-interface MonthYearPickerProps {
-  onChangeMonth: (itemValue: string) => void
-  onChangeYear: (itemValue: string) => void
-
-  yearValue: string
-  monthValue: string
-}
-
-const MonthYearPicker: React.FC<MonthYearPickerProps> = props => {
-  const { onChangeMonth, onChangeYear, yearValue, monthValue } = props
-
+const MonthYearPicker: React.FC = props => {
   const currentYear = new Date().getFullYear()
   const startYear = 1990
   const endYear = currentYear
@@ -23,10 +14,20 @@ const MonthYearPicker: React.FC<MonthYearPickerProps> = props => {
     (_, index) => endYear - index
   )
 
+  const handleChangeMonth = (value: string) => {
+    addMemoryStore.select_month = value
+  }
+
+  const handleChangeYear = (value: string) => {
+    addMemoryStore.select_year = value
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.monthPicker}>
-        <Picker selectedValue={monthValue} onValueChange={onChangeMonth}>
+        <Picker
+          selectedValue={addMemoryStore.select_month}
+          onValueChange={handleChangeMonth}>
           {MONTH.map((item, index) => (
             <Picker.Item key={index} label={item} value={item} />
           ))}
@@ -34,7 +35,9 @@ const MonthYearPicker: React.FC<MonthYearPickerProps> = props => {
       </View>
 
       <View style={styles.yearPicker}>
-        <Picker selectedValue={yearValue} onValueChange={onChangeYear}>
+        <Picker
+          selectedValue={addMemoryStore.select_year}
+          onValueChange={handleChangeYear}>
           {yearArray.map((item, index) => (
             <Picker.Item key={index} label={item.toString()} value={item} />
           ))}
@@ -51,6 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingTop: 32
+    // backgroundColor: 'red'
   },
   monthPicker: {
     flex: 1

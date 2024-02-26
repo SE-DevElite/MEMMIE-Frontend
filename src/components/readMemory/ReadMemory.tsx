@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import { themes } from '@/common/themes/themes'
-import { Dimensions, TouchableOpacity } from 'react-native'
-import { StyleSheet, Text, View } from 'react-native'
+import { Dimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import ButtonLongCommon from '@/common/ButtonLong.common'
 import ReadMemoryDayAndMood from './ReadMemoryDayAndMood'
 import ReadMemoryTime from './ReadMemoryTime'
 import ReadMemoryForm from './ReadMemoryForm'
 import ReadMemoryImage from './ReadMemoryImage'
-import DeleteMemory from './DeleteMemory'
 import { observer } from 'mobx-react'
 import editMemoryStore from '@/stores/EditMemoryStore'
 import readMemoryStore from '@/stores/ReadMemoryStore'
@@ -23,6 +22,7 @@ const width = Dimensions.get('window').width
 const ReadMemory: React.FC<Props> = observer(props => {
   const { onEditMemoryPress, onDeleteMemoryPress, handleReadPinPlace } = props
   const onPressEdit = () => {
+    editMemoryStore.memory_id = readMemoryStore.memory_id
     editMemoryStore.updateMemoryDetails({ ...readMemoryStore })
     editMemoryStore.updateMemoryList(0, { ...readMemoryStore.memory_lists[0] })
 

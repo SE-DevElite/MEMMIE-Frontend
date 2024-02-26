@@ -1,3 +1,5 @@
+import { RequestWithToken } from '@/api/DefaultRequest'
+import { getAccessToken } from '@/helpers/TokenHandler'
 import { configure } from 'mobx'
 import { action, makeAutoObservable } from 'mobx'
 
@@ -30,8 +32,25 @@ class AddAlbumStore {
   }
 
   @action
-  handleSubmitAlbum = () => {
-    console.log('submit album')
+  handleSubmitAlbum = async () => {
+    const token = await getAccessToken()
+
+    const body = {
+      album_name: this.album_name,
+      memories: this.memories,
+      tags: this.tags
+    }
+
+    const res = await RequestWithToken(token as string)
+      .post('/albums/create', body)
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+    return res
   }
 
   @action

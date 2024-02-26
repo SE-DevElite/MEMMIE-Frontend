@@ -13,7 +13,6 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import PictureIcon from '@/assets/svg/Picture'
 import XcloseIcon from '@/assets/svg/Xclose'
 import uuid from 'react-native-uuid'
-import addMemoryStore from '@/stores/AddMemoryStore'
 import { observer } from 'mobx-react'
 import editMemoryStore from '@/stores/EditMemoryStore'
 

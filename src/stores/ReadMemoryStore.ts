@@ -85,9 +85,12 @@ class ReadMemoryStore {
     ]
   }
 
+  @action
   updateMemoryDetails(details: Partial<ReadMemoryStore>) {
     Object.assign(this, details)
   }
+
+  @action
   updateMemoryList(index: number, itemDetails: Partial<MemoryList>) {
     const updatedItem = { ...this.memory_lists[index], ...itemDetails }
     this.memory_lists[index] = updatedItem

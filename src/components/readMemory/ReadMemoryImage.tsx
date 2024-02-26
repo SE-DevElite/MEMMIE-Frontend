@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red'
   },
   flexChild: {
-    width: windowWidth - 70,
+    width: windowWidth - windowWidth / 5.8,
     height: 190,
     borderRadius: 30,
     overflow: 'hidden',

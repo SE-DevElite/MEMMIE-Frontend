@@ -86,9 +86,9 @@ const EditMemory: React.FC<Props> = observer(props => {
                 // handlePostSetting={handlePostSetting}
                 // handleSelectFriend={handleSelectFriend}
               />
-              <View style={{ flex: 1 }}>
-                <EditMemoryUploadImage />
-              </View>
+            </View>
+            <View style={{ flex: 1 }}>
+              <EditMemoryUploadImage />
             </View>
           </View>
         </ScrollView>

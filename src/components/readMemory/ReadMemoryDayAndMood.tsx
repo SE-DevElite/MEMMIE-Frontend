@@ -13,11 +13,11 @@ type MoodEle = {
 }
 
 interface Props {
-  //   handlePinPlace: () => void
+  handleReadPinPlace: () => void
 }
 
 const ReadMemoryDayAndMood: React.FC<Props> = observer(props => {
-  //   const { handlePinPlace } = props
+  const { handleReadPinPlace } = props
   const [mood, setMood] = useState<MoodEle[]>()
   const [selectMood, setSelectMood] = useState<number>(0)
 
@@ -33,9 +33,15 @@ const ReadMemoryDayAndMood: React.FC<Props> = observer(props => {
         <Text style={styles.dayText}>
           {readMemoryStore.day.toLocaleUpperCase()}
         </Text>
-        <Text numberOfLines={1} style={styles.descriptionText}>
-          {readMemoryStore.location_name}
-        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            handleReadPinPlace()
+            console.log(readMemoryStore.lat)
+          }}>
+          <Text numberOfLines={1} style={styles.descriptionText}>
+            {readMemoryStore.location_name}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {mood && (

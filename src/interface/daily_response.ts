@@ -17,10 +17,10 @@ export interface Memory {
   mood: string
   weather: string
   day: string
-  location_name: string
   selected_datetime: string
-  lat: any
-  long: any
+  location_name: string
+  lat: string
+  long: string
   caption: string
   short_caption: string
   created_at: string

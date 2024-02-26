@@ -17,6 +17,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.MEMMIE",
       "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Allow access to your current location for using on the map",
+        "NSLocationAlwaysUsageDescription": "Allow access to your current location for using on the map",
         "NSCameraUsageDescription": "Allow access to your photo library to select images for uploading."
       }
     },

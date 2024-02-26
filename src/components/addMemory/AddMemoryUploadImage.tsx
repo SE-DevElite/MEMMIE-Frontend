@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
@@ -14,6 +15,8 @@ import XcloseIcon from '@/assets/svg/Xclose'
 import uuid from 'react-native-uuid'
 import addMemoryStore from '@/stores/AddMemoryStore'
 import { observer } from 'mobx-react'
+
+const windowWidth = Dimensions.get('window').width
 
 const AddMemoryUploadImage: React.FC = observer(() => {
   const pickImage = async () => {
@@ -40,7 +43,10 @@ const AddMemoryUploadImage: React.FC = observer(() => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled>
           {addMemoryStore.image_info.map(item => (
             <TouchableWithoutFeedback key={item.id} style={styles.flexChild}>
               <View style={styles.closeIcon}>
@@ -71,22 +77,25 @@ const styles = StyleSheet.create({
     minHeight: 320
   },
   imageContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
+    gap: 16,
+    marginHorizontal: 30
     // backgroundColor: 'red'
   },
   flexChild: {
-    width: 350,
+    width: windowWidth - windowWidth / 5.8,
     height: 190,
     borderRadius: 30,
     overflow: 'hidden',
     backgroundColor: themes.light.tertiary.hex,
-    marginHorizontal: 16
+    marginHorizontal: 5
   },
   imageStyle: {
     minHeight: 190,
     backgroundColor: themes.light.tertiary.hex,
     resizeMode: 'cover',
-    borderRadius: 30
+    borderRadius: 30,
+    flex: 1
   },
   closeIcon: {
     position: 'absolute',

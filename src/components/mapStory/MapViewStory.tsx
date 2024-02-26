@@ -5,38 +5,21 @@ import React, { useEffect, useState } from 'react'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import CustomMarker from '@/components/mapStory/CustomMarker'
 import { mergeDataByCoordinates } from '@/helpers/MergeDataByCoordinates'
+import profileStore from '@/stores/ProfileStore'
+import { observer } from 'mobx-react'
 
-const mock_data = [
-  {
-    id: uuid.v4() as string,
-    image_url:
-      'https://i.pinimg.com/564x/dc/21/1c/dc211c77fe27bc7f24902ebf5dd7175d.jpg',
+const mock_data = profileStore.memories.map(item => {
+  return {
+    id: item.memory_id,
+    image_url: item.memory_lists[0].memory_url,
     coordinate: {
-      latitude: 13.736717,
-      longitude: 100.523186
-    }
-  },
-  {
-    id: uuid.v4() as string,
-    image_url:
-      'https://i.pinimg.com/564x/19/1f/b9/191fb9d31412056082d19a70edbb7f64.jpg',
-    coordinate: {
-      latitude: 13.736717,
-      longitude: 100.527584
-    }
-  },
-  {
-    id: uuid.v4() as string,
-    image_url:
-      'https://i.pinimg.com/736x/6d/29/4a/6d294abea51b7e398e9ff15b6ad6e067.jpg',
-    coordinate: {
-      latitude: 13.739817,
-      longitude: 100.529186
+      latitude: parseFloat(item.lat),
+      longitude: parseFloat(item.long)
     }
   }
-]
+})
 
-const MapViewStory: React.FC = () => {
+const MapViewStory: React.FC = observer(() => {
   const ref = React.useRef<MapView>(null)
   const [data, setData] = useState(mock_data)
 
@@ -50,8 +33,6 @@ const MapViewStory: React.FC = () => {
       setData(mock_data)
     }
   }
-
-  const [currentLocation, setCurrentLocation] = useState<any>(null)
   const [initialRegion, setInitialRegion] = useState<any>(null)
 
   useEffect(() => {
@@ -61,9 +42,7 @@ const MapViewStory: React.FC = () => {
         console.log('Permission to access location was denied')
         return
       }
-
       let location = await Location.getCurrentPositionAsync({})
-      setCurrentLocation(location.coords)
 
       setInitialRegion({
         latitude: location.coords.latitude,
@@ -72,8 +51,8 @@ const MapViewStory: React.FC = () => {
         longitudeDelta: 0.005
       })
     }
-
     getLocation()
+    console.log(mock_data)
   }, [])
 
   return (
@@ -83,13 +62,13 @@ const MapViewStory: React.FC = () => {
         mapType={Platform.OS == 'android' ? 'none' : 'standard'}
         style={{ width: '100%', height: '100%' }}
         maxZoomLevel={20}
-        initialRegion={{
-          latitude: 13.736717,
-          longitude: 100.523186,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
-        }}
-        // initialRegion={initialRegion}
+        // initialRegion={{
+        //   latitude: 13.736717,
+        //   longitude: 100.523186,
+        //   latitudeDelta: 0.0922,
+        //   longitudeDelta: 0.0421
+        // }}
+        initialRegion={initialRegion}
         // showsUserLocation={true}
         zoomEnabled={true}
         followsUserLocation={true}
@@ -107,6 +86,6 @@ const MapViewStory: React.FC = () => {
       </MapView>
     </>
   )
-}
+})
 
 export default MapViewStory

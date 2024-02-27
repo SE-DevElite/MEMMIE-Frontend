@@ -1,8 +1,8 @@
-import WeatherClearskyIcon from '@/assets/svg/WeatherClearsky'
-import WeatherCloudIcon from '@/assets/svg/WeatherCloud'
-import WeatherDownpourIcon from '@/assets/svg/WeatherDownpour'
-import WeatherSnowflakeIcon from '@/assets/svg/WeatherSnowflake'
-import WeatherSunnyIcon from '@/assets/svg/WeatherSunny'
+import WeatherClearskyIcon from '@/assets/svg/WeatherRGBClearsky'
+import WeatherCloudIcon from '@/assets/svg/WeatherRGBCloud'
+import WeatherDownpourIcon from '@/assets/svg/WeatherRGBDownpour'
+import WeatherSnowflakeIcon from '@/assets/svg/WeatherRGBSnowflake'
+import WeatherSunnyIcon from '@/assets/svg/WeatherRGBSunny'
 
 export const WeatherElement = [
   {

@@ -13,6 +13,9 @@ import CreateList from '@/components/setting/CreateList'
 import SettingBottomSheetProvider from '@/screens/setting/SettingBottomSheetProvider'
 import PushNotificationScreen from '@/screens/setting/PushNotificationScreen'
 import WidgetScreen from '@/screens/setting/WidgetScreen'
+import ReportScreen from '@/screens/setting/ReportScreen'
+import SupportScreen from '@/screens/setting/SupportScreen'
+import TermsScreen from '@/screens/setting/TermsScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -41,6 +44,9 @@ const AppNavigator = () => {
         component={PushNotificationScreen}
       />
       <Stack.Screen name="WidgetScreen" component={WidgetScreen} />
+      <Stack.Screen name="ReportScreen" component={ReportScreen} />
+      <Stack.Screen name="SupportScreen" component={SupportScreen} />
+      <Stack.Screen name="TermsScreen" component={TermsScreen} />
     </Stack.Navigator>
   )
 }

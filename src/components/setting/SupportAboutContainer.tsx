@@ -8,22 +8,11 @@ import {
 } from 'react-native'
 import NavArrowRight from '@/assets/svg/NavArrowRight'
 import { themes } from '@/common/themes/themes'
+import { useNavigation } from '@react-navigation/native'
 
-type SupportAboutContainerType = {
-  onReportAProblemPress?: () => void
-  onSupportPress?: () => void
-  onTermsPoliciesPress?: () => void
-}
+const SupportAboutContainer: React.FC = () => {
+  const navigation = useNavigation()
 
-const getStyleValue = (key: string, value: string | number | undefined) => {
-  if (value === undefined) return
-  return { [key]: value === 'unset' ? undefined : value }
-}
-const SupportAboutContainer = ({
-  onReportAProblemPress,
-  onSupportPress,
-  onTermsPoliciesPress
-}: SupportAboutContainerType) => {
   return (
     <View style={styles.supportAbout}>
       <Text style={[styles.supportAbout1]}>{`Support & About`}</Text>
@@ -31,7 +20,7 @@ const SupportAboutContainer = ({
       <View style={styles.list}>
         <Pressable
           style={[styles.reportAProblem, styles.supportLayout]}
-          onPress={onReportAProblemPress}>
+          onPress={() => navigation.navigate('ReportScreen' as never)}>
           <View style={styles.reportAProblemParent}>
             <Text style={[styles.reportAProblem1, styles.derailTypo]}>
               Report a problem
@@ -41,7 +30,7 @@ const SupportAboutContainer = ({
         </Pressable>
         <Pressable
           style={[styles.support, styles.supportLayout]}
-          onPress={onSupportPress}>
+          onPress={() => navigation.navigate('SupportScreen' as never)}>
           <View style={styles.reportAProblemParent}>
             <Text style={[styles.support1, styles.derailTypo]}>Support</Text>
             <NavArrowRight width={5} height={10} marginLeft={243} />
@@ -49,7 +38,7 @@ const SupportAboutContainer = ({
         </Pressable>
         <Pressable
           style={[styles.termsPolicies, styles.supportLayout]}
-          onPress={onTermsPoliciesPress}>
+          onPress={() => navigation.navigate('TermsScreen' as never)}>
           <View style={styles.reportAProblemParent}>
             <Text
               style={[

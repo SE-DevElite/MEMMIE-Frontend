@@ -6,7 +6,7 @@ interface Props {
   badgeText?: string[]
 }
 
-const BestFriendForeverBadgeGroup: React.FC<Props> = props => {
+const AlbumIndividualBadgeGroup: React.FC<Props> = props => {
   const { badgeText } = props
 
   return (
@@ -23,7 +23,7 @@ const BestFriendForeverBadgeGroup: React.FC<Props> = props => {
   )
 }
 
-export default BestFriendForeverBadgeGroup
+export default AlbumIndividualBadgeGroup
 
 const styles = StyleSheet.create({
   badgeGroup: {

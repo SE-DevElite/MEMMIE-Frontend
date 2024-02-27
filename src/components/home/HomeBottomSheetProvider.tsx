@@ -15,6 +15,7 @@ import PinPlace from '../addMemory/PinPlace'
 import EditMemory from '../EditMemory/EditMemory'
 import DeleteMemory from '../readMemory/DeleteMemory'
 import ReadMemoryPinPlace from '../readMemory/ReadMemoryPinPlace'
+import AlbumIndividual from '../readAlbum/AlbumIndividual'
 interface Props {
   addMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
   albumBottomSheetRef: React.RefObject<BottomSheetMethods>
@@ -45,6 +46,7 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const editMemoryBottomSheetRef = useRef<BottomSheet>(null)
   const deleteMemoryBottomSheetRef = useRef<BottomSheet>(null)
   const readMemoryPinPlaceBottomSheetRef = useRef<BottomSheet>(null)
+  const albumListBottomSheetRef = useRef<BottomSheet>(null)
 
   const handleSaveDateRange = (selected_date: Date, type_filter: string) => {
     switch (type_filter) {
@@ -77,6 +79,7 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       <LongBottomSheetCommon ref={albumBottomSheetRef}>
         <MyAlbum
           handlePress={() => createAlbumBottomSheetRef.current?.expand()}
+          handleOpenAlbum={() => albumListBottomSheetRef.current?.expand()}
         />
       </LongBottomSheetCommon>
 
@@ -188,6 +191,10 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
             readMemoryBottomSheetRef.current?.close()
           }
         />
+      </LongBottomSheetCommon>
+
+      <LongBottomSheetCommon ref={albumListBottomSheetRef}>
+        <AlbumIndividual />
       </LongBottomSheetCommon>
     </>
   )

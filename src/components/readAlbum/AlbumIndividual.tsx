@@ -1,23 +1,19 @@
 import { themes } from '@/common/themes/themes'
 import React from 'react'
-import { Text, View, StyleSheet, ScrollView } from 'react-native'
-import BestFriendForeverBadgeGroup from './BestFriendForeverBadgeGroup'
+import { Text, View, StyleSheet } from 'react-native'
+import BestFriendForeverBadgeGroup from './AlbumIndividualBadgeGroup'
 import PictureList from './PictureList'
+import { observer } from 'mobx-react'
+import readAlbumStore from '@/stores/ReadAlbumStore'
 
-const BestFriendForever: React.FC = () => {
-  const image = [
-    require('@/assets/mocks/nutthanon-avatar.jpg'),
-    require('@/assets/mocks/nutthanon-rb.png'),
-    require('@/assets/mocks/nutthanon-avatar.jpg'),
-    require('@/assets/mocks/nutthanon-rb.png'),
-    require('@/assets/mocks/nut-riw-ronan.png')
-  ]
-
+const AlbumIndividual: React.FC = observer(props => {
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.titleContainer}>
-          <Text style={styles.titleStyle}>BFF</Text>
+          <Text style={styles.titleStyle}>
+            {readAlbumStore.pickedAlbum?.album_name}
+          </Text>
         </View>
       </View>
 
@@ -26,21 +22,20 @@ const BestFriendForever: React.FC = () => {
       <View style={{ ...styles.layout, paddingBottom: 20 }}>
         <View style={styles.tagGroup}>
           <Text style={styles.albumTitle}>Album Tag</Text>
-
           <BestFriendForeverBadgeGroup
-            badgeText={['Best friend', 'NUTTHANON']}
+            badgeText={readAlbumStore.pickedAlbum?.tag_name}
           />
         </View>
       </View>
 
       <View style={{ ...styles.layout, flex: 1 }}>
-        <PictureList image={image} />
+        <PictureList memories={readAlbumStore.pickedAlbum?.memories} />
       </View>
     </View>
   )
-}
+})
 
-export default BestFriendForever
+export default AlbumIndividual
 
 const styles = StyleSheet.create({
   container: {

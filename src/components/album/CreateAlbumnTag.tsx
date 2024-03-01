@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
   tagBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10
+    gap: 10,
+    flexWrap: 'wrap'
     // backgroundColor: themes.light.primary.hex
   },
   addTagBtn: {

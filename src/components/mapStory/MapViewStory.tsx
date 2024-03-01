@@ -47,6 +47,8 @@ const MapViewStory: React.FC = observer(() => {
       setInitialRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
+        // latitudeDelta: 0.0922,
+        // longitudeDelta: 0.0421
         latitudeDelta: 0.005,
         longitudeDelta: 0.005
       })

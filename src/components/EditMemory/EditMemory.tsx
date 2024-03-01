@@ -11,12 +11,12 @@ import EditMemoryUploadImage from './EditMemoryUploadImage'
 import editMemoryStore from '@/stores/EditMemoryStore'
 
 interface Props {
-  handlePinPlace: () => void
   handleClose: () => void
+  handleEditPinPlace: () => void
 }
 
 const EditMemory: React.FC<Props> = observer(props => {
-  const { handlePinPlace, handleClose } = props
+  const { handleClose, handleEditPinPlace } = props
   const [waitState, setWaitState] = useState<boolean>(false)
 
   const handleSubmit = async () => {
@@ -69,7 +69,7 @@ const EditMemory: React.FC<Props> = observer(props => {
           <View style={{ gap: 20 }}>
             <View style={{ gap: 20, paddingHorizontal: 30 }}>
               <EditMemoryDayAndMood
-                handlePinPlace={handlePinPlace}
+                handleEditPinPlace={handleEditPinPlace}
                 // handlePinPlace={handlePinPlace}
               />
 

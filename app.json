@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "com.develite.memmie",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -13,7 +14,13 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.MEMMIE",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Allow access to your current location for using on the map",
+        "NSLocationAlwaysUsageDescription": "Allow access to your current location for using on the map",
+        "NSCameraUsageDescription": "Allow access to your photo library to select images for uploading."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -26,6 +33,14 @@
     },
     "experiments": {
       "tsconfigPaths": true
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
   }
 }

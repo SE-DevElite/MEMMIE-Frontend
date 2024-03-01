@@ -14,13 +14,13 @@ export const MONTH: string[] = [
 ]
 
 export const DAY: string[] = [
+  'Saturday',
   'Sunday',
   'Monday',
   'Tuesday',
   'Wednesday',
   'Thursday',
-  'Friday',
-  'Saturday'
+  'Friday'
 ]
 
 export const MONTH_SHORT: string[] = [
@@ -47,3 +47,28 @@ export const DAY_SHORT: string[] = [
   'Sat',
   'Sun'
 ]
+
+export const MONTH_TO_NUMBER: { [key: string]: number } = {
+  January: 1,
+  February: 2,
+  March: 3,
+  April: 4,
+  May: 5,
+  June: 6,
+  July: 7,
+  August: 8,
+  September: 9,
+  October: 10,
+  November: 11,
+  December: 12
+}
+
+export const LONG_DAY_TO_SHORT = {
+  MONDAY: 'Mon',
+  TUESDAY: 'Tue',
+  WEDNESDAY: 'Wed',
+  THURSDAY: 'Thu',
+  FRIDAY: 'Fri',
+  SATURDAY: 'Sat',
+  SUNDAY: 'Sun'
+}

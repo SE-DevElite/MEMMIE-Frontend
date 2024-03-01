@@ -1,71 +1,113 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import {
   ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
+  Image,
   View
 } from 'react-native'
 import PlusIcon from '@/assets/svg/Plus'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
+import * as MediaLibrary from 'expo-media-library'
+import * as Permissions from 'expo-permissions'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
   onAddMemoryPress: () => void
 }
 
-const RandomMemory: React.FC<Props> = props => {
+const RandomMemory: React.FC<Props> = observer(props => {
   const { onAddMemoryPress } = props
+  const currentTime: Date = new Date()
+  const collectDate = [
+    currentTime.getDate(),
+    MONTH_SHORT[currentTime.getMonth()],
+    currentTime.getFullYear()
+  ]
+
+  const [imageUri, setImageUri] = useState<string | null>(null)
+  useEffect(() => {
+    ;(async () => {
+      const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
+      if (status !== 'granted') {
+        console.log('Permission denied to access media library')
+        return
+      }
+
+      const mediaAssets = await MediaLibrary.getAssetsAsync({
+        mediaType: MediaLibrary.MediaType.photo,
+        first: 5
+      })
+
+      if (mediaAssets.assets.length > 0) {
+        setImageUri(mediaAssets.assets[Math.floor(Math.random() * 10) % 5].uri)
+      }
+    })()
+  }, [])
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require('@/assets/mocks/nut-riw-ronan.png')}
-        style={styles.imageBackground}>
-        <View style={styles.overlayContainer}>
-          <View style={styles.topRow}>
-            <View style={styles.avatar} />
-            <View style={styles.textColumn}>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={styles.placeText}>
-                King mongkut's university of technology thonburi
-              </Text>
-              <Text style={styles.timeText}>17 : 10</Text>
-            </View>
-          </View>
-          <View style={styles.bottomRow}>
-            <View style={styles.dateContainer}>
-              <View style={styles.dateColumn}>
-                <Text style={styles.dateValue}>19</Text>
-                <Text style={styles.dateUnit}>Day</Text>
-              </View>
-              <View style={styles.dateColumn}>
-                <Text style={styles.dateValue}>10</Text>
-                <Text style={styles.dateUnit}>Month</Text>
-              </View>
-              <View style={styles.dateColumn}>
-                <Text style={styles.dateValue}>2021</Text>
-                <Text style={styles.dateUnit}>Year</Text>
+      {imageUri && (
+        <ImageBackground
+          source={{ uri: imageUri }}
+          style={styles.imageBackground}>
+          <View style={styles.overlayContainer}>
+            <View style={styles.topRow}>
+              <MaterialCommunityIcons
+                name="white-balance-sunny"
+                size={30}
+                color="white"
+              />
+              <View style={styles.textColumn}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={styles.placeText}>
+                  {addMemoryStore.location_name}
+                </Text>
+                <Text style={styles.timeText}>
+                  {currentTime.getHours().toString().padStart(2, '0')} :{' '}
+                  {currentTime.getMinutes().toString().padStart(2, '0')}
+                </Text>
               </View>
             </View>
-            <TouchableOpacity onPress={onAddMemoryPress}>
-              <View style={styles.iconContainer}>
-                <PlusIcon width={13} height={13} />
+            <View style={styles.bottomRow}>
+              <View style={styles.dateContainer}>
+                <View style={styles.dateColumn}>
+                  <Text style={styles.dateValue}>{collectDate[0]}</Text>
+                  <Text style={styles.dateUnit}>Day</Text>
+                </View>
+                <View style={styles.dateColumn}>
+                  <Text style={styles.dateValue}>{collectDate[1]}</Text>
+                  <Text style={styles.dateUnit}>Month</Text>
+                </View>
+                <View style={styles.dateColumn}>
+                  <Text style={styles.dateValue}>{collectDate[2]}</Text>
+                  <Text style={styles.dateUnit}>Year</Text>
+                </View>
               </View>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={onAddMemoryPress}>
+                <View style={styles.iconContainer}>
+                  <PlusIcon width={13} height={13} />
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      )}
     </View>
   )
-}
+})
 
 export default RandomMemory
 
 const styles = StyleSheet.create({
   container: {
-    width: 180,
+    flex: 1,
     height: 180,
     borderRadius: 30,
     overflow: 'hidden',

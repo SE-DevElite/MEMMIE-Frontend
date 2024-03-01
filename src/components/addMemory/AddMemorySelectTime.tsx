@@ -1,24 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  TouchableOpacity
-} from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
+import { WeatherElement } from '@/common/consts/WeatherElement.consts'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
-  date: number
-  month: string
-  year: number
   handleEditDate: () => void
+  handleEditTime: () => void
 }
 
-const AddMemorySelectTime: React.FC<Props> = props => {
-  const { date, month, year, handleEditDate } = props
+const AddMemorySelectTime: React.FC<Props> = observer(props => {
+  const { handleEditDate, handleEditTime } = props
+  const [weather, setWeather] = useState<number>(addMemoryStore.weather)
 
-  const collectDate = [date, month, year]
+  const collectDate = [
+    // addMemoryStore.select_date == 0
+    //   ? 1
+    //   :
+    addMemoryStore.date,
+    MONTH_SHORT[addMemoryStore.month],
+    addMemoryStore.select_year
+  ]
+
+  const handleSetWeather = () => {
+    const current_idx = (weather + 1) % 5
+    setWeather(current_idx)
+
+    addMemoryStore.weather = current_idx
+  }
 
   return (
     <View style={styles.container}>
@@ -41,21 +52,29 @@ const AddMemorySelectTime: React.FC<Props> = props => {
 
       <View>
         <View style={styles.timeInnerContainer}>
-          <TouchableWithoutFeedback
-            onPress={() => console.log('change waether')}>
-            <View style={styles.weatherIcon}></View>
-          </TouchableWithoutFeedback>
-
-          <TouchableWithoutFeedback onPress={() => console.log('change time')}>
-            <View>
-              <Text style={styles.timeText}>06:00</Text>
+          <TouchableOpacity onPress={handleSetWeather}>
+            <View style={styles.weatherIcon}>
+              {WeatherElement[weather].icon}
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              handleEditTime()
+              // console.log(addMemoryStore.date_time)
+            }}>
+            <View style={{ padding: 5 }}>
+              <Text style={styles.timeText}>
+                {addMemoryStore.hours.toString().padStart(2, '0')} :{' '}
+                {addMemoryStore.minutes.toString().padStart(2, '0')}
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
   )
-}
+})
 
 export default AddMemorySelectTime
 
@@ -101,11 +120,12 @@ const styles = StyleSheet.create({
     gap: 5
   },
   weatherIcon: {
+    paddingTop: 4,
+    paddingLeft: 4,
     width: 40,
     height: 40,
     backgroundColor: '#d5d5d5d5',
     borderRadius: 100,
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
   },

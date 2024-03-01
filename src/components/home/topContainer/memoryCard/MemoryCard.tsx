@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Image, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import MemoryCardHeading from './MemoryCardHeading'
 import MemoryCardBody from './MemoryCardBody'
 

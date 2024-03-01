@@ -1,5 +1,6 @@
 import React, { forwardRef, useCallback, useMemo } from 'react'
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
+import { themes } from './themes/themes'
 
 interface LongBottomSheetCommonProps {
   children?: React.ReactNode

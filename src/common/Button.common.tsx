@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
-import { View } from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 
 interface ButtonCommonProps {
   title: string
@@ -38,7 +38,7 @@ const ButtonCommon: React.FC<ButtonCommonProps> = props => {
       justifyCenter={prefix_icon ? false : true}>
       {prefix_icon ? (
         <View style={{ paddingLeft: '15%' }}>
-          <ImagePrefix source={prefix_icon} />
+          <Image source={prefix_icon} style={styles.imagePrefix} />
         </View>
       ) : (
         ''
@@ -51,6 +51,14 @@ const ButtonCommon: React.FC<ButtonCommonProps> = props => {
 }
 
 export default ButtonCommon
+
+const styles = StyleSheet.create({
+  imagePrefix: {
+    width: 15,
+    height: 15,
+    marginRight: 15
+  }
+})
 
 const ButtonCustom = styled.TouchableOpacity`
   width: ${(props: { width: number }) => props.width || 300}px;
@@ -66,11 +74,6 @@ const ButtonCustom = styled.TouchableOpacity`
   flex-direction: row;
 
   border-radius: 50%;
-`
-const ImagePrefix = styled.Image`
-  width: 15px;
-  height: 15px;
-  margin: 0 5%;
 `
 
 const ButtonText = styled.Text`

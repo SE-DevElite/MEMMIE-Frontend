@@ -114,15 +114,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderRadius: 32,
-    backgroundColor: '#ffffff'
+    backgroundColor: 'transparent'
   },
   flexBox: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    borderRadius: 32,
-    backgroundColor: '#e5e5e5'
+    borderRadius: 32
+    // backgroundColor: '#e5e5e5'
   },
   flexItem: {
     backgroundColor: '#fff',
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   cruve: {
     position: 'absolute',
-    backgroundColor: '#e5e5e5',
+    backgroundColor: 'green',
     width: 20,
     height: 60,
     top: '-21%',
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   cruve2: {
     position: 'absolute',
-    backgroundColor: '#e5e5e5',
+    backgroundColor: 'yellow',
     width: 20,
     height: 60,
     top: '-21%',
@@ -162,20 +162,22 @@ const styles = StyleSheet.create({
   },
   cruve3: {
     position: 'absolute',
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     width: 20,
     height: 20,
     top: '-38%',
     left: '22%',
-    borderRadius: 100
+    borderRadius: 100,
+    zIndex: 2
   },
   cruve4: {
     position: 'absolute',
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     width: 40,
     height: 20,
     top: '-45%',
     left: '-10%',
-    borderRadius: 100
+    borderRadius: 100,
+    zIndex: 2
   }
 })

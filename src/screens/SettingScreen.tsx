@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
-import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
+import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native'
 import styled from 'styled-components/native'
 import { useNavigation } from '@react-navigation/native'
 import { themes } from '@/common/themes/themes'
 import SettingPanel from '@/components/setting/SettingPanel'
+import SettingBottomSheetProvider from '@/components/setting/SettingBottomSheetProvider'
 
 const SettingScreen: React.FC = () => {
   const navigation = useNavigation()
@@ -12,10 +13,11 @@ const SettingScreen: React.FC = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <View>
-          <TextStyle>Setting</TextStyle>
+          <Text style={styles.textStyle}>Setting</Text>
           <SettingPanel />
         </View>
       </ScrollView>
+      {/* <SettingBottomSheetProvider /> */}
     </SafeAreaView>
   )
 }
@@ -30,15 +32,12 @@ const styles = StyleSheet.create({
     gap: 16,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  textStyle: {
+    fontFamily: themes.fonts.samiBold,
+    fontSize: 23,
+    lineHeight: 30,
+    color: themes.light.primary.hex,
+    paddingLeft: 30
   }
 })
-
-const TextStyle = styled.Text`
-  font-family: ${themes.fonts.samiBold};
-  font-size: 23px;
-  line-height: 30px;
-  color: ${themes.light.primary.hex};
-  fontweight: '600';
-  top: 50;
-  left: 30;
-`

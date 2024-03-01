@@ -32,7 +32,7 @@ export default SettingPanel
 const styles = StyleSheet.create({
   settingPanel: {
     alignItems: 'center',
-    marginTop: 80,
+    paddingTop: 20,
     flex: 1
   }
 })

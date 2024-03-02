@@ -26,7 +26,7 @@ const OpenBottomSheetScreen: React.FC = () => {
       <View style={styles.container}>
         <Button title="Go to Details" onPress={handleOpenPress} />
         <LongBottomSheetCommon ref={bottomSheetRef} snapPoint={['40%']}>
-          {/* <FilterAlbum /> */}
+          {/* <FilterAlbum /> }
           {/* <CreateAlbum /> */}
           {/* <BestFriendForever /> */}
           {/* <MyAlbum /> */}

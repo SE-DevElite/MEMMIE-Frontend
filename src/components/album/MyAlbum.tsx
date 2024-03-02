@@ -7,13 +7,20 @@ import MyAlbumList from './MyAlbumList'
 import profileStore from '@/stores/ProfileStore'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import { RequestWithToken } from '@/api/DefaultRequest'
+import readAlbumStore from '@/stores/ReadAlbumStore'
 
 interface Props {
   handlePress: () => void
+  handleOpenAlbum: () => void
 }
 
 const MyAlbum: React.FC<Props> = props => {
-  const { handlePress } = props
+  const { handleOpenAlbum, handlePress } = props
+
+  const handlePressAlbum = async (album_id: string) => {
+    await readAlbumStore.fetchAlbum(album_id)
+    handleOpenAlbum()
+  }
 
   const handleAlert = (album_id: string) => {
     Alert.alert('Delete Album', 'Are you sure to delete this album?', [
@@ -75,14 +82,17 @@ const MyAlbum: React.FC<Props> = props => {
 
       <View>
         {profileStore.albums.map(album => (
-          <MyAlbumList
-            key={album.album_id}
-            album_id={album.album_id}
-            title={album.album_name}
-            amount={album.memories}
-            thumbnail={album.album_thumbnail}
-            handleDelete={handleAlert}
-          />
+          <TouchableOpacity
+            onPress={() => handlePressAlbum(album.album_id)}
+            key={album.album_id}>
+            <MyAlbumList
+              album_id={album.album_id}
+              title={album.album_name}
+              amount={album.memories}
+              thumbnail={album.album_thumbnail}
+              handleDelete={handleAlert}
+            />
+          </TouchableOpacity>
         ))}
       </View>
     </View>

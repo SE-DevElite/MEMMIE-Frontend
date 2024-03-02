@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { themes } from '@/common/themes/themes'
-import { Dimensions } from 'react-native'
-import { StyleSheet, View } from 'react-native'
+import { Dimensions, StyleSheet, View, Text } from 'react-native'
 import ButtonLongCommon from '@/common/ButtonLong.common'
 import ReadMemoryDayAndMood from './ReadMemoryDayAndMood'
 import ReadMemoryTime from './ReadMemoryTime'
@@ -10,6 +9,8 @@ import ReadMemoryImage from './ReadMemoryImage'
 import { observer } from 'mobx-react'
 import editMemoryStore from '@/stores/EditMemoryStore'
 import readMemoryStore from '@/stores/ReadMemoryStore'
+import { AntDesign } from '@expo/vector-icons'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface Props {
   onEditMemoryPress: () => void
@@ -21,17 +22,29 @@ const width = Dimensions.get('window').width
 
 const ReadMemory: React.FC<Props> = observer(props => {
   const { onEditMemoryPress, onDeleteMemoryPress, handleReadPinPlace } = props
+
   const onPressEdit = () => {
     editMemoryStore.memory_id = readMemoryStore.memory_id
-    editMemoryStore.updateMemoryDetails({ ...readMemoryStore })
-    editMemoryStore.updateMemoryList(0, { ...readMemoryStore.memory_lists[0] })
+    editMemoryStore.initMemory(
+      readMemoryStore.all_memories[readMemoryStore.current_memory]
+    )
+    // editMemoryStore.updateMemoryDetails({ ...readMemoryStore })
+    // editMemoryStore.updateMemoryList(0, { ...readMemoryStore.memory_lists[0] })
 
     onEditMemoryPress()
   }
 
+  const handleChangeMemory = (idx: number) => {
+    if (idx < 0 || idx >= readMemoryStore.all_memories.length) {
+      return
+    }
+
+    readMemoryStore.initMemory(idx)
+  }
+
   return (
     <View style={styles.container}>
-      <View style={{ paddingHorizontal: 30, gap: 20 }}>
+      <View style={{ paddingHorizontal: 30, gap: 20, flexDirection: 'column' }}>
         <ReadMemoryDayAndMood handleReadPinPlace={handleReadPinPlace} />
         <ReadMemoryTime />
         <ReadMemoryForm />
@@ -66,6 +79,50 @@ const ReadMemory: React.FC<Props> = observer(props => {
             font_size={15}
             fonts="sigular"
           />
+        </View>
+        <View
+          style={{
+            marginTop: 90,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 10
+          }}>
+          <TouchableOpacity
+            onPress={() =>
+              handleChangeMemory(readMemoryStore.current_memory - 1)
+            }>
+            <AntDesign
+              name="caretleft"
+              size={24}
+              color={
+                readMemoryStore.current_memory === 0
+                  ? '#e5e5e5e5'
+                  : themes.light.secondary.hex
+              }
+            />
+          </TouchableOpacity>
+
+          <Text>
+            {readMemoryStore.current_memory + 1} /{' '}
+            {readMemoryStore.all_memories.length}
+          </Text>
+
+          <TouchableOpacity
+            onPress={() =>
+              handleChangeMemory(readMemoryStore.current_memory + 1)
+            }>
+            <AntDesign
+              name="caretright"
+              size={24}
+              color={
+                readMemoryStore.current_memory ===
+                readMemoryStore.all_memories.length - 1
+                  ? '#e5e5e5e5'
+                  : themes.light.secondary.hex
+              }
+            />
+          </TouchableOpacity>
         </View>
       </View>
       {/* Edit and Delete */}

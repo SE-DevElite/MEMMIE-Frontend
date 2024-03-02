@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
 import { WeatherElement } from '@/common/consts/WeatherElement.consts'
 import addMemoryStore from '@/stores/AddMemoryStore'
@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     width: 40,
     height: 40,
-    backgroundColor: '#d5d5d5d5',
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center'

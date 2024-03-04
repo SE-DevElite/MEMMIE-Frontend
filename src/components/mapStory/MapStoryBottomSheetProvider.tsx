@@ -6,6 +6,8 @@ import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSh
 import EditDate from '../addMemory/EditDate'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import { RequestWithToken } from '@/api/DefaultRequest'
+import profileStore from '@/stores/ProfileStore'
+import { MemoryResponse } from '@/interface/memory_response'
 
 interface Props {
   filterMapBottomSheetRef: React.RefObject<BottomSheetMethods>
@@ -83,15 +85,16 @@ const MapStoryBottomSheetProvider: React.FC<Props> = props => {
 
     console.log(params)
 
-    const res = await RequestWithToken(token as string)
+    const res: MemoryResponse = await RequestWithToken(token as string)
       .get('/memories/filter', { params })
-      .then(res => {
-        console.log(res.data)
-      })
+      .then(res => res.data)
       .catch(err => {
         console.log(err)
       })
 
+    console.log(res.memory)
+    profileStore.memory_mapStory = res.memory
+    filterMapBottomSheetRef.current?.close()
     setWaitApplyingFilter(false)
   }
 
@@ -111,7 +114,7 @@ const MapStoryBottomSheetProvider: React.FC<Props> = props => {
         />
       </LongBottomSheetCommon>
 
-      {/* strart  */}
+      {/* start  */}
       <LongBottomSheetCommon
         ref={mapDateStartBottomSheetRef}
         snapPoint={['50%']}>
@@ -119,7 +122,7 @@ const MapStoryBottomSheetProvider: React.FC<Props> = props => {
           type_filter="start"
           handleClose={() => mapDateStartBottomSheetRef.current?.close()}
           handleSave={handleSave}
-          max_date={new Date()}
+          max_date={mapDate.endDate}
           // min_date={new Date()}
         />
       </LongBottomSheetCommon>

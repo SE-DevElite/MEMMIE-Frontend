@@ -24,6 +24,8 @@ const MapViewStory: React.FC = observer(() => {
   useEffect(() => {
     const res = profileStore.initMapStory()
 
+    console.log(res)
+
     setInitMapStoryData(res)
     setData(res)
   }, [profileStore.memory_mapStory])

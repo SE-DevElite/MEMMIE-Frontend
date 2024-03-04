@@ -34,10 +34,9 @@ class ProfileStore {
   }
 
   @action
-  public setMemoryShown = (album_id: string) => {}
-
-  @action
   public initMapStory = () => {
+    console.log('this.memory_mapStory', this.memory_mapStory)
+
     return this.memory_mapStory.map(item => {
       return {
         id: item.memory_id,

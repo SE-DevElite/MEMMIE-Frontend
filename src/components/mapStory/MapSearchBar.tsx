@@ -4,11 +4,19 @@ import SearchIcon from '@/assets/svg/Search'
 import { TextInput, StyleSheet, View, Dimensions } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { themes } from '@/common/themes/themes'
+import { observer } from 'mobx-react'
+
+interface Props {
+  handleOpenFilter: () => void
+  handleCloseBottomSheet: () => void
+}
 
 const windowWidth = Dimensions.get('window').width
 
-const MapSearchBar: React.FC = () => {
+const MapSearchBar: React.FC<Props> = (props) => {
+  const { handleOpenFilter, handleCloseBottomSheet } = props
   const [search, setSearch] = useState<string>('')
+  
 
   return (
     <View
@@ -41,16 +49,9 @@ const MapSearchBar: React.FC = () => {
           placeholderTextColor={themes.light.primary.hex}
         />
       </View>
-      <TouchableOpacity onPress={() => console.log('filter')}>
+      <TouchableOpacity onPress={handleOpenFilter}>
         <View
-          style={{
-            width: 35,
-            height: 35,
-            backgroundColor: 'white',
-            borderRadius: 100,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
+          style={styles.filterButton}>
           <FilterIcon />
         </View>
       </TouchableOpacity>
@@ -59,3 +60,16 @@ const MapSearchBar: React.FC = () => {
 }
 
 export default MapSearchBar
+
+const styles = StyleSheet.create({
+  filterButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: 'white',
+    borderColor: themes.light.primary.hex,
+    borderWidth: 1,
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})

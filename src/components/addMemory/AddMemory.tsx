@@ -60,7 +60,7 @@ const AddMemory: React.FC<Props> = observer(props => {
           <Text style={styles.headingTextStyles}>Add memory</Text>
 
           {waitState ? (
-            <ActivityIndicator style={{ width: 30 }} />
+            <ActivityIndicator style={{ width: 60 }} />
           ) : (
             <TouchableOpacity onPress={handleSubmit}>
               <View style={styles.postPaddingStyle}>

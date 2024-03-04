@@ -4,7 +4,8 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
   Text,
-  View
+  View,
+  ActivityIndicator
 } from 'react-native'
 import { themes } from '@/common/themes/themes'
 import ButtonCommon from '@/common/Button.common'
@@ -13,11 +14,6 @@ import WeatherCloudIcon from '@/assets/svg/WeatherCloud'
 import WeatherDownpourIcon from '@/assets/svg/WeatherDownpour'
 import WeatherClearskyIcon from '@/assets/svg/WeatherClearsky'
 import WeatherSnowflakeIcon from '@/assets/svg/WeatherSnowflake'
-// import WeatherRGBClearskyIcon from '@/assets/svg/WeatherRGBClearsky'
-// import WeatherRGBSunnyIcon from '@/assets/svg/WeatherRGBSunny'
-// import WeatherRGBCloudIcon from '@/assets/svg/WeatherRGBCloud'
-// import WeatherRGBDownpourIcon from '@/assets/svg/WeatherRGBDownpour'
-// import WeatherRGBSnowflakeIcon from '@/assets/svg/WeatherRGBSnowflake'
 import WomanHappyIcon from '@/assets/svg/WomanHappy'
 import WomanFunnyIcon from '@/assets/svg/WomanFunny'
 import WomanNahIcon from '@/assets/svg/WomanNah'
@@ -29,6 +25,8 @@ interface Props {
   handleSelectDateEnd: () => void
   selectedDateStart: Date
   selectedDateEnd: Date
+  handleSubmit: (mood: number | null, weather: number | null) => void
+  waitApplyingFilter: boolean
 }
 
 const FilterMap: React.FC<Props> = props => {
@@ -37,7 +35,9 @@ const FilterMap: React.FC<Props> = props => {
     handleSelectDateStart,
     handleSelectDateEnd,
     selectedDateStart,
-    selectedDateEnd
+    selectedDateEnd,
+    handleSubmit,
+    waitApplyingFilter
   } = props
   const [currentDateStart, setCurrentDateStart] = useState('')
   const [currentDateEnd, setCurrentDateEnd] = useState('')
@@ -85,14 +85,6 @@ const FilterMap: React.FC<Props> = props => {
     WeatherSnowflakeIcon
   ]
 
-  // const weatherRGBIcons = [
-  //   WeatherRGBSunnyIcon,
-  //   WeatherRGBCloudIcon,
-  //   WeatherRGBClearskyIcon,
-  //   WeatherRGBDownpourIcon,
-  //   WeatherRGBSnowflakeIcon
-  // ]
-
   const moodIcons = [WomanHappyIcon, WomanFunnyIcon, WomanNahIcon, WomanSadIcon]
 
   return (
@@ -105,9 +97,18 @@ const FilterMap: React.FC<Props> = props => {
 
           <Text style={styles.headingTextStyles}>Add Filter</Text>
 
-          <TouchableOpacity onPress={() => console.log('Apply')}>
-            <Text style={styles.buttonStyle}>Apply</Text>
-          </TouchableOpacity>
+          {waitApplyingFilter ? (
+            <ActivityIndicator
+              color={themes.light.primary.hex}
+              size="small"
+              style={{ width: 70 }}
+            />
+          ) : (
+            <TouchableOpacity
+              onPress={() => handleSubmit(selectedMood, selectedWeather)}>
+              <Text style={styles.buttonStyle}>Apply</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
 
@@ -125,7 +126,7 @@ const FilterMap: React.FC<Props> = props => {
               font_size={14}
             />
 
-            <Text style={styles.textTitle}>to</Text>
+            <Text style={[styles.textTitle, { paddingTop: 7 }]}>to</Text>
             <ButtonCommon
               title={currentDateEnd}
               onPress={() => handleSelectDateEnd()}
@@ -191,6 +192,7 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     // backgroundColor: 'red',
+    width: 70,
     fontSize: 14,
     fontFamily: themes.fonts.regular,
     color: themes.light.primary.hex,

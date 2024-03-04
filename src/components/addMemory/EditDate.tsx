@@ -9,10 +9,12 @@ interface Props {
   handleClose: () => void
   handleSave?: (date: Date, type_filter: string) => void
   type_filter?: string
+  min_date?: Date
+  max_date?: Date
 }
 
 const EditDate: React.FC<Props> = props => {
-  const { handleClose, handleSave, type_filter } = props
+  const { handleClose, handleSave, type_filter, min_date, max_date } = props
   const [time_gmt, setTimeGMT] = useState<Date>(new Date())
   const [current_time, setCurrentTime] = useState<Date>(
     new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
@@ -69,6 +71,8 @@ const EditDate: React.FC<Props> = props => {
               handleChangeTime(value)
             }
           }}
+          maximumDate={max_date}
+          minimumDate={min_date}
         />
       </View>
     </View>

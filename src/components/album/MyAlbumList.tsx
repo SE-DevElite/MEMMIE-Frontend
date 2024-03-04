@@ -5,6 +5,7 @@ import { Image, StyleSheet, Text, View, Animated } from 'react-native'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { RectButton } from 'react-native-gesture-handler'
 import GarbageIcon from '@/assets/svg/Garbage'
+import { TouchableOpacity } from '@gorhom/bottom-sheet'
 
 interface Props {
   album_id: string
@@ -12,10 +13,12 @@ interface Props {
   title: string
   amount: number
   handleDelete: (album_id: string) => void
+  handlePressAlbum: () => void
 }
 
 const MyAlbumList: React.FC<Props> = props => {
-  const { album_id, title, amount, thumbnail, handleDelete } = props
+  const { album_id, title, amount, thumbnail, handleDelete, handlePressAlbum } =
+    props
 
   const renderRightActions = (progress: any, dragX: any) => {
     const trans = dragX.interpolate({
@@ -33,7 +36,8 @@ const MyAlbumList: React.FC<Props> = props => {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              width: 70
+              width: 70,
+              zIndex: 2
             }
           ]}>
           <GarbageIcon color="#ffff" />
@@ -44,18 +48,20 @@ const MyAlbumList: React.FC<Props> = props => {
 
   return (
     <Swipeable renderRightActions={renderRightActions}>
-      <View style={styles.boxList}>
-        <View style={styles.circle}>
-          <Image style={styles.imageStyle} source={{ uri: thumbnail }} />
+      <TouchableOpacity onPress={handlePressAlbum}>
+        <View style={styles.boxList}>
+          <View style={styles.circle}>
+            <Image style={styles.imageStyle} source={{ uri: thumbnail }} />
+          </View>
+          <View style={{ width: '70%' }}>
+            <Text style={styles.titleTextNewAlbum}>{title}</Text>
+            <Text style={styles.subTitleTextNewAlbum}>{amount} memories</Text>
+          </View>
+          <View>
+            <NavArrowRightIcon />
+          </View>
         </View>
-        <View style={{ width: '70%' }}>
-          <Text style={styles.titleTextNewAlbum}>{title}</Text>
-          <Text style={styles.subTitleTextNewAlbum}>{amount} memories</Text>
-        </View>
-        <View>
-          <NavArrowRightIcon />
-        </View>
-      </View>
+      </TouchableOpacity>
     </Swipeable>
   )
 }

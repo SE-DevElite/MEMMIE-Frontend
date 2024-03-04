@@ -16,7 +16,7 @@ export const getAccessToken = async () => {
     //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDY1MjQyOTctNTYyYS00N2JjLWFjODAtYzFlZmY2MTVjZDA1IiwiZW1haWwiOiJudXR0aGFub24udGhvQGdtYWlsLmNvbSIsImlhdCI6MTcwNzc2MDM3MCwiZXhwIjoxNzEwMzUyMzcwfQ.uwLJfT9Es-yhKqjP6YHak_sfKPIiMQ7NTdrMSyvPyH0'
 
     const accessToken = await AsyncStorage.getItem('access_token')
-    console.log('get access token from local: ', accessToken)
+    console.log(accessToken)
     return accessToken
   } catch (error) {
     console.error('Error retrieving access token:', error)

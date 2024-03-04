@@ -1,36 +1,43 @@
-import uuid from 'react-native-uuid'
-import * as Location from 'expo-location'
+import { observer } from 'mobx-react'
 import { Platform } from 'react-native'
+import * as Location from 'expo-location'
+import profileStore from '@/stores/ProfileStore'
 import React, { useEffect, useState } from 'react'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import CustomMarker from '@/components/mapStory/CustomMarker'
 import { mergeDataByCoordinates } from '@/helpers/MergeDataByCoordinates'
-import profileStore from '@/stores/ProfileStore'
-import { observer } from 'mobx-react'
 
-const mock_data = profileStore.memories.map(item => {
-  return {
-    id: item.memory_id,
-    image_url: item.memory_lists[0].memory_url,
-    coordinate: {
-      latitude: parseFloat(item.lat),
-      longitude: parseFloat(item.long)
-    }
+type MapStoryData = {
+  id: string
+  image_url: string
+  coordinate: {
+    latitude: number
+    longitude: number
   }
-})
+}
 
 const MapViewStory: React.FC = observer(() => {
   const ref = React.useRef<MapView>(null)
-  const [data, setData] = useState(mock_data)
+  const [initMapStoryData, setInitMapStoryData] = useState<MapStoryData[]>([])
+  const [data, setData] = useState<MapStoryData[]>([])
+
+  useEffect(() => {
+    const res = profileStore.initMapStory()
+
+    console.log(res)
+
+    setInitMapStoryData(res)
+    setData(res)
+  }, [profileStore.memory_mapStory])
 
   const handleRegionChange = async () => {
     const coords = await ref?.current?.getCamera()
     const zoom = coords?.zoom as number
     if (zoom <= 13) {
-      const mergedData = mergeDataByCoordinates(mock_data)
+      const mergedData = mergeDataByCoordinates(initMapStoryData)
       setData(mergedData)
     } else {
-      setData(mock_data)
+      setData(initMapStoryData)
     }
   }
   const [initialRegion, setInitialRegion] = useState<any>(null)
@@ -54,7 +61,6 @@ const MapViewStory: React.FC = observer(() => {
       })
     }
     getLocation()
-    console.log(mock_data)
   }, [])
 
   return (

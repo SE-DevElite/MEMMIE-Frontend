@@ -10,6 +10,7 @@ class ProfileStore {
   avatar: string = ''
   albums: Album[] = []
   memories: Memory[] = []
+  memory_mapStory: Memory[] = []
   currentScreen: string = 'HomeScreen'
 
   constructor() {
@@ -29,10 +30,24 @@ class ProfileStore {
   @action
   public memoryInit = (data: MemoryResponse) => {
     this.memories = data.memory
+    this.memory_mapStory = data.memory
   }
 
   @action
-  public setMemoryShown = (album_id: string) => {}
+  public initMapStory = () => {
+    console.log('this.memory_mapStory', this.memory_mapStory)
+
+    return this.memory_mapStory.map(item => {
+      return {
+        id: item.memory_id,
+        image_url: item.memory_lists[0].memory_url,
+        coordinate: {
+          latitude: parseFloat(item.lat),
+          longitude: parseFloat(item.long)
+        }
+      }
+    })
+  }
 }
 
 const profileStore = new ProfileStore()

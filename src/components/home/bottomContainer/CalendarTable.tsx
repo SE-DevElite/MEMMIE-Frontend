@@ -18,25 +18,8 @@ const CalendarTable: React.FC<Props> = observer(props => {
 
   const handleSelect = async (memory: any) => {
     onReadMemoryPress()
-
-    readMemoryStore.updateMemoryDetails({
-      ...memory.memories[0]
-    })
-    readMemoryStore.updateMemoryList(0, {
-      ...memory.memories[0].memory_lists
-    })
-    console.log(memory.memories.length)
-
-    const [datePart, timePart] = memory.memories[0].selected_datetime.split(' ')
-    const [year, month, day] = datePart.split('-').map(Number)
-    const [hour, minute] = timePart.split(':').map(Number)
-    readMemoryStore.datetime[0].year_date = year
-    readMemoryStore.datetime[0].month_date = month
-    readMemoryStore.datetime[0].day_date = day
-    readMemoryStore.datetime[0].hour_date = hour
-    readMemoryStore.datetime[0].minute_date = minute
-
-    console.log('\n\n', memory.memories[0], '\n\n')
+    readMemoryStore.all_memories = memory.memories
+    readMemoryStore.initMemory(0)
   }
 
   return (
@@ -69,7 +52,7 @@ const CalendarTable: React.FC<Props> = observer(props => {
                           ? // ? onReadMemoryPress()
                             handleSelect(value)
                           : () => {}
-                        // console.log(value.memories[0])
+                        console.log(value.memories)
                       }}>
                       <View
                         style={{

@@ -1,35 +1,29 @@
 import PlusIcon from '@/assets/svg/Plus'
 import { themes } from '@/common/themes/themes'
 import addAlbumStore from '@/stores/AddAlbumStore'
+import { observer } from 'mobx-react'
 import React, { useState } from 'react'
 import {
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
-  TextInput
+  TextInput,
+  StyleSheet,
+  TouchableOpacity
 } from 'react-native'
 import uuid from 'react-native-uuid'
 
-type Tag = {
-  id: string
-  name: string
-  state: boolean
-}
-
-const CreateAlbumnTag: React.FC = () => {
+const CreateAlbumnTag: React.FC = observer(() => {
   const [writeTag, setWriteTag] = useState(false)
   const [tagInput, setTagInput] = useState('')
-  const [tag, setTag] = useState<Tag[]>([])
 
   const handleDeleteTag = (id: string) => {
-    const curr_tag = tag.find(item => item.id === id)
+    const curr_tag = addAlbumStore.tags.find(item => item.id === id)
 
     if (curr_tag?.state) {
-      setTag(tag.filter(item => item.id !== id))
+      addAlbumStore.tags = addAlbumStore.tags.filter(item => item.id !== id)
     } else {
-      setTag(
-        tag.map(item => (item.id === id ? { ...item, state: true } : item))
+      addAlbumStore.tags = addAlbumStore.tags.map(item =>
+        item.id === id ? { ...item, state: true } : item
       )
     }
   }
@@ -38,16 +32,17 @@ const CreateAlbumnTag: React.FC = () => {
     setWriteTag(!writeTag)
 
     if (writeTag && tagInput !== '') {
-      setTag([
-        ...tag,
+      console.log(tagInput)
+
+      addAlbumStore.tags = [
         {
           id: uuid.v4() as string,
           name: tagInput,
           state: false
-        }
-      ])
+        },
+        ...addAlbumStore.tags
+      ]
 
-      addAlbumStore.tags = tag.map(item => item.name)
       setTagInput('')
     }
   }
@@ -83,7 +78,7 @@ const CreateAlbumnTag: React.FC = () => {
         </View>
       </TouchableOpacity>
 
-      {tag.map(item => (
+      {addAlbumStore.tags.map(item => (
         <TouchableOpacity
           onPress={() => handleDeleteTag(item.id)}
           key={item.id}>
@@ -110,7 +105,7 @@ const CreateAlbumnTag: React.FC = () => {
       ))}
     </View>
   )
-}
+})
 
 export default CreateAlbumnTag
 
@@ -118,8 +113,8 @@ const styles = StyleSheet.create({
   tagBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    gap: 10
     // backgroundColor: themes.light.primary.hex
   },
   addTagBtn: {

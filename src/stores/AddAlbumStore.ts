@@ -2,6 +2,7 @@ import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import { configure } from 'mobx'
 import { action, makeAutoObservable } from 'mobx'
+import uuid from 'react-native-uuid'
 
 configure({
   enforceActions: 'never'
@@ -22,10 +23,16 @@ configure({
 
 */
 
+interface Tags {
+  id: string
+  name: string
+  state: boolean
+}
+
 class AddAlbumStore {
   album_name: string = ''
   memories: string[] = []
-  tags: string[] = []
+  tags: Tags[] = []
 
   constructor() {
     makeAutoObservable(this)
@@ -45,7 +52,7 @@ class AddAlbumStore {
     const body = {
       album_name: this.album_name,
       memories: this.memories,
-      tags: this.tags
+      tags: this.tags.map(tag => tag.name)
     }
 
     console.log(body)

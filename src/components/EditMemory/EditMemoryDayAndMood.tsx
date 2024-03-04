@@ -1,57 +1,55 @@
-import { DAY } from '@/common/consts/DateTime.consts'
 import { MoodElement } from '@/common/consts/MoodElement.consts'
 import { themes } from '@/common/themes/themes'
-import addMemoryStore from '@/stores/AddMemoryStore'
+import editMemoryStore from '@/stores/EditMemoryStore'
 import readMemoryStore from '@/stores/ReadMemoryStore'
 import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 
-type MoodEle = {
-  label: string
-  icon: React.JSX.Element
-}
-
 interface Props {
-  handlePinPlace: () => void
+  handleEditPinPlace: () => void
 }
 
 const EditMemoryDayAndMood: React.FC<Props> = observer(props => {
-  const { handlePinPlace } = props
-  const [mood, setMood] = useState<MoodEle[]>()
-  const [selectMood, setSelectMood] = useState<number>(0)
-
-  useEffect(() => {
-    // const gender = profileStore.gender
-
-    setMood(MoodElement.Male)
-  }, [])
+  const { handleEditPinPlace } = props
+  const readMood: { [key: string]: number } = {
+    happy: 0,
+    sad: 1,
+    nah: 2,
+    funny: 3
+  }
+  const [selectMood, setSelectMood] = useState<number>(
+    readMood[editMemoryStore.mood]
+  )
 
   const handleChangeMood = () => {
     const current_idx = (selectMood + 1) % 4
     setSelectMood(current_idx)
+    console.log(current_idx)
 
-    addMemoryStore.mood = current_idx
+    editMemoryStore.mood = MoodElement.Male[current_idx].label.toLowerCase()
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
         <Text style={styles.dayText}>{readMemoryStore.day.toUpperCase()}</Text>
-        <TouchableOpacity onPress={handlePinPlace}>
+        <TouchableOpacity onPress={handleEditPinPlace}>
           <Text numberOfLines={1} style={styles.descriptionText}>
-            King's Mongkut University technology of thonburi
+            {readMemoryStore.location_name}
           </Text>
         </TouchableOpacity>
       </View>
 
-      {mood && (
-        <TouchableOpacity onPress={handleChangeMood}>
-          <View style={styles.moodContainer}>
-            <View style={styles.moodIcon}>{mood[selectMood].icon}</View>
+      <TouchableOpacity onPress={handleChangeMood}>
+        <View style={styles.moodContainer}>
+          <View style={styles.moodIcon}>
+            {editMemoryStore.mood
+              ? MoodElement.Male[readMood[editMemoryStore.mood]].icon
+              : editMemoryStore.mood}
           </View>
-        </TouchableOpacity>
-      )}
+        </View>
+      </TouchableOpacity>
     </View>
   )
 })

@@ -1,16 +1,9 @@
-import { DAY } from '@/common/consts/DateTime.consts'
 import { MoodElement } from '@/common/consts/MoodElement.consts'
 import { themes } from '@/common/themes/themes'
-import addMemoryStore from '@/stores/AddMemoryStore'
 import { observer } from 'mobx-react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 import readMemoryStore from '@/stores/ReadMemoryStore'
-///ปักเหลือ Mood
-type MoodEle = {
-  label: string
-  icon: React.JSX.Element
-}
 
 interface Props {
   handleReadPinPlace: () => void
@@ -18,14 +11,17 @@ interface Props {
 
 const ReadMemoryDayAndMood: React.FC<Props> = observer(props => {
   const { handleReadPinPlace } = props
-  const [mood, setMood] = useState<MoodEle[]>()
-  const [selectMood, setSelectMood] = useState<number>(0)
 
-  useEffect(() => {
-    // const gender = profileStore.gender
+  const readMood = {
+    happy: 0,
+    sad: 1,
+    nah: 2,
+    funny: 3
+  }
 
-    setMood(MoodElement.Male)
-  }, [])
+  const handlePressLocation = () => {
+    handleReadPinPlace()
+  }
 
   return (
     <View style={styles.container}>
@@ -35,8 +31,8 @@ const ReadMemoryDayAndMood: React.FC<Props> = observer(props => {
         </Text>
         <TouchableOpacity
           onPress={() => {
-            handleReadPinPlace()
-            console.log(readMemoryStore.lat)
+            handlePressLocation()
+            // console.log(readMemoryStore.lat, readMemoryStore.long)
           }}>
           <Text numberOfLines={1} style={styles.descriptionText}>
             {readMemoryStore.location_name}
@@ -44,11 +40,15 @@ const ReadMemoryDayAndMood: React.FC<Props> = observer(props => {
         </TouchableOpacity>
       </View>
 
-      {mood && (
-        <View style={styles.moodContainer}>
-          <View style={styles.moodIcon}>{mood[selectMood].icon}</View>
+      <View style={styles.moodContainer}>
+        <View style={styles.moodIcon}>
+          {readMemoryStore.mood
+            ? MoodElement.Male[
+                readMood[readMemoryStore.mood as keyof typeof readMood]
+              ].icon
+            : readMemoryStore.mood}
         </View>
-      )}
+      </View>
     </View>
   )
 })

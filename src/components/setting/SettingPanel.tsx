@@ -14,9 +14,9 @@ const SettingPanel: React.FC = () => {
   return (
     <View style={styles.settingPanel}>
       <AccountContainer />
-      <PrivacyContainer />
+      {/* <PrivacyContainer /> */}
       <NotificationsContainer />
-      <DisplayContainer />
+      {/* <DisplayContainer /> */}
       <SupportAboutContainer />
       <SignInContainer
         navigation={navigation}

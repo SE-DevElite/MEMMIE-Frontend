@@ -15,6 +15,9 @@ import PinPlace from '../addMemory/PinPlace'
 import EditMemory from '../EditMemory/EditMemory'
 import DeleteMemory from '../readMemory/DeleteMemory'
 import ReadMemoryPinPlace from '../readMemory/ReadMemoryPinPlace'
+import EditMemoryPinPlace from '../EditMemory/EditMemoryPinplace'
+import MapSearchBar from '../mapStory/MapSearchBar'
+import FilterMap from '@/components/mapStory/FilterMap'
 import AlbumIndividual from '../readAlbum/AlbumIndividual'
 
 interface Props {
@@ -48,7 +51,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const editMemoryBottomSheetRef = useRef<BottomSheet>(null)
   const deleteMemoryBottomSheetRef = useRef<BottomSheet>(null)
   const readMemoryPinPlaceBottomSheetRef = useRef<BottomSheet>(null)
-
+  const editMemoryPinPlaceBottomSheetRef = useRef<BottomSheet>(null)
+  const mapSearchBar = useRef<BottomSheet>(null)
+  const filterMapBottomSheetRef = useRef<BottomSheet>(null)
   const mapDateStartBottomSheetRef = useRef<BottomSheet>(null)
   const mapDateEndBottomSheetRef = useRef<BottomSheet>(null)
   const albumListBottomSheetRef = useRef<BottomSheet>(null)
@@ -168,8 +173,10 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
 
       <LongBottomSheetCommon ref={editMemoryBottomSheetRef}>
         <EditMemory
-          handlePinPlace={() => pinPlaceBottomSheetRef.current?.expand()}
           handleClose={() => editMemoryBottomSheetRef.current?.close()}
+          handleEditPinPlace={() =>
+            editMemoryPinPlaceBottomSheetRef.current?.expand()
+          }
         />
       </LongBottomSheetCommon>
 
@@ -183,6 +190,12 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
         snapPoint={['50%', '60%', '70%', '80%']}
         ref={readMemoryPinPlaceBottomSheetRef}>
         <ReadMemoryPinPlace />
+      </LongBottomSheetCommon>
+
+      <LongBottomSheetCommon
+        snapPoint={['50%', '60%', '70%', '80%']}
+        ref={editMemoryPinPlaceBottomSheetRef}>
+        <EditMemoryPinPlace />
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon

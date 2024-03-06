@@ -12,11 +12,11 @@ export const saveAccessToken = async (accessToken: string) => {
 
 export const getAccessToken = async () => {
   try {
-    const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOGJkYzc3NjEtZjIzYy00YjM1LWJiOTMtOWYwMGYzZDVhOWNiIiwiZW1haWwiOiJ0aGVnb2RvaG0yOEBnbWFpbC5jb20iLCJpYXQiOjE3MDkwNjAzMDIsImV4cCI6MTcxMDI2OTkwMn0.9AxxKOYQnaTslb6uTNdDnC6-w7NdnKTKSHalPV8XFcE'
+    // const accessToken =
+    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDY1MjQyOTctNTYyYS00N2JjLWFjODAtYzFlZmY2MTVjZDA1IiwiZW1haWwiOiJudXR0aGFub24udGhvQGdtYWlsLmNvbSIsImlhdCI6MTcwNzc2MDM3MCwiZXhwIjoxNzEwMzUyMzcwfQ.uwLJfT9Es-yhKqjP6YHak_sfKPIiMQ7NTdrMSyvPyH0'
 
-    // const accessToken = await AsyncStorage.getItem('access_token')
-    console.log('get access token from local: ', accessToken)
+    const accessToken = await AsyncStorage.getItem('access_token')
+    console.log(accessToken)
     return accessToken
   } catch (error) {
     console.error('Error retrieving access token:', error)

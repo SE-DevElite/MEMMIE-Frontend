@@ -1,14 +1,29 @@
 import React, { useState } from 'react'
 import FilterIcon from '@/assets/svg/Filter'
 import SearchIcon from '@/assets/svg/Search'
-import { TextInput, StyleSheet, View, Dimensions } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import {
+  TextInput,
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity
+} from 'react-native'
 import { themes } from '@/common/themes/themes'
+
+interface Props {
+  handleCloseBottomSheet: () => void
+  handleOpenMapFilter: () => void
+}
 
 const windowWidth = Dimensions.get('window').width
 
-const MapSearchBar: React.FC = () => {
+const MapSearchBar: React.FC<Props> = props => {
+  const { handleCloseBottomSheet, handleOpenMapFilter } = props
   const [search, setSearch] = useState<string>('')
+
+  const handlePress = () => {
+    handleOpenMapFilter()
+  }
 
   return (
     <View
@@ -30,27 +45,24 @@ const MapSearchBar: React.FC = () => {
           backgroundColor: 'white',
           width: windowWidth - 85,
           flexDirection: 'row',
-          gap: 5
+          gap: 5,
+          borderColor: '#E5E5E5',
+          borderWidth: 1
         }}>
         <SearchIcon />
         <TextInput
           value={search}
           onChange={e => setSearch(e.nativeEvent.text)}
-          style={{ width: '90%', color: themes.light.primary.hex }}
+          style={{
+            width: '90%',
+            color: themes.light.primary.hex
+          }}
           placeholder="Search"
-          placeholderTextColor={themes.light.primary.hex}
+          placeholderTextColor={themes.light.secondary.hex}
         />
       </View>
-      <TouchableOpacity onPress={() => console.log('filter')}>
-        <View
-          style={{
-            width: 35,
-            height: 35,
-            backgroundColor: 'white',
-            borderRadius: 100,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
+      <TouchableOpacity onPress={handleOpenMapFilter}>
+        <View style={styles.filterButton}>
           <FilterIcon />
         </View>
       </TouchableOpacity>
@@ -59,3 +71,16 @@ const MapSearchBar: React.FC = () => {
 }
 
 export default MapSearchBar
+
+const styles = StyleSheet.create({
+  filterButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: 'white',
+    borderColor: '#E5E5E5',
+    borderWidth: 1,
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})

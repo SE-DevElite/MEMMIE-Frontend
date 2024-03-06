@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import MyAlbum from '@/components/album/MyAlbum'
 import FilterAlbum from '@/components/album/FilterAlbum'
 import CreateAlbum from '@/components/album/CreateAlbum'
-import BestFriendForever from '@/components/album/BestFriendForever'
+import BestFriendForever from '@/components/readAlbum/AlbumIndividual'
 import { Button, TouchableWithoutFeedback, Keyboard } from 'react-native' // Import Keyboard module
 import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
 import SelectFriend from '@/components/addMemory/SelectFriend'
@@ -26,7 +26,7 @@ const OpenBottomSheetScreen: React.FC = () => {
       <View style={styles.container}>
         <Button title="Go to Details" onPress={handleOpenPress} />
         <LongBottomSheetCommon ref={bottomSheetRef} snapPoint={['40%']}>
-          {/* <FilterAlbum /> */}
+          {/* <FilterAlbum /> }
           {/* <CreateAlbum /> */}
           {/* <BestFriendForever /> */}
           {/* <MyAlbum /> */}
@@ -36,7 +36,7 @@ const OpenBottomSheetScreen: React.FC = () => {
           {/* <EditTime /> */}
           {/* <AddMemory /> */}
           {/* <EditProfile /> */}
-          <SelectGender />
+          {/* <SelectGender /> */}
         </LongBottomSheetCommon>
       </View>
     </TouchableWithoutFeedback>

@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { View, StyleSheet, Dimensions } from 'react-native'
 import UserHeading from '@/components/home/topContainer/UserHeading'
 import MapViewStory from '@/components/mapStory/MapViewStory'
 import { useNavigation } from '@react-navigation/native'
 import MapSearchBar from '@/components/mapStory/MapSearchBar'
+import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
+import MapStoryBottomSheetProvider from '@/components/mapStory/MapStoryBottomSheetProvider'
 
 interface MapStoryScreenProps {
   avatar: string
@@ -13,6 +15,7 @@ interface MapStoryScreenProps {
 const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
   const { avatar, username } = props
   const navigation = useNavigation()
+  const filterMapBottomSheetRef = useRef<BottomSheet>(null)
 
   return (
     <View>
@@ -25,8 +28,15 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
           username={username}
         />
       </View>
-      <MapSearchBar />
+      <MapSearchBar
+        handleOpenMapFilter={() => filterMapBottomSheetRef.current?.expand()}
+        handleCloseBottomSheet={() => {}}
+      />
       <MapViewStory />
+
+      <MapStoryBottomSheetProvider
+        filterMapBottomSheetRef={filterMapBottomSheetRef}
+      />
     </View>
   )
 }

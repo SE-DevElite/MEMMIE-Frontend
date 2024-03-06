@@ -7,13 +7,20 @@ import MyAlbumList from './MyAlbumList'
 import profileStore from '@/stores/ProfileStore'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import { RequestWithToken } from '@/api/DefaultRequest'
+import readAlbumStore from '@/stores/ReadAlbumStore'
 
 interface Props {
   handlePress: () => void
+  handleOpenAlbum: () => void
 }
 
 const MyAlbum: React.FC<Props> = props => {
-  const { handlePress } = props
+  const { handleOpenAlbum, handlePress } = props
+
+  const handlePressAlbum = async (album_id: string) => {
+    await readAlbumStore.fetchAlbum(album_id)
+    handleOpenAlbum()
+  }
 
   const handleAlert = (album_id: string) => {
     Alert.alert('Delete Album', 'Are you sure to delete this album?', [
@@ -31,10 +38,12 @@ const MyAlbum: React.FC<Props> = props => {
   const handleDelete = async (album_id: string) => {
     const token = await getAccessToken()
 
+    console.log(album_id)
+
     await RequestWithToken(token as string)
       .delete(`/albums/delete/${album_id}`)
       .then(res => {
-        console.log(res.data)
+        return res.data
       })
   }
 
@@ -82,6 +91,7 @@ const MyAlbum: React.FC<Props> = props => {
             amount={album.memories}
             thumbnail={album.album_thumbnail}
             handleDelete={handleAlert}
+            handlePressAlbum={() => handlePressAlbum(album.album_id)}
           />
         ))}
       </View>

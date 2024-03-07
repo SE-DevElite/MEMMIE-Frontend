@@ -59,16 +59,16 @@ const styles = StyleSheet.create({
   },
   flexChild: {
     width: windowWidth - windowWidth / 5.8,
-    height: 190,
+    height: 250,
     borderRadius: 30,
     overflow: 'hidden',
     backgroundColor: themes.light.tertiary.hex,
     marginHorizontal: 5
   },
   imageStyle: {
-    minHeight: 190,
+    minHeight: 250,
     backgroundColor: themes.light.tertiary.hex,
-    resizeMode: 'cover',
+    resizeMode: 'center',
     borderRadius: 30,
     flex: 1
   }

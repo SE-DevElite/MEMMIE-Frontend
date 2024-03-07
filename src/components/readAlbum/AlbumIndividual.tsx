@@ -12,11 +12,20 @@ import PictureList from './PictureList'
 import { observer } from 'mobx-react'
 import readAlbumStore from '@/stores/ReadAlbumStore'
 
-const AlbumIndividual: React.FC = observer(props => {
+interface Props {
+  handleCloseBottomSheet: () => void
+}
+
+const AlbumIndividual: React.FC<Props> = observer(props => {
+  const { handleCloseBottomSheet } = props
+
   const [wait, setWait] = useState<boolean>(false)
 
   const handleSave = async () => {
-    readAlbumStore.updateAlbum()
+    setWait(true)
+    await readAlbumStore.updateAlbum()
+    setWait(false)
+    handleCloseBottomSheet()
   }
 
   return (
@@ -34,9 +43,13 @@ const AlbumIndividual: React.FC = observer(props => {
       <View style={{ ...styles.layout, paddingBottom: 20 }}>
         <View style={styles.tagGroup}>
           <Text style={styles.albumTitle}>Album Tag</Text>
-          <AlbumIndividualBadgeGroup
-            badgeText={readAlbumStore.pickedAlbum?.tag_name}
-          />
+          {readAlbumStore.pickedAlbum?.tag_name[0] !== '' ? (
+            <AlbumIndividualBadgeGroup
+              badgeText={readAlbumStore.pickedAlbum?.tag_name}
+            />
+          ) : (
+            ''
+          )}
         </View>
       </View>
 

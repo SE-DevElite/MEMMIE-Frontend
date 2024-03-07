@@ -32,8 +32,6 @@ const CreateAlbumnTag: React.FC = observer(() => {
     setWriteTag(!writeTag)
 
     if (writeTag && tagInput !== '') {
-      console.log(tagInput)
-
       addAlbumStore.tags = [
         {
           id: uuid.v4() as string,
@@ -58,11 +56,13 @@ const CreateAlbumnTag: React.FC = observer(() => {
                   fontSize: 12,
                   fontFamily: themes.fonts.medium,
                   paddingHorizontal: 5,
-                  paddingVertical: 0
+                  paddingVertical: 0,
+                  color: themes.light.primary.hex
                 }}
                 placeholder="Add Tag"
                 value={tagInput}
                 onChangeText={text => setTagInput(text)}
+                onSubmitEditing={handleSaveTag}
               />
             </>
           ) : (

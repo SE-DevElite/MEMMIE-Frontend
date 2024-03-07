@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import editMemoryStore from '@/stores/EditMemoryStore'
 import readMemoryStore from '@/stores/ReadMemoryStore'
 import { AntDesign } from '@expo/vector-icons'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 
 interface Props {
   onEditMemoryPress: () => void
@@ -19,6 +19,7 @@ interface Props {
 }
 
 const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 const ReadMemory: React.FC<Props> = observer(props => {
   const { onEditMemoryPress, onDeleteMemoryPress, handleReadPinPlace } = props
@@ -47,15 +48,23 @@ const ReadMemory: React.FC<Props> = observer(props => {
       <View style={{ paddingHorizontal: 30, gap: 20, flexDirection: 'column' }}>
         <ReadMemoryDayAndMood handleReadPinPlace={handleReadPinPlace} />
         <ReadMemoryTime />
-        <ReadMemoryForm />
-        <ReadMemoryImage />
+        <View
+          style={{
+            paddingVertical: 10,
+            height: height / 2.35 + 30
+          }}>
+          <ScrollView>
+            <ReadMemoryForm />
+            <ReadMemoryImage />
+          </ScrollView>
+        </View>
         <View
           style={{
             flex: 1,
-            backgroundColor: themes.light.tertiary.hex,
+            // backgroundColor: themes.light.tertiary.hex,
             justifyContent: 'space-between',
             flexDirection: 'row'
-            // paddingHorizontal: 30
+            // paddingTop: 30
           }}>
           <ButtonLongCommon
             title={'Delete'}
@@ -82,7 +91,7 @@ const ReadMemory: React.FC<Props> = observer(props => {
         </View>
         <View
           style={{
-            marginTop: 90,
+            marginTop: 60,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
@@ -125,7 +134,6 @@ const ReadMemory: React.FC<Props> = observer(props => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* Edit and Delete */}
     </View>
   )
 })

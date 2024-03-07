@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
 import { WeatherElement } from '@/common/consts/WeatherElement.consts'
-import addMemoryStore from '@/stores/AddMemoryStore'
 import editMemoryStore from '@/stores/EditMemoryStore'
 import { observer } from 'mobx-react'
+import readMemoryStore from '@/stores/ReadMemoryStore'
 
 interface Props {
   handleEditDate: () => void
@@ -14,7 +14,16 @@ interface Props {
 
 const EditMemorySelectTime: React.FC<Props> = observer(props => {
   const { handleEditDate, handleEditTime } = props
-  const [weather, setWeather] = useState<number>(addMemoryStore.weather)
+  const readWeather: { [key: string]: number } = {
+    clearsky: 0,
+    cloudy: 1,
+    downpour: 2,
+    showflake: 3,
+    sunny: 4
+  }
+  const [weather, setWeather] = useState<number>(
+    readWeather[readMemoryStore.weather]
+  )
   const Selected_date = new Date(editMemoryStore.selected_datetime)
   const collectDate = [
     Selected_date.getDate() == 0 ? 1 : Selected_date.getDate(),
@@ -26,7 +35,7 @@ const EditMemorySelectTime: React.FC<Props> = observer(props => {
     const current_idx = (weather + 1) % 5
     setWeather(current_idx)
 
-    addMemoryStore.weather = current_idx
+    editMemoryStore.weather = WeatherElement[current_idx].label.toLowerCase()
   }
 
   return (
@@ -52,7 +61,9 @@ const EditMemorySelectTime: React.FC<Props> = observer(props => {
         <View style={styles.timeInnerContainer}>
           <TouchableOpacity onPress={handleSetWeather}>
             <View style={styles.weatherIcon}>
-              {WeatherElement[weather].icon}
+              {editMemoryStore.weather
+                ? WeatherElement[readWeather[editMemoryStore.weather]].icon
+                : editMemoryStore.weather}
             </View>
           </TouchableOpacity>
 

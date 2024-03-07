@@ -7,21 +7,16 @@ import {
   ImageSourcePropType
 } from 'react-native'
 import { themes } from '@/common/themes/themes'
+import { useNavigation } from '@react-navigation/native'
 import NavArrowRight from '@/assets/svg/NavArrowRight'
-
-type NotificationsContainerType = {
-  onWidgetPress?: () => void
-  onPushNotificationPress?: () => void
-}
 
 const getStyleValue = (key: string, value: string | number | undefined) => {
   if (value === undefined) return
   return { [key]: value === 'unset' ? undefined : value }
 }
-const NotificationsContainer = ({
-  onWidgetPress,
-  onPushNotificationPress
-}: NotificationsContainerType) => {
+const NotificationsContainer: React.FC = () => {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.notifications}>
       <Text style={[styles.notifications1]}>Notifications</Text>
@@ -29,7 +24,7 @@ const NotificationsContainer = ({
       <View style={styles.list}>
         <Pressable
           style={[styles.widget, styles.widgetLayout]}
-          onPress={onWidgetPress}>
+          onPress={() => navigation.navigate('WidgetScreen' as never)}>
           <View style={styles.widgetParent}>
             <Text style={[styles.widget1, styles.widget1Typo]}>Widget</Text>
             <NavArrowRight width={5} height={10} marginLeft={242} />
@@ -37,7 +32,9 @@ const NotificationsContainer = ({
         </Pressable>
         <Pressable
           style={[styles.pushNotification, styles.widgetLayout]}
-          onPress={onPushNotificationPress}>
+          onPress={() =>
+            navigation.navigate('PushNotificationScreen' as never)
+          }>
           <View style={styles.widgetParent}>
             <Text style={[styles.pushNotifications, styles.widget1Typo]}>
               Push notifications

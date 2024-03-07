@@ -122,7 +122,7 @@ const HomeScreen: React.FC = observer(() => {
         readMemoryBottomSheetRef={readMemoryBottomSheetRef}
       />
 
-      {/* <BottomNavigationCommon navigation={navigation} /> */}
+      <BottomNavigationCommon navigation={navigation} />
     </SafeAreaView>
   )
 })

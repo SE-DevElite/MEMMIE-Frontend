@@ -1,20 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { themes } from '@/common/themes/themes'
 import { View, Text, StyleSheet } from 'react-native'
 import { MONTH_SHORT } from '@/common/consts/DateTime.consts'
 import { WeatherElement } from '@/common/consts/WeatherElement.consts'
-import addMemoryStore from '@/stores/AddMemoryStore'
 import { observer } from 'mobx-react'
 import readMemoryStore from '@/stores/ReadMemoryStore'
-//weather
-interface Props {
-  //   handleEditDate: () => void
-  //   handleEditTime: () => void
-}
 
-const ReadMemoryTime: React.FC<Props> = observer(props => {
-  //   const { handleEditDate, handleEditTime } = props
-  const [weather, setWeather] = useState<number>(addMemoryStore.weather)
+const ReadMemoryTime: React.FC = observer(props => {
+  const readWeather = {
+    clearsky: 0,
+    cloudy: 1,
+    downpour: 2,
+    showflake: 3,
+    sunny: 4
+  }
 
   const collectDate = [
     parseInt(readMemoryStore.datetime[0].day_date) == 0
@@ -23,13 +22,6 @@ const ReadMemoryTime: React.FC<Props> = observer(props => {
     MONTH_SHORT[parseInt(readMemoryStore.datetime[0].month_date) - 1],
     readMemoryStore.datetime[0].year_date
   ]
-
-  const handleSetWeather = () => {
-    const current_idx = (weather + 1) % 5
-    setWeather(current_idx)
-
-    addMemoryStore.weather = current_idx
-  }
 
   return (
     <View style={styles.container}>
@@ -47,15 +39,17 @@ const ReadMemoryTime: React.FC<Props> = observer(props => {
           </View>
         ))}
       </View>
-      {/* <TouchableOpacity
-        style={styles.dateContainer}
-        onPress={() => {
-          console.log(readMemoryStore.datetime[0].day_date)
-        }}
-      /> */}
       <View>
         <View style={styles.timeInnerContainer}>
-          <View style={styles.weatherIcon}>{WeatherElement[weather].icon}</View>
+          <View style={styles.weatherIcon}>
+            {readMemoryStore.weather
+              ? WeatherElement[
+                  readWeather[
+                    readMemoryStore.weather as keyof typeof readWeather
+                  ]
+                ].icon
+              : readMemoryStore.weather}
+          </View>
 
           <View style={{ padding: 5 }}>
             <Text style={styles.timeText}>

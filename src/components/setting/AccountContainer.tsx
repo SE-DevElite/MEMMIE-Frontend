@@ -5,33 +5,28 @@ import {
   Pressable,
   Image,
   ImageSourcePropType,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native'
 import NavArrowRight from '@/assets/svg/NavArrowRight'
 import { themes } from '@/common/themes/themes'
+import { useNavigation } from '@react-navigation/native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
-type AccountContainerProps = {
-  onEmailPress?: () => void
-  onDateOfBirthPress?: () => void
-  onPasswordPress?: () => void
-  onLinkedAccountPress?: () => void
-  onFriendListPress?: () => void
-}
+const windowWidth = Dimensions.get('window').width
 
-const AccountContainer: React.FC<AccountContainerProps> = ({
-  onEmailPress,
-  onDateOfBirthPress,
-  onPasswordPress,
-  onLinkedAccountPress,
-  onFriendListPress
-}) => {
+const AccountContainer: React.FC = () => {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.account}>
       <Text style={[styles.account1]}>Account</Text>
       <View style={styles.underline} />
       <View style={styles.list}>
         <View style={[styles.list1, styles.list1Position]}>
-          <Pressable style={styles.email} onPress={onEmailPress}>
+          <TouchableOpacity
+            style={styles.email}
+            onPress={() => navigation.navigate('EmailScreen' as never)}>
             <View style={[styles.flexBox, styles.parentFlexBox]}>
               <Text style={[styles.email1, styles.detailTypo]}>Email</Text>
               <View style={[styles.mailParent, styles.parentFlexBox]}>
@@ -41,10 +36,10 @@ const AccountContainer: React.FC<AccountContainerProps> = ({
                 <NavArrowRight width={5} height={10} marginLeft={8} />
               </View>
             </View>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.dateOfBirth, styles.spaceBlock]}
-            onPress={onDateOfBirthPress}>
+            onPress={() => navigation.navigate('DateOfBirthScreen' as never)}>
             <View style={[styles.flexBox, styles.parentFlexBox]}>
               <Text style={[styles.dateOfBirth1, styles.detailTypo]}>
                 Date of birth
@@ -56,29 +51,29 @@ const AccountContainer: React.FC<AccountContainerProps> = ({
                 <NavArrowRight width={5} height={10} marginLeft={8} />
               </View>
             </View>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.password, styles.spaceBlock]}
-            onPress={onPasswordPress}>
+            onPress={() => navigation.navigate('PasswordScreen' as never)}>
             <Text style={[styles.password1, styles.detailTypo]}>Password</Text>
             <NavArrowRight width={5} height={10} marginLeft={228} />
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.password, styles.spaceBlock]}
-            onPress={onLinkedAccountPress}>
+            onPress={() => navigation.navigate('LinkedAccountScreen' as never)}>
             <Text style={[styles.linkedAccounts, styles.detailTypo]}>
               Linked accounts
             </Text>
             <NavArrowRight width={5} height={10} marginLeft={183} />
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.password, styles.spaceBlock]}
-            onPress={onFriendListPress}>
+            onPress={() => navigation.navigate('FriendlistScreen' as never)}>
             <Text style={[styles.password1, styles.detailTypo]}>
               Friendlist
             </Text>
             <NavArrowRight width={5} height={10} marginLeft={228} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

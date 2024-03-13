@@ -6,14 +6,10 @@ import { useNavigation } from '@react-navigation/native'
 import MapSearchBar from '@/components/mapStory/MapSearchBar'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import MapStoryBottomSheetProvider from '@/components/mapStory/MapStoryBottomSheetProvider'
+import { observer } from 'mobx-react'
+import profileStore from '@/stores/ProfileStore'
 
-interface MapStoryScreenProps {
-  avatar: string
-  username: string
-}
-
-const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
-  const { avatar, username } = props
+const MapStoryScreen: React.FC = observer(props => {
   const navigation = useNavigation()
   const filterMapBottomSheetRef = useRef<BottomSheet>(null)
 
@@ -22,10 +18,8 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
       <View style={styles.userHeading}>
         <UserHeading
           onPressAvatar={() => navigation.navigate('ProfileScreen' as never)}
-          avatar={
-            'https://i.pinimg.com/564x/96/f4/eb/96f4eb050895ed555700f9ee77496c72.jpg'
-          }
-          username={username}
+          avatar={profileStore.avatar}
+          username={profileStore.username}
         />
       </View>
       <MapSearchBar
@@ -39,7 +33,7 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
       />
     </View>
   )
-}
+})
 
 export default MapStoryScreen
 

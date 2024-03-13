@@ -10,7 +10,6 @@ import DatePicker from '@/components/home/bottomContainer/DatePicker'
 import { useNavigation } from '@react-navigation/native'
 import { MONTH, MONTH_TO_NUMBER } from '@/common/consts/DateTime.consts'
 import HomeBottomSheetProvider from '@/components/home/HomeBottomSheetProvider'
-import BottomNavigationCommon from '@/common/BottomNavigation.common'
 import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import profileStore from '@/stores/ProfileStore'
@@ -122,7 +121,7 @@ const HomeScreen: React.FC = observer(() => {
         readMemoryBottomSheetRef={readMemoryBottomSheetRef}
       />
 
-      <BottomNavigationCommon navigation={navigation} />
+      {/* <BottomNavigationCommon navigation={navigation} /> */}
     </SafeAreaView>
   )
 })

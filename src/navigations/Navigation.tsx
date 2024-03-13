@@ -10,7 +10,6 @@ import PasswordScreen from '@/screens/setting/PasswordScreen'
 import LinkAccount from '@/screens/setting/LinkedAccountScreen'
 import Friendlist from '@/screens/setting/FriendlistScreen'
 import CreateList from '@/components/setting/CreateList'
-import SettingBottomSheetProvider from '@/screens/setting/SettingBottomSheetProvider'
 import PushNotificationScreen from '@/screens/setting/PushNotificationScreen'
 import WidgetScreen from '@/screens/setting/WidgetScreen'
 import ReportScreen from '@/screens/setting/ReportScreen'
@@ -19,6 +18,7 @@ import TermsScreen from '@/screens/setting/TermsScreen'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
 import { useState } from 'react'
 import MapStoryScreen from '@/screens/MapStoryScreen'
+import FriendProfileScreen from '@/screens/FriendProfile'
 
 const Stack = createNativeStackNavigator()
 
@@ -28,7 +28,7 @@ const AppNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName={showWelcome ? 'IndexWelcomeScreen' : 'SignInScreen'}
+      initialRouteName={showWelcome ? 'IndexWelcomeScreen' : 'FriendProfile'}
       screenOptions={{ headerShown: false }}>
       <Stack.Screen name="IndexWelcomeScreen" component={IndexWelcomeScreen} />
       <Stack.Screen name="SignInScreen" component={SignInScreen} />
@@ -50,6 +50,7 @@ const AppNavigator = () => {
       <Stack.Screen name="SupportScreen" component={SupportScreen} />
       <Stack.Screen name="TermsScreen" component={TermsScreen} />
       <Stack.Screen name="MapStoryScreen" component={MapStoryScreen} />
+      <Stack.Screen name="FriendProfile" component={FriendProfileScreen} />
     </Stack.Navigator>
   )
 }

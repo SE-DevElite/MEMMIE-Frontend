@@ -113,6 +113,17 @@ const HomeScreen: React.FC = observer(() => {
         </View>
       </ScrollView>
 
+      <View
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: 60,
+          bottom: 24,
+          paddingHorizontal: 16
+        }}>
+        <BottomNavigation />
+      </View>
+
       <LongBottomSheetCommon ref={bottomSheetRef}>
         <MonthYearPicker />
       </LongBottomSheetCommon>
@@ -124,17 +135,6 @@ const HomeScreen: React.FC = observer(() => {
       />
 
       {/* <BottomNavigationCommon navigation={navigation} /> */}
-
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: 60,
-          bottom: 24,
-          paddingHorizontal: 16
-        }}>
-        <BottomNavigation />
-      </View>
     </SafeAreaView>
   )
 })

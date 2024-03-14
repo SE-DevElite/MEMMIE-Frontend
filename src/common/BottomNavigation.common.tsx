@@ -1,8 +1,10 @@
 import * as React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import Svg, { G, Path, Circle, Defs } from 'react-native-svg'
 
 const BottomNavigation: React.FC = () => {
+  const navigation = useNavigation()
   const [currentIdx, setCurrentIdx] = React.useState<number>(0)
 
   const indexIcon = [
@@ -40,16 +42,14 @@ const BottomNavigation: React.FC = () => {
       </G>
 
       {/* circle */}
-      <TouchableWithoutFeedback onPress={() => handlePress(1)}>
-        <G>
-          <Circle
-            cx={indexIcon[currentIdx].xaxis}
-            cy={31}
-            r={17}
-            fill="#A56073"
-          />
-        </G>
-      </TouchableWithoutFeedback>
+      <G>
+        <Circle
+          cx={indexIcon[currentIdx].xaxis}
+          cy={31}
+          r={17}
+          fill="#A56073"
+        />
+      </G>
 
       {/* dot */}
       <G>

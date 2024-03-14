@@ -21,7 +21,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import addMemoryStore from '@/stores/AddMemoryStore'
 import MonthYearPicker from '@/components/home/bottomContainer/MonthYearPicker'
 import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
-import BottomNavigationCommon from '@/common/BottomNavigation.common'
 import BottomNavigation from '@/common/BottomNavigation.common'
 
 const HomeScreen: React.FC = observer(() => {
@@ -72,11 +71,6 @@ const HomeScreen: React.FC = observer(() => {
     setRefreshing(false)
   }, [])
 
-  // const [currentScreen, setCurrentScreen] = useState<string>('HomeScreen')
-  // const handleMapScreen = () =>{
-  //   setCurrentScreen(props)
-  // }
-
   return (
     <SafeAreaView style={styles.container} edges={['right', 'top']}>
       <ScrollView
@@ -113,14 +107,7 @@ const HomeScreen: React.FC = observer(() => {
         </View>
       </ScrollView>
 
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: 60,
-          bottom: 24,
-          paddingHorizontal: 16
-        }}>
+      <View style={styles.bottomNavigation}>
         <BottomNavigation />
       </View>
 
@@ -133,8 +120,6 @@ const HomeScreen: React.FC = observer(() => {
         addMemoryBottomSheetRef={addMemoryBottomSheetRef}
         readMemoryBottomSheetRef={readMemoryBottomSheetRef}
       />
-
-      {/* <BottomNavigationCommon navigation={navigation} /> */}
     </SafeAreaView>
   )
 })
@@ -158,7 +143,6 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16
   },
-
   bottomOutterContainer: {
     width: wp('100%'),
     backgroundColor: 'white',
@@ -169,5 +153,12 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     backgroundColor: themes.light.tertiary.hex,
     borderTopRightRadius: 40
+  },
+  bottomNavigation: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    bottom: 24,
+    paddingHorizontal: 16
   }
 })

@@ -21,6 +21,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import addMemoryStore from '@/stores/AddMemoryStore'
 import MonthYearPicker from '@/components/home/bottomContainer/MonthYearPicker'
 import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
+import BottomNavigationCommon from '@/common/BottomNavigation.common'
+import BottomNavigation from '@/common/BottomNavigation.common'
 
 const HomeScreen: React.FC = observer(() => {
   useProfile()
@@ -122,6 +124,17 @@ const HomeScreen: React.FC = observer(() => {
       />
 
       {/* <BottomNavigationCommon navigation={navigation} /> */}
+
+      <View
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: 60,
+          bottom: 24,
+          paddingHorizontal: 16
+        }}>
+        <BottomNavigation />
+      </View>
     </SafeAreaView>
   )
 })
@@ -148,7 +161,8 @@ const styles = StyleSheet.create({
 
   bottomOutterContainer: {
     width: wp('100%'),
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginBottom: 32
   },
 
   bottomInnerContainer: {

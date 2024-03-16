@@ -1,112 +1,73 @@
 import React, { useState } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { Text, StyleSheet, View, Dimensions } from 'react-native'
 import { themes } from '@/common/themes/themes'
 import InputUnderlineCommon from '@/common/InputUnderline.common'
+import ButtonLongCommon from '@/common/ButtonLong.common'
+import EditDate from '../addMemory/EditDate'
+
+const windowWidth = Dimensions.get('window').width
+const windowHeight = Dimensions.get('window').height
 
 const DateOfBirthContainer: React.FC = () => {
   const [date, setDate] = useState<string>('')
 
   return (
-    <View style={styles.body}>
+    <View style={styles.container}>
       <View>
-        <Text style={[styles.date, styles.dateFlexBox]}>Date of birth</Text>
-        <Text style={[styles.dateContainer, styles.dateTypo1]}>
-          <Text style={styles.dateContainer1}>
-            <Text style={styles.dateTypo}>
-              Enter your own age, even if this account is for a business or a
-              pet. Once you confirm, you can't edit it for a long time. This
-              won't be shown publicly.{' '}
-            </Text>
-            <Text style={styles.learnMore}>Learn more</Text>
-          </Text>
+        <Text style={styles.header}>Date of birth</Text>
+        <Text style={styles.text1}>
+          Enter your own age, even if this account is for a business or a pet.
+          Once you confirm, you can't edit it for a long time. This won't be
+          shown publicly. <Text style={styles.text2}>Learn more</Text>
         </Text>
       </View>
-      <View style={styles.form}>
-        <View style={styles.dateofbirth}>
-          <InputUnderlineCommon
-            placeholder="Date of birth"
-            handleChangeText={setDate}
-            value={date}
-            keyBoardType="email-address" //เดี๋ยวกลับมาแก้
-          />
-        </View>
-        <View style={[styles.sendCode, styles.sendLayout]}>
-          <View style={[styles.sendCodeChild, styles.sendLayout]} />
-          <Text style={[styles.sendCode1, styles.dateFlexBox]}>Confirm</Text>
-        </View>
+      <View style={styles.inputbox}>
+        <InputUnderlineCommon
+          placeholder="Date of birth"
+          handleChangeText={setDate}
+          value={date}
+          keyBoardType="email-address"
+        />
+        {/* <EditDate handleClose={() => {}} /> */}
       </View>
+      <ButtonLongCommon
+        title="Confirm"
+        fonts={themes.fonts.regular}
+        font_size={14}
+        height={45}
+        onPress={() => {}}
+        background_color="white"
+      />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  dateFlexBox: {
-    textAlign: 'left',
-    color: themes.light.primary.hex
+  container: {
+    flex: 1,
+    top: windowHeight / 5.8,
+    paddingHorizontal: windowWidth / 11.88
   },
-  dateTypo1: {
+  header: {
     color: themes.light.primary.hex,
-    fontSize: 12,
-    textAlign: 'left'
-  },
-  sendLayout: {
-    height: 38,
-    width: 301
-  },
-  date: {
+    fontFamily: themes.fonts.bold,
     fontSize: 20,
-    lineHeight: 23,
-    fontWeight: '600',
-    fontFamily: themes.fonts.samiBold
+    lineHeight: 23
   },
-  dateTypo: {
-    fontFamily: themes.fonts.regular,
-    fontWeight: '300'
-  },
-  learnMore: {
-    fontWeight: '500',
-    fontFamily: themes.fonts.medium
-  },
-  dateContainer1: {
-    width: '100%'
-  },
-  dateContainer: {
-    lineHeight: 15,
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: 8,
-    width: 301
-  },
-  dateofbirth: {
-    height: 45,
-    width: 301
-  },
-  sendCodeChild: {
-    marginLeft: -150.5,
-    left: '50%',
-    borderRadius: 20,
-    backgroundColor: themes.light.secondary.hex,
-    top: 0,
-    position: 'absolute'
-  },
-  sendCode1: {
-    top: 11,
-    left: 115,
+  text1: {
+    marginVertical: windowHeight / 69.6,
     fontSize: 14,
-    lineHeight: 16,
-    fontFamily: themes.fonts.regular,
-    position: 'absolute'
+    color: themes.light.primary.hex,
+    fontFamily: themes.fonts.regular
   },
-  sendCode: {
-    marginTop: 16
+  text2: {
+    fontSize: 14,
+    color: themes.light.primary.hex,
+    fontFamily: themes.fonts.bold
   },
-  form: {
-    marginTop: 48
-  },
-  body: {
-    top: 152,
-    left: 35,
-    position: 'absolute'
+  inputbox: {
+    marginVertical: windowHeight / 58.2,
+    lineHeight: 23
   }
 })
 

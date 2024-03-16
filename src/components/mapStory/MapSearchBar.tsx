@@ -9,13 +9,12 @@ import {
   TouchableOpacity
 } from 'react-native'
 import { themes } from '@/common/themes/themes'
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 interface Props {
   handleCloseBottomSheet: () => void
   handleOpenMapFilter: () => void
 }
-
-const windowWidth = Dimensions.get('window').width
 
 const MapSearchBar: React.FC<Props> = props => {
   const { handleCloseBottomSheet, handleOpenMapFilter } = props
@@ -31,7 +30,7 @@ const MapSearchBar: React.FC<Props> = props => {
         position: 'absolute',
         top: 180,
         zIndex: 2,
-        width: windowWidth,
+        width: WindowScreen.Width,
         marginHorizontal: 20,
         flexDirection: 'row',
         alignItems: 'center',
@@ -43,7 +42,7 @@ const MapSearchBar: React.FC<Props> = props => {
           paddingHorizontal: 20,
           borderRadius: 100,
           backgroundColor: 'white',
-          width: windowWidth - 85,
+          width: WindowScreen.Width / 1.05 - WindowScreen.Width / 5.8,
           flexDirection: 'row',
           gap: 5,
           borderColor: '#E5E5E5',

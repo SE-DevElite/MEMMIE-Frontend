@@ -15,8 +15,7 @@ import XcloseIcon from '@/assets/svg/Xclose'
 import uuid from 'react-native-uuid'
 import addMemoryStore from '@/stores/AddMemoryStore'
 import { observer } from 'mobx-react'
-
-const windowWidth = Dimensions.get('window').width
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 const AddMemoryUploadImage: React.FC = observer(() => {
   const pickImage = async () => {
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red'
   },
   flexChild: {
-    width: windowWidth - windowWidth / 5.8,
+    width: WindowScreen.Width - WindowScreen.Width / 5.8,
     height: 250,
     borderRadius: 30,
     overflow: 'hidden',

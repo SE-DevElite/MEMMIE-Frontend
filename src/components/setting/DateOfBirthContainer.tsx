@@ -4,9 +4,7 @@ import { themes } from '@/common/themes/themes'
 import InputUnderlineCommon from '@/common/InputUnderline.common'
 import ButtonLongCommon from '@/common/ButtonLong.common'
 import EditDate from '../addMemory/EditDate'
-
-const windowWidth = Dimensions.get('window').width
-const windowHeight = Dimensions.get('window').height
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 const DateOfBirthContainer: React.FC = () => {
   const [date, setDate] = useState<string>('')
@@ -45,8 +43,8 @@ const DateOfBirthContainer: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    top: windowHeight / 5.8,
-    paddingHorizontal: windowWidth / 11.88
+    top: WindowScreen.Height / 5.8,
+    paddingHorizontal: WindowScreen.Width / 11.88
   },
   header: {
     color: themes.light.primary.hex,
@@ -55,7 +53,7 @@ const styles = StyleSheet.create({
     lineHeight: 23
   },
   text1: {
-    marginVertical: windowHeight / 69.6,
+    marginVertical: WindowScreen.Height / 69.6,
     fontSize: 14,
     color: themes.light.primary.hex,
     fontFamily: themes.fonts.regular
@@ -66,7 +64,7 @@ const styles = StyleSheet.create({
     fontFamily: themes.fonts.bold
   },
   inputbox: {
-    marginVertical: windowHeight / 58.2,
+    marginVertical: WindowScreen.Height / 58.2,
     lineHeight: 23
   }
 })

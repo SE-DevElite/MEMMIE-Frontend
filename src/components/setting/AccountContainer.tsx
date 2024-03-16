@@ -1,19 +1,9 @@
 import React, { useMemo } from 'react'
-import {
-  Text,
-  View,
-  Pressable,
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-  Dimensions
-} from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import NavArrowRight from '@/assets/svg/NavArrowRight'
 import { themes } from '@/common/themes/themes'
 import { useNavigation } from '@react-navigation/native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-
-const windowWidth = Dimensions.get('window').width
 
 const AccountContainer: React.FC = () => {
   const navigation = useNavigation()

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 import { View, StyleSheet, Image, Dimensions } from 'react-native'
+import { WindowScreen } from './consts/ConfigScreen'
 
 interface ButtonLongCommonProps {
   title: string
@@ -15,8 +16,6 @@ interface ButtonLongCommonProps {
   fonts?: string
   prefix_icon?: NodeRequire
 }
-
-const windowWidth = Dimensions.get('window').width
 
 const ButtonLongCommon: React.FC<ButtonLongCommonProps> = props => {
   const {
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
 
 const ButtonCustom = styled.TouchableOpacity`
   width: ${(props: { width: number }) =>
-    props.width || windowWidth - windowWidth / 5.8}px;
+    props.width || WindowScreen.Width - WindowScreen.Width / 5.8}px;
   height: ${(props: { height: number }) => props.height || 55}px;
   background-color: ${(props: { background_color: string }) =>
     props.background_color || themes.light.tertiary.hex};

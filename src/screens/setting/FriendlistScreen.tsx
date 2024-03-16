@@ -8,8 +8,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import ButtonBackCommon from '@/common/ButtonBack.common'
 
-const height = Dimensions.get('window').height
-
 const Friendlist: React.FC = () => {
   const navigation = useNavigation()
   const createListBottomSheetRef = useRef<BottomSheet>(null)

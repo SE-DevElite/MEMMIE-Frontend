@@ -230,7 +230,11 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={albumListBottomSheetRef}>
-        <AlbumIndividual />
+        <AlbumIndividual
+          handleCloseBottomSheet={() =>
+            albumListBottomSheetRef.current?.close()
+          }
+        />
       </LongBottomSheetCommon>
     </>
   )

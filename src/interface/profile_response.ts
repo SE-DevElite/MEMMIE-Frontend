@@ -4,6 +4,7 @@ export interface ProfileResponse {
   message: string
   error: boolean
   user: User
+  streak: number
 }
 
 export interface User {

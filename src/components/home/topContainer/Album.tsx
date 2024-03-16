@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     overflow: 'hidden',
-    borderRadius: 20
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.1)'
   },
   albumImage: {
     resizeMode: 'cover',

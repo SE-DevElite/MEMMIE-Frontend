@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import styled from 'styled-components/native'
 
 import { themes } from '@/common/themes/themes'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import profileStore from '@/stores/ProfileStore'
+import { observer } from 'mobx-react'
 
-const MemoryCardHeading: React.FC = () => {
-  const [streak, setStreak] = useState<number>(10)
-
+const MemoryCardHeading: React.FC = observer(() => {
   return (
     <View style={styles.boxTitle}>
       <View style={styles.titleText}>
@@ -17,16 +16,16 @@ const MemoryCardHeading: React.FC = () => {
           <View
             style={{
               ...styles.streakCircle,
-              padding: streak.toString().length === 1 ? 20 : 7
+              padding: 10
             }}>
-            <Text style={styles.streakTextStyle}>{streak}</Text>
+            <Text style={styles.streakTextStyle}>{profileStore.streak}</Text>
             <Image source={require('@/assets/icons/streak.png')} />
           </View>
         </View>
       </View>
     </View>
   )
-}
+})
 
 export default MemoryCardHeading
 
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: themes.light.tertiary.hex
   },
   streakBox: {
-    width: '30%',
+    width: profileStore.streak.toString().length > 1 ? '40%' : '30%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
   },
   streakCircle: {
     height: 42,
-    // width: 42,
+    minWidth: 42,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',

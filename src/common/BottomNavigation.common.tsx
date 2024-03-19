@@ -72,6 +72,12 @@ const BottomNavigationCommon: React.FC<BottomNavigationCommonProps> = ({
             <TouchableOpacity
               onPress={() => {
                 setCurrentState(index)
+                if (index === 0) {
+                  navigation.navigate('HomeScreen' as never)
+                }
+                if (index === 2) {
+                  navigation.navigate('SearchScreen' as never)
+                }
                 if (index === 3) {
                   navigation.navigate('SettingScreen' as never)
                 }

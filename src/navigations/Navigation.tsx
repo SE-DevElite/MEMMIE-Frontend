@@ -16,6 +16,8 @@ import WidgetScreen from '@/screens/setting/WidgetScreen'
 import ReportScreen from '@/screens/setting/ReportScreen'
 import SupportScreen from '@/screens/setting/SupportScreen'
 import TermsScreen from '@/screens/setting/TermsScreen'
+import SearchScreen from '@/screens/SearchScreen'
+import FindFriendScreen from '@/screens/FindFriendScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -47,6 +49,8 @@ const AppNavigator = () => {
       <Stack.Screen name="ReportScreen" component={ReportScreen} />
       <Stack.Screen name="SupportScreen" component={SupportScreen} />
       <Stack.Screen name="TermsScreen" component={TermsScreen} />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen name="FindFriendScreen" component={FindFriendScreen} />
     </Stack.Navigator>
   )
 }

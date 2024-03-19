@@ -6,6 +6,7 @@ import { View, StyleSheet, Image, Dimensions } from 'react-native'
 interface ButtonLongCommonProps {
   title: string
   onPress: () => void
+
   width?: number
   height?: number
   background_color?: string
@@ -29,6 +30,7 @@ const ButtonLongCommon: React.FC<ButtonLongCommonProps> = props => {
     fonts,
     prefix_icon
   } = props
+
   return (
     <ButtonCustom
       onPress={onPress}
@@ -44,6 +46,7 @@ const ButtonLongCommon: React.FC<ButtonLongCommonProps> = props => {
   )
 }
 export default ButtonLongCommon
+
 const styles = StyleSheet.create({
   imagePrefix: {
     width: 15,
@@ -76,5 +79,8 @@ const ButtonText = styled.Text`
     props.color || themes.light.primary.hex};
   font-family: ${(props: { fonts: string }) =>
     props.fonts || themes.fonts.regular};
-  font-size: ${(props: { font_size: number }) => props.font_size || 20}px;
+
+  flex-direction: row;
+
+  border-radius: 50%;
 `

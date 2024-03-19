@@ -1,37 +1,48 @@
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import styled from 'styled-components/native'
+import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import { themes } from '@/common/themes/themes'
 
-interface SwitchCommonProps {}
+interface Props {
+  background_color?: string
+  active?: boolean
+  handleChange?: () => void
+}
 
-const SwitchCommon: React.FC<SwitchCommonProps> = props => {
+const SwitchCommon: React.FC<Props> = props => {
+  const { background_color, active, handleChange } = props
+
   return (
     <View>
-      <BoxSwitch onPress={() => console.log('Switchhhh')}>
-        <Circle />
-      </BoxSwitch>
+      <TouchableOpacity
+        style={[
+          styles.boxSwitch,
+          {
+            backgroundColor: themes.light.secondary.hex || background_color,
+            justifyContent: active ? 'flex-end' : 'flex-start'
+          }
+        ]}
+        onPress={handleChange}>
+        <View style={styles.circle} />
+      </TouchableOpacity>
     </View>
   )
 }
 
 export default SwitchCommon
 
-const BoxSwitch = styled.TouchableOpacity`
-  width: 92px;
-  height: 48px;
-  border-radius: 50%;
-
-  background-color: ${themes.light.tertiary.hex};
-  padding: 4px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const Circle = styled.View`
-  width: 38px;
-  height: 38px;
-  border-radius: 19px;
-  background-color: white;
-`
+const styles = StyleSheet.create({
+  boxSwitch: {
+    width: 92,
+    height: 48,
+    borderRadius: 50,
+    padding: 4,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  circle: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: 'white'
+  }
+})

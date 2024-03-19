@@ -1,74 +1,110 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { themes } from '@/common/themes/themes'
-import { TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import AddMemorySelectTime from './AddMemorySelectTime'
 import AddMemoryDayAndMood from './AddMemoryDayAndMood'
 import AddMemoryForm from './AddMemoryForm'
+import AddMemoryUploadImage from './AddMemoryUploadImage'
+import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
   handleEditDate: () => void
+  handleEditTime: () => void
   handleClose: () => void
+  handlePinPlace: () => void
   handlePostSetting: () => void
   handleSelectFriend: () => void
 }
 
-const AddMemory: React.FC<Props> = props => {
-  const { handleEditDate, handleClose, handlePostSetting, handleSelectFriend } =
-    props
+const AddMemory: React.FC<Props> = observer(props => {
+  const {
+    handleEditTime,
+    handleClose,
+    handlePostSetting,
+    handleSelectFriend,
+    handleEditDate,
+    handlePinPlace
+  } = props
+
+  const [waitState, setWaitState] = useState<boolean>(false)
+
+  const handleSubmit = async () => {
+    if (addMemoryStore.image_info.length === 0) return
+    if (addMemoryStore.caption === '' || addMemoryStore.short_caption === '')
+      return
+    console.log(addMemoryStore)
+    setWaitState(true)
+
+    const upload_res = await addMemoryStore.submitMemory()
+    if (!upload_res.error) {
+      handleClose()
+    }
+
+    setWaitState(false)
+  }
+  const onPressClose = async () => {
+    handleClose()
+    addMemoryStore.clearState()
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity onPress={handleClose}>
+          <TouchableOpacity onPress={onPressClose}>
             <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>
 
           <Text style={styles.headingTextStyles}>Add memory</Text>
 
-          <TouchableOpacity onPress={() => console.log('Post')}>
-            <View
-              style={{
-                backgroundColor: themes.light.tertiary.hex,
-                borderRadius: 30,
-                paddingHorizontal: 5
-              }}>
-              <Text
-                style={{
-                  ...styles.buttonStyle,
-                  fontFamily: themes.fonts.regular,
-                  color: themes.light.secondary.hex
-                }}>
-                Post
-              </Text>
-            </View>
-          </TouchableOpacity>
+          {waitState ? (
+            <ActivityIndicator style={{ width: 60 }} />
+          ) : (
+            <TouchableOpacity onPress={handleSubmit}>
+              <View style={styles.postPaddingStyle}>
+                <Text
+                  style={{
+                    ...styles.buttonStyle,
+                    fontFamily: themes.fonts.regular,
+                    color: themes.light.secondary.hex
+                  }}>
+                  Post
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
-
       <View style={styles.divider} />
 
-      <View style={{ paddingHorizontal: 30, gap: 20 }}>
-        <AddMemoryDayAndMood />
-        <AddMemorySelectTime
-          date={6}
-          month="Jul"
-          year={2023}
-          handleEditDate={handleEditDate}
-        />
-        <AddMemoryForm
-          handlePostSetting={handlePostSetting}
-          handleSelectFriend={handleSelectFriend}
-        />
-      </View>
+      <View style={styles.bodyStyle}>
+        <ScrollView>
+          <View style={{ gap: 20 }}>
+            <View style={{ gap: 20, paddingHorizontal: 20 }}>
+              <AddMemoryDayAndMood handlePinPlace={handlePinPlace} />
 
-      {/* add upload image component here */}
-      <View
-        style={{ flex: 1, backgroundColor: themes.light.tertiary.hex }}></View>
+              <AddMemorySelectTime
+                handleEditDate={handleEditDate}
+                handleEditTime={handleEditTime}
+              />
+
+              <AddMemoryForm
+                handlePostSetting={handlePostSetting}
+                handleSelectFriend={handleSelectFriend}
+              />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <AddMemoryUploadImage />
+            </View>
+          </View>
+        </ScrollView>
+      </View>
     </View>
   )
-}
+})
 
 export default AddMemory
 
@@ -100,6 +136,15 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: themes.light.primary.hex,
-    marginVertical: 20
+    marginTop: 20
+  },
+  bodyStyle: {
+    paddingVertical: 20,
+    flex: 1
+  },
+  postPaddingStyle: {
+    backgroundColor: themes.light.tertiary.hex,
+    borderRadius: 30,
+    paddingHorizontal: 5
   }
 })

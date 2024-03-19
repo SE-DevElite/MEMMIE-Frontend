@@ -1,36 +1,37 @@
 import React from 'react'
-import styled from 'styled-components/native'
 import { themes } from '@/common/themes/themes'
 
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import PolygonDown from '@/assets/svg/PolygonDown'
 import PolygonUp from '@/assets/svg/PolygonUp'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface DatePickerProps {
-  selectedMonth: string
-  selectedYear: string
   onOpenPress: () => void
-  handlePolygonPress: (type_case: number) => void
 }
 
 const DatePicker: React.FC<DatePickerProps> = props => {
-  const { selectedMonth, selectedYear, onOpenPress, handlePolygonPress } = props
+  const { onOpenPress } = props
+
+  const handlePolygonPress = (type_case: number) => {
+    addMemoryStore.handleUpDownMonth(type_case)
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.textBox}>
         <TouchableOpacity onPress={onOpenPress}>
           <Text style={styles.textStyle}>
-            {selectedMonth}, {selectedYear}
+            {addMemoryStore.select_month}, {addMemoryStore.select_year}
           </Text>
         </TouchableOpacity>
 
         <View style={styles.iconGroup}>
-          <TouchableOpacity onPress={() => handlePolygonPress(1)}>
+          <TouchableOpacity onPress={() => handlePolygonPress(-1)}>
             <PolygonUp />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => handlePolygonPress(-1)}>
+          <TouchableOpacity onPress={() => handlePolygonPress(1)}>
             <PolygonDown />
           </TouchableOpacity>
         </View>

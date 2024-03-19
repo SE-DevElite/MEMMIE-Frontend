@@ -1,21 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { themes } from '@/common/themes/themes'
 import { TouchableOpacity } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
-const EditTime: React.FC = () => {
+interface Props {
+  handleClose: () => void
+  handleSetTime: () => void
+}
+
+const EditTime: React.FC<Props> = props => {
+  const { handleClose, handleSetTime } = props
+
+  const [time_gmt, setTimeGMT] = useState<Date>(new Date())
+  const [current_time, setCurrentTime] = useState<Date>(
+    // new Date()
+    new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
+  )
+
+  const handleSave = () => {
+    addMemoryStore.handleEditDateTime(current_time, 'time')
+    handleSetTime()
+  }
+
+  const handleChangeTime = (date: Date) => {
+    setTimeGMT(date)
+    var utc_date = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+
+    setCurrentTime(utc_date)
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.headerGroup}>
-          <TouchableOpacity onPress={() => console.log('Cancle')}>
-            <Text style={styles.buttonStyle}>Cancle</Text>
+          <TouchableOpacity
+            onPress={() => {
+              handleClose()
+              // console.log(current_time)
+            }}>
+            <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>
 
           <Text style={styles.headingTextStyles}>Edit time</Text>
-
-          <TouchableOpacity onPress={() => console.log('Save')}>
+          <TouchableOpacity onPress={handleSave}>
             <Text
               style={{
                 ...styles.buttonStyle,
@@ -32,10 +61,16 @@ const EditTime: React.FC = () => {
 
       <View style={styles.layout}>
         <RNDateTimePicker
-          value={new Date()}
+          value={time_gmt}
+          // value={current_time}
           mode="time"
           display="spinner"
-          onChange={() => console.log('Change')}
+          onChange={(event, value) => {
+            // setCurrentTime(value || current_time)
+            if (value) {
+              handleChangeTime(value)
+            }
+          }}
         />
       </View>
     </View>

@@ -1,23 +1,113 @@
 import PlusIcon from '@/assets/svg/Plus'
 import { themes } from '@/common/themes/themes'
-import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import addAlbumStore from '@/stores/AddAlbumStore'
+import React, { useState } from 'react'
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput
+} from 'react-native'
+import uuid from 'react-native-uuid'
+
+type Tag = {
+  id: string
+  name: string
+  state: boolean
+}
 
 const CreateAlbumnTag: React.FC = () => {
+  const [writeTag, setWriteTag] = useState(false)
+  const [tagInput, setTagInput] = useState('')
+  const [tag, setTag] = useState<Tag[]>([])
+
+  const handleDeleteTag = (id: string) => {
+    const curr_tag = tag.find(item => item.id === id)
+
+    if (curr_tag?.state) {
+      setTag(tag.filter(item => item.id !== id))
+    } else {
+      setTag(
+        tag.map(item => (item.id === id ? { ...item, state: true } : item))
+      )
+    }
+  }
+
+  const handleSaveTag = () => {
+    setWriteTag(!writeTag)
+
+    if (writeTag && tagInput !== '') {
+      setTag([
+        ...tag,
+        {
+          id: uuid.v4() as string,
+          name: tagInput,
+          state: false
+        }
+      ])
+
+      addAlbumStore.tags = tag.map(item => item.name)
+      setTagInput('')
+    }
+  }
+
   return (
     <View style={styles.tagBox}>
-      <TouchableOpacity onPress={() => console.log('add tag')}>
+      <TouchableOpacity onPress={handleSaveTag}>
         <View style={styles.addTagBtn}>
-          <Text style={styles.addTagText}>Add Tag</Text>
-          <PlusIcon color={themes.light.primary.hex} width={10} height={10} />
+          {writeTag ? (
+            <>
+              <TextInput
+                style={{
+                  fontSize: 12,
+                  fontFamily: themes.fonts.medium,
+                  paddingHorizontal: 5,
+                  paddingVertical: 0
+                }}
+                placeholder="Add Tag"
+                value={tagInput}
+                onChangeText={text => setTagInput(text)}
+              />
+            </>
+          ) : (
+            <>
+              <Text style={styles.addTagText}>Add Tag</Text>
+              <PlusIcon
+                color={themes.light.primary.hex}
+                width={10}
+                height={10}
+              />
+            </>
+          )}
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => console.log('best friend')}>
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>Best Friend</Text>
-        </View>
-      </TouchableOpacity>
+      {tag.map(item => (
+        <TouchableOpacity
+          onPress={() => handleDeleteTag(item.id)}
+          key={item.id}>
+          <View
+            style={[
+              styles.badge,
+              {
+                backgroundColor: item.state
+                  ? '#FF8F8F'
+                  : themes.light.tertiary.hex
+              }
+            ]}>
+            <Text
+              style={[
+                styles.badgeText,
+                {
+                  color: item.state ? '#7f1d1d' : themes.light.secondary.hex
+                }
+              ]}>
+              {item.name}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      ))}
     </View>
   )
 }
@@ -28,11 +118,12 @@ const styles = StyleSheet.create({
   tagBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10
+    gap: 10,
+    flexWrap: 'wrap'
     // backgroundColor: themes.light.primary.hex
   },
   addTagBtn: {
-    width: 90,
+    minWidth: 90,
     height: 30,
     borderWidth: 1,
     borderColor: themes.light.primary.hex,

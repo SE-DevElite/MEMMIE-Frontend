@@ -2,15 +2,48 @@ import NavArrowRightIcon from '@/assets/svg/NavArrowRight'
 import PlusIcon from '@/assets/svg/Plus'
 import { themes } from '@/common/themes/themes'
 import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import MyAlbumList from './MyAlbumList'
+import profileStore from '@/stores/ProfileStore'
+import { getAccessToken } from '@/helpers/TokenHandler'
+import { RequestWithToken } from '@/api/DefaultRequest'
+import readAlbumStore from '@/stores/ReadAlbumStore'
 
 interface Props {
   handlePress: () => void
+  handleOpenAlbum: () => void
 }
 
 const MyAlbum: React.FC<Props> = props => {
-  const { handlePress } = props
+  const { handleOpenAlbum, handlePress } = props
+
+  const handlePressAlbum = async (album_id: string) => {
+    await readAlbumStore.fetchAlbum(album_id)
+    handleOpenAlbum()
+  }
+
+  const handleAlert = (album_id: string) => {
+    Alert.alert('Delete Album', 'Are you sure to delete this album?', [
+      {
+        text: 'Cancel',
+        style: 'cancel'
+      },
+      {
+        text: 'OK',
+        onPress: () => handleDelete(album_id)
+      }
+    ])
+  }
+
+  const handleDelete = async (album_id: string) => {
+    const token = await getAccessToken()
+
+    await RequestWithToken(token as string)
+      .delete(`/albums/delete/${album_id}`)
+      .then(res => {
+        console.log(res.data)
+      })
+  }
 
   return (
     <View style={styles.container}>
@@ -47,19 +80,20 @@ const MyAlbum: React.FC<Props> = props => {
 
       <View style={styles.divider} />
 
-      <View style={{}}>
-        <MyAlbumList
-          album_id="1"
-          title="Travel"
-          amount={20}
-          thumbnail={require('@/assets/mocks/nutthanon-avatar.jpg')}
-        />
-        <MyAlbumList
-          album_id="2"
-          title="BFF"
-          amount={40}
-          thumbnail={require('@/assets/mocks/nutthanon-rb.png')}
-        />
+      <View>
+        {profileStore.albums.map(album => (
+          <TouchableOpacity
+            onPress={() => handlePressAlbum(album.album_id)}
+            key={album.album_id}>
+            <MyAlbumList
+              album_id={album.album_id}
+              title={album.album_name}
+              amount={album.memories}
+              thumbnail={album.album_thumbnail}
+              handleDelete={handleAlert}
+            />
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   )

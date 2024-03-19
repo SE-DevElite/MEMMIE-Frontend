@@ -18,13 +18,19 @@ import SupportScreen from '@/screens/setting/SupportScreen'
 import TermsScreen from '@/screens/setting/TermsScreen'
 import SearchScreen from '@/screens/SearchScreen'
 import FindFriendScreen from '@/screens/FindFriendScreen'
+import useWelcomeScreen from '@/hooks/useWelcomeScreen'
+import { useState } from 'react'
+import MapStoryScreen from '@/screens/MapStoryScreen'
 
 const Stack = createNativeStackNavigator()
 
 const AppNavigator = () => {
+  const isFirstOpen = useWelcomeScreen()
+  const [showWelcome, setShowWelcome] = useState<boolean | null>(isFirstOpen)
+
   return (
     <Stack.Navigator
-      initialRouteName="IndexWelcomeScreen"
+      initialRouteName={showWelcome ? 'IndexWelcomeScreen' : 'SignInScreen'}
       screenOptions={{ headerShown: false }}>
       <Stack.Screen name="IndexWelcomeScreen" component={IndexWelcomeScreen} />
       <Stack.Screen name="SignInScreen" component={SignInScreen} />
@@ -36,10 +42,6 @@ const AppNavigator = () => {
       <Stack.Screen name="PasswordScreen" component={PasswordScreen} />
       <Stack.Screen name="LinkedAccountScreen" component={LinkAccount} />
       <Stack.Screen name="FriendlistScreen" component={Friendlist} />
-      {/* <Stack.Screen
-        name="SettingBottomSheetProvider"
-        component={SettingBottomSheetProvider}
-      /> */}
       <Stack.Screen name="CreateList" component={CreateList} />
       <Stack.Screen
         name="PushNotificationScreen"
@@ -49,8 +51,6 @@ const AppNavigator = () => {
       <Stack.Screen name="ReportScreen" component={ReportScreen} />
       <Stack.Screen name="SupportScreen" component={SupportScreen} />
       <Stack.Screen name="TermsScreen" component={TermsScreen} />
-      <Stack.Screen name="SearchScreen" component={SearchScreen} />
-      <Stack.Screen name="FindFriendScreen" component={FindFriendScreen} />
     </Stack.Navigator>
   )
 }

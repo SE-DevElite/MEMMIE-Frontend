@@ -1,24 +1,61 @@
+import { DAY } from '@/common/consts/DateTime.consts'
+import { MoodElement } from '@/common/consts/MoodElement.consts'
 import { themes } from '@/common/themes/themes'
-import React from 'react'
-import { TouchableWithoutFeedback, View, Text, StyleSheet } from 'react-native'
+import addMemoryStore from '@/stores/AddMemoryStore'
+import { observer } from 'mobx-react'
+import React, { useEffect, useState } from 'react'
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 
-const AddMemoryDayAndMood: React.FC = () => {
+type MoodEle = {
+  label: string
+  icon: React.JSX.Element
+}
+
+interface Props {
+  handlePinPlace: () => void
+}
+
+const AddMemoryDayAndMood: React.FC<Props> = observer(props => {
+  const { handlePinPlace } = props
+  const [mood, setMood] = useState<MoodEle[]>()
+  const [selectMood, setSelectMood] = useState<number>(0)
+
+  useEffect(() => {
+    // const gender = profileStore.gender
+
+    setMood(MoodElement.Male)
+  }, [])
+
+  const handleChangeMood = () => {
+    const current_idx = (selectMood + 1) % 4
+    setSelectMood(current_idx)
+
+    addMemoryStore.mood = current_idx
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.dayContainer}>
-        <Text style={styles.dayText}>Monday</Text>
-        <Text numberOfLines={1} style={styles.descriptionText}>
-          King's Mongkut University technology of thonburi
+        <Text style={styles.dayText}>
+          {DAY[addMemoryStore.date_time.getDay()]}
         </Text>
+        <TouchableOpacity onPress={handlePinPlace}>
+          <Text numberOfLines={1} style={styles.descriptionText}>
+            {addMemoryStore.location_name}
+          </Text>
+        </TouchableOpacity>
       </View>
-      <TouchableWithoutFeedback onPress={() => console.log('Change mood')}>
-        <View style={styles.moodContainer}>
-          <View style={styles.moodIcon} />
-        </View>
-      </TouchableWithoutFeedback>
+
+      {mood && (
+        <TouchableOpacity onPress={handleChangeMood}>
+          <View style={styles.moodContainer}>
+            <View style={styles.moodIcon}>{mood[selectMood].icon}</View>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   )
-}
+})
 
 export default AddMemoryDayAndMood
 
@@ -51,6 +88,9 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     backgroundColor: themes.light.tertiary.hex,
-    borderRadius: 100
+    borderRadius: 100,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    overflow: 'hidden'
   }
 })

@@ -13,7 +13,7 @@ export const saveAccessToken = async (accessToken: string) => {
 export const getAccessToken = async () => {
   try {
     const accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTg4YjI1YzQtMDhlYi00N2FmLWFiZDUtYjg3YmFhMWI2OTEwIiwiZW1haWwiOiJ5ZWV6LjI2MTVAZ21haWwuY29tIiwiaWF0IjoxNzA4OTc0MzkwLCJleHAiOjE3MTAxODM5OTB9.ctfaBQxG8u8iHxxNyJ8dzS97IA2qyw4SKigSpIylFaw'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZWU0MTZiZGYtZGYyNS00NGExLTk4YzEtYzQwZmM3MThjNGJjIiwiZW1haWwiOiJwbG95a2Fub2t3YW40NkBnbWFpbC5jb20iLCJpYXQiOjE3MTA4NDUxNzYsImV4cCI6MTcxMjA1NDc3Nn0.ZeH02t7r2q8M7R29-Le8ubg_SaHc7mNrpCQj2-sGdCo'
 
     // const accessToken = await AsyncStorage.getItem('access_token')
     console.log('get access token from local: ', accessToken)

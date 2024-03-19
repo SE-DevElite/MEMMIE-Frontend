@@ -1,17 +1,29 @@
 import React from 'react'
-import { Text, View, Dimensions, Image, StyleSheet } from 'react-native'
+import {
+  Text,
+  View,
+  Dimensions,
+  Image,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native'
 import { themes } from '@/common/themes/themes'
 import { useNavigation } from '@react-navigation/native'
 import BottomNavigationCommon from '@/common/BottomNavigation.common'
 import ButtonLongCommon from '@/common/ButtonLong.common'
 import Search from '@/assets/svg/Search'
 import NavArrowRight from '@/assets/svg/NavArrowRight'
+import SearchScreen from './SearchScreen'
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
 
 const FindFriendScreen: React.FC = () => {
   const navigation = useNavigation()
+
+  const onCancelPress = () => {
+    navigation.navigate('SearchScreen' as never)
+  }
 
   return (
     <View style={styles.container}>
@@ -27,7 +39,9 @@ const FindFriendScreen: React.FC = () => {
           color={themes.light.primary.hex}
           prefix_icon={Search}
         />
-        <Text style={styles.cancelText}>Cancel</Text>
+        <TouchableOpacity onPress={onCancelPress}>
+          <Text style={styles.cancelText}>Cancel</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={[styles.puay, styles.iconsPosition]}>
@@ -42,7 +56,7 @@ const FindFriendScreen: React.FC = () => {
             <Text style={[styles.helloWorld, styles.listTypo]}>panapun</Text>
           </View>
         </View>
-        <NavArrowRight height={16} width={8} marginLeft={28} />
+        <NavArrowRight height={16} width={8} marginLeft={200} />
       </View>
 
       <View style={[styles.sxxlr, styles.iconsPosition]}>
@@ -59,7 +73,7 @@ const FindFriendScreen: React.FC = () => {
             </Text>
           </View>
         </View>
-        <NavArrowRight height={16} width={8} marginLeft={28} />
+        <NavArrowRight height={16} width={8} marginLeft={191} />
       </View>
 
       <View style={[styles.ntcnutt, styles.iconsPosition]}>
@@ -76,7 +90,7 @@ const FindFriendScreen: React.FC = () => {
             </Text>
           </View>
         </View>
-        <NavArrowRight height={16} width={8} marginLeft={28} />
+        <NavArrowRight height={16} width={8} marginLeft={128} />
       </View>
       <BottomNavigationCommon navigation={navigation} />
     </View>

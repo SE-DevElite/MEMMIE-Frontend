@@ -51,6 +51,8 @@ const AppNavigator = () => {
       <Stack.Screen name="ReportScreen" component={ReportScreen} />
       <Stack.Screen name="SupportScreen" component={SupportScreen} />
       <Stack.Screen name="TermsScreen" component={TermsScreen} />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen name="FindFriendScreen" component={FindFriendScreen} />
     </Stack.Navigator>
   )
 }

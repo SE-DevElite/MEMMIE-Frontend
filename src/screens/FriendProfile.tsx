@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import ButtonBackCommon from '@/common/ButtonBack.common'
 import { View, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -9,13 +9,33 @@ import ProfileName from '@/components/friendProfile/ProfileName'
 import Bio from '@/components/friendProfile/Bio'
 import FollowButton from '@/components/friendProfile/FollowButton'
 import Streak from '@/components/friendProfile/Streak'
+import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
+import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
+import UnFollowBottomSheet from '@/components/friendProfile/UnFollowButton'
 
 const FriendProfileScreen: React.FC = observer(() => {
   const navigation = useNavigation()
   const [profile, setProfile] = useState({})
+  const [follow, setFollow] = useState(false)
+  const unfollowBottomSheetRef = useRef<BottomSheet>(null)
 
   const handleBackPress = () => {
     navigation.goBack()
+  }
+
+  const handleUnfollowPress = () => {
+    //fetch to un-follow
+    setFollow(false)
+    unfollowBottomSheetRef.current?.close()
+  }
+
+  const handleCaseFollow = () => {
+    if (follow) {
+      unfollowBottomSheetRef.current?.expand()
+    } else {
+      // fetch to follow
+      setFollow(true)
+    }
   }
 
   return (
@@ -32,14 +52,11 @@ const FriendProfileScreen: React.FC = observer(() => {
             <Bio bio={''} />
           </View>
 
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '25%',
-              gap: 8
-            }}>
-            <FollowButton />
+          <View style={styles.btnGroup}>
+            <FollowButton
+              handlefollowPress={handleCaseFollow}
+              follow={follow}
+            />
             <Streak />
           </View>
         </View>
@@ -48,6 +65,13 @@ const FriendProfileScreen: React.FC = observer(() => {
       <View style={{ flex: 1, paddingTop: 16 }}>
         <MemoryGroup memories={[]} />
       </View>
+
+      <LongBottomSheetCommon ref={unfollowBottomSheetRef} snapPoint={['50%']}>
+        <UnFollowBottomSheet
+          handleUnfollowPress={handleUnfollowPress}
+          handleCancelPress={() => unfollowBottomSheetRef.current?.close()}
+        />
+      </LongBottomSheetCommon>
     </SafeAreaView>
   )
 })
@@ -57,5 +81,11 @@ export default FriendProfileScreen
 const styles = StyleSheet.create({
   layout: {
     paddingHorizontal: 16
+  },
+  btnGroup: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '25%',
+    gap: 8
   }
 })

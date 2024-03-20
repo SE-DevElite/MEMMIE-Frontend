@@ -1,19 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { themes } from '@/common/themes/themes'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import FollowFriendIcon from '@/assets/svg/FollowFriend'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
-const FollowButton: React.FC = () => {
-  const [active, setActive] = useState(false)
+interface Props {
+  handlefollowPress: () => void
+  follow: boolean
+}
+
+const FollowButton: React.FC<Props> = props => {
+  const { handlefollowPress, follow } = props
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={() => setActive(!active)}>
+      <TouchableWithoutFeedback onPress={handlefollowPress}>
         <View
           style={[
             styles.container,
-            { justifyContent: active ? 'flex-end' : 'flex-start' }
+            { justifyContent: follow ? 'flex-start' : 'flex-end' }
           ]}>
           <View style={styles.circle}>
             <FollowFriendIcon />

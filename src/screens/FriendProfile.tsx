@@ -41,7 +41,7 @@ const FriendProfileScreen: React.FC = observer(() => {
   return (
     <SafeAreaView edges={['right', 'top']} style={{ flex: 1 }}>
       <View style={styles.layout}>
-        <ButtonBackCommon handlePress={handleBackPress} text="Uesr Profile" />
+        <ButtonBackCommon handlePress={handleBackPress} text="User Profile" />
         <View
           style={{
             flexDirection: 'row',

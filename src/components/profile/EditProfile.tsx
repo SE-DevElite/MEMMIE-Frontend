@@ -2,8 +2,9 @@ import XcloseIcon from '@/assets/svg/Xclose'
 import { themes } from '@/common/themes/themes'
 import AvatarCommon from '@/common/Avatar.common'
 import NavArrowRightIcon from '@/assets/svg/NavArrowRight'
-import React from 'react'
+import React, { useState } from 'react'
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   TextInput,
@@ -19,6 +20,7 @@ interface Props {
   gender: string
   avatar: string
   handleChangeProfile: (key: string, value: string) => void
+  handleClose: () => void
 }
 
 const EditProfile: React.FC<Props> = props => {
@@ -29,8 +31,11 @@ const EditProfile: React.FC<Props> = props => {
     bio,
     gender,
     avatar,
-    handleChangeProfile
+    handleChangeProfile,
+    handleClose
   } = props
+
+  const [waitState, setWaitState] = useState<boolean>(false)
 
   const fieldData = [
     {
@@ -47,11 +52,38 @@ const EditProfile: React.FC<Props> = props => {
     }
   ]
 
+  const handleSubmit = async () => {
+    setWaitState(true)
+    setWaitState(false)
+  }
+
   return (
     <View style={styles.container}>
+      <View style={styles.headerGroup}>
+        <TouchableOpacity onPress={handleClose}>
+          <Text style={styles.buttonStyle}>Cancel</Text>
+        </TouchableOpacity>
+        <Text style={styles.titleText}>Edit Profile</Text>
+        {waitState ? (
+          <ActivityIndicator style={{ width: 30 }} />
+        ) : (
+          <TouchableOpacity onPress={handleSubmit}>
+            <View style={styles.postPaddingStyle}>
+              <Text
+                style={{
+                  ...styles.buttonStyle,
+                  fontFamily: themes.fonts.regular,
+                  color: themes.light.secondary.hex
+                }}>
+                Save
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
+      <View style={styles.divider} />
       <View style={styles.layout}>
         <View style={styles.avatarContainer}>
-          <Text style={styles.titleText}>Edit Profile</Text>
           <AvatarCommon
             uri={avatar}
             borderRadius={100}
@@ -105,7 +137,6 @@ const EditProfile: React.FC<Props> = props => {
               </TouchableOpacity>
             </View>
           ))}
-
           <TouchableOpacity onPress={handleGenderPress}>
             <View style={styles.fieldRow}>
               <Text style={styles.fieldLabel}>Gender</Text>
@@ -124,13 +155,14 @@ export default EditProfile
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40
+    paddingTop: 20
   },
   layout: {
     paddingHorizontal: 40,
     gap: 50
   },
   avatarContainer: {
+    marginTop: 30,
     flexDirection: 'column',
     alignItems: 'center',
     gap: 40
@@ -183,5 +215,32 @@ const styles = StyleSheet.create({
     color: themes.light.primary.hex,
     fontSize: 16,
     fontFamily: themes.fonts.regular
+  },
+  buttonStyle: {
+    fontSize: 14,
+    fontFamily: themes.fonts.regular,
+    color: themes.light.primary.hex,
+    paddingHorizontal: 10,
+    paddingVertical: 5
+  },
+  postPaddingStyle: {
+    backgroundColor: themes.light.tertiary.hex,
+    borderRadius: 30,
+    paddingHorizontal: 5
+  },
+  headerGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 30
+  },
+  divider: {
+    height: 1,
+    backgroundColor: themes.light.primary.hex,
+    marginTop: 20
+  },
+  bodyStyle: {
+    paddingVertical: 20,
+    flex: 1
   }
 })

@@ -38,6 +38,7 @@ const ProfileBottomSheet: React.FC<Props> = props => {
           gender={gender}
           handleGenderPress={() => selectGenderBottomSheet.current?.expand()}
           handleChangeProfile={handleChangeProfile}
+          handleClose={() => editProfileBottomSheetRef.current?.close()}
         />
       </LongBottomSheetCommon>
 

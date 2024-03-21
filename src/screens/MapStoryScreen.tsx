@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { View, StyleSheet, Dimensions } from 'react-native'
 import UserHeading from '@/components/home/topContainer/UserHeading'
 import MapViewStory from '@/components/mapStory/MapViewStory'
@@ -6,16 +6,25 @@ import { useNavigation } from '@react-navigation/native'
 import MapSearchBar from '@/components/mapStory/MapSearchBar'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import MapStoryBottomSheetProvider from '@/components/mapStory/MapStoryBottomSheetProvider'
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 interface MapStoryScreenProps {
   avatar: string
   username: string
 }
-
+type CordinatesType = {
+  latitude: number
+  longitude: number
+}
 const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
   const { avatar, username } = props
+  const [cordinates, setCordinates] = useState<CordinatesType>()
   const navigation = useNavigation()
   const filterMapBottomSheetRef = useRef<BottomSheet>(null)
+
+  const handleCordinates = (cornate: CordinatesType) => {
+    setCordinates(cornate)
+  }
 
   return (
     <View>
@@ -31,8 +40,12 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
       <MapSearchBar
         handleOpenMapFilter={() => filterMapBottomSheetRef.current?.expand()}
         handleCloseBottomSheet={() => {}}
+        handleCordinates={handleCordinates}
       />
-      <MapViewStory />
+      <MapViewStory
+        Latitude={cordinates?.latitude}
+        Longitude={cordinates?.longitude}
+      />
 
       <MapStoryBottomSheetProvider
         filterMapBottomSheetRef={filterMapBottomSheetRef}
@@ -43,8 +56,6 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
 
 export default MapStoryScreen
 
-const windowWidth = Dimensions.get('window').width
-
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -54,6 +65,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     top: 30,
-    left: windowWidth / 2 - 175
+    left: WindowScreen.Width / 2 - (WindowScreen.Width / 11.6) * 4.9
   }
 })

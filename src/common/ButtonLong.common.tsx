@@ -14,7 +14,8 @@ interface ButtonLongCommonProps {
   color?: string
   font_size?: number
   fonts?: string
-  prefix_icon?: NodeRequire
+  prefix_icon?: any
+  paddingHorizontal?: number
 }
 
 const ButtonLongCommon: React.FC<ButtonLongCommonProps> = props => {
@@ -27,7 +28,8 @@ const ButtonLongCommon: React.FC<ButtonLongCommonProps> = props => {
     color,
     font_size,
     fonts,
-    prefix_icon
+    prefix_icon,
+    paddingHorizontal
   } = props
 
   return (
@@ -37,7 +39,12 @@ const ButtonLongCommon: React.FC<ButtonLongCommonProps> = props => {
       height={height}
       background_color={background_color}
       justifyCenter={prefix_icon ? false : true}>
-      <ButtonText color={color} font_size={font_size} fontWeight={fonts}>
+      <ButtonText
+        color={color}
+        font_size={font_size}
+        fontWeight={fonts}
+        numberOfLines={1}
+        paddingHorizontal={paddingHorizontal}>
         {title}
       </ButtonText>
     </ButtonCustom>

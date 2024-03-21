@@ -15,8 +15,13 @@ type MapStoryData = {
     longitude: number
   }
 }
+interface Props {
+  Latitude?: number
+  Longitude?: number
+}
 
-const MapViewStory: React.FC = observer(() => {
+const MapViewStory: React.FC<Props> = observer(props => {
+  const { Latitude, Longitude } = props
   const ref = React.useRef<MapView>(null)
   const [initMapStoryData, setInitMapStoryData] = useState<MapStoryData[]>([])
   const [data, setData] = useState<MapStoryData[]>([])

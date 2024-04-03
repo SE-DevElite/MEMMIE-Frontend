@@ -17,7 +17,6 @@ const windowWidth = Dimensions.get('window').width
 
 const AccountContainer: React.FC = () => {
   const navigation = useNavigation()
-
   return (
     <View style={styles.account}>
       <Text style={[styles.account1]}>Account</Text>
@@ -79,7 +78,6 @@ const AccountContainer: React.FC = () => {
     </View>
   )
 }
-
 const styles = StyleSheet.create({
   list1Position: {
     left: 0,
@@ -190,5 +188,4 @@ const styles = StyleSheet.create({
     width: 375
   }
 })
-
 export default AccountContainer

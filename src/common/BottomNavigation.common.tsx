@@ -42,8 +42,6 @@ const BottomNavigation: React.FC = () => {
       <G>
         <Path d={indexIcon[currentIdx].d} fill="white" />
       </G>
-
-      {/* circle */}
       <G>
         <Circle
           cx={indexIcon[currentIdx].xaxis}
@@ -52,7 +50,7 @@ const BottomNavigation: React.FC = () => {
           fill="#A56073"
         />
       </G>
-
+      
       {/* dot */}
       <G>
         <Circle cx={indexIcon[currentIdx].xaxis} cy={3} r={3} fill="#A56073" />

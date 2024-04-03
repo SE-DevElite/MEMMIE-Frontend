@@ -14,13 +14,13 @@ export const MONTH: string[] = [
 ]
 
 export const DAY: string[] = [
-  'Saturday',
   'Sunday',
   'Monday',
   'Tuesday',
   'Wednesday',
   'Thursday',
-  'Friday'
+  'Friday',
+  'Saturday'
 ]
 
 export const MONTH_SHORT: string[] = [

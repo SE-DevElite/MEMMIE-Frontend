@@ -38,10 +38,12 @@ const MyAlbum: React.FC<Props> = props => {
   const handleDelete = async (album_id: string) => {
     const token = await getAccessToken()
 
+    console.log(album_id)
+
     await RequestWithToken(token as string)
       .delete(`/albums/delete/${album_id}`)
       .then(res => {
-        console.log(res.data)
+        return res.data
       })
   }
 
@@ -82,17 +84,15 @@ const MyAlbum: React.FC<Props> = props => {
 
       <View>
         {profileStore.albums.map(album => (
-          <TouchableOpacity
-            onPress={() => handlePressAlbum(album.album_id)}
-            key={album.album_id}>
-            <MyAlbumList
-              album_id={album.album_id}
-              title={album.album_name}
-              amount={album.memories}
-              thumbnail={album.album_thumbnail}
-              handleDelete={handleAlert}
-            />
-          </TouchableOpacity>
+          <MyAlbumList
+            key={album.album_id}
+            album_id={album.album_id}
+            title={album.album_name}
+            amount={album.memories}
+            thumbnail={album.album_thumbnail}
+            handleDelete={handleAlert}
+            handlePressAlbum={() => handlePressAlbum(album.album_id)}
+          />
         ))}
       </View>
     </View>

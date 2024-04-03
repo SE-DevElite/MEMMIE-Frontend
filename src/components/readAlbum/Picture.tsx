@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   View,
-  StyleSheet,
+  Text,
   Image,
-  TouchableWithoutFeedback,
-  Text
+  StyleSheet,
+  TouchableWithoutFeedback
 } from 'react-native'
 import { themes } from '@/common/themes/themes'
 import CheckIcon from '@/assets/svg/Check'
 import { LONG_DAY_TO_SHORT, MONTH } from '@/common/consts/DateTime.consts'
-import addAlbumStore from '@/stores/AddAlbumStore'
 import { Memory } from '@/interface/album_response'
+import readAlbumStore from '@/stores/ReadAlbumStore'
 
 interface Props {
   memory: Memory
@@ -23,8 +23,9 @@ const Picture: React.FC<Props> = props => {
   const selected_date = new Date(memory.selected_datetime)
 
   const handlePress = () => {
-    // setActive(!active)
-    addAlbumStore.handleChangeMemories(memory.memory_id)
+    setActive(!active)
+
+    readAlbumStore.toggleSelectedMemory(memory.memory_id)
   }
 
   return (

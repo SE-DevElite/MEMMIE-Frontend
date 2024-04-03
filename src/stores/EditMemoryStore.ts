@@ -1,30 +1,13 @@
 import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
+import { Memory, MemoryList } from '@/interface/daily_response'
 import { action, configure, makeAutoObservable } from 'mobx'
 
 configure({
   enforceActions: 'never'
 })
 
-interface MemoryList {
-  created_at: string
-  memory_list_id: string
-  memory_url: string
-}
-
 class EditMemoryStore {
-  // month: string = ''
-  // year: string = ''
-  // weather: number = 0
-  // mood: number = 0
-  // short_caption: string = ''
-  // caption: string = ''
-  // privacy: string = 'public'
-  // hours: number = new Date().getHours()
-  // minutes: number = new Date().getMinutes()
-
-  // image_info: ImageInfo[] = []
-
   caption: string = ''
   created_at: string = ''
   day: string = ''
@@ -35,7 +18,6 @@ class EditMemoryStore {
   memory_lists: MemoryList[] = []
   mood: string = ''
   selected_datetime: string = ''
-  // selected_datetime: string = ''
   short_caption: string = ''
   updated_at: string = ''
   weather: string = ''
@@ -43,6 +25,23 @@ class EditMemoryStore {
 
   constructor() {
     makeAutoObservable(this)
+  }
+
+  @action
+  initMemory(memory: Memory) {
+    this.caption = memory.caption
+    this.created_at = memory.created_at
+    this.day = memory.day
+    this.location_name = memory.location_name
+    this.lat = memory.lat
+    this.long = memory.long
+    this.memory_id = memory.memory_id
+    this.memory_lists = memory.memory_lists
+    this.mood = memory.mood
+    this.selected_datetime = memory.selected_datetime
+    this.short_caption = memory.short_caption
+    this.updated_at = memory.updated_at
+    this.weather = memory.weather
   }
 
   @action
@@ -56,7 +55,6 @@ class EditMemoryStore {
     this.memory_id = ''
     this.memory_lists = [
       {
-        created_at: '',
         memory_list_id: '',
         memory_url: ''
       }

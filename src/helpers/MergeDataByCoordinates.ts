@@ -19,7 +19,6 @@ export const mergeDataByCoordinates = (originalData: any) => {
   })
 
   const mergedArray = Array.from(mergedMap.values())
-  console.log(mergedArray)
 
   return mergedArray
 }

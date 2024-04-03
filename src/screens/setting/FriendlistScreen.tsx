@@ -1,101 +1,73 @@
-import React, { useRef } from 'react'
-import { Text, StyleSheet, View, Pressable } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Text, StyleSheet, View, Dimensions } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import FriendlistContainer from '@/components/setting/FriendlistContainer'
-import Arrowback from '@/assets/svg/Arrowback'
 import { themes } from '@/common/themes/themes'
 import SettingBottomSheetProvider from '@/screens/setting/SettingBottomSheetProvider'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
+import ButtonBackCommon from '@/common/ButtonBack.common'
+import { User } from '@/interface/friend_response'
+import useFriend from '@/hooks/useFriend'
 
 const Friendlist: React.FC = () => {
+  const { friend } = useFriend()
+  const [userFriend, setUserFriend] = useState<User[]>(friend?.user || [])
   const navigation = useNavigation()
   const createListBottomSheetRef = useRef<BottomSheet>(null)
   const onCreateListPress = () => createListBottomSheetRef.current?.expand()
+
+  useEffect(() => {
+    setUserFriend(friend?.user || [])
+  }, [friend])
+
   return (
-    <View style={styles.friendlist}>
-      <View style={styles.title}>
-        <View style={styles.friendlist1}>
-          <Text style={[styles.friendLists, styles.friendFlexBox]}>
-            Friend lists
+    <SafeAreaView style={{ flex: 1 }} edges={['right', 'top']}>
+      <View style={styles.layout}>
+        <View style={{ paddingHorizontal: 32 }}>
+          <ButtonBackCommon
+            text=""
+            handlePress={() => {
+              navigation.goBack()
+            }}
+          />
+        </View>
+
+        <View style={{ padding: 32 }}>
+          <View>
+            <Text style={styles.textTitleStyle}>Friend lists</Text>
+          </View>
+          <Text style={styles.textSubTitleStyle}>
+            Create your friend list to customize memory accessibility of you and
+            your friends.
           </Text>
         </View>
-        <Text style={[styles.createYourFriend, styles.friendFlexBox]}>
-          Create your friend list to customize memory accessibility of you and
-          your friends.
-        </Text>
+
+        <FriendlistContainer onCreateListPress={onCreateListPress} />
       </View>
-      <Pressable
-        style={styles.backToSetting}
-        onPress={() => navigation.navigate('SettingScreen' as never)}>
-        <View style={styles.iconContainer}>
-          <Arrowback />
-        </View>
-      </Pressable>
-      <FriendlistContainer onCreateListPress={onCreateListPress} />
+
       <SettingBottomSheetProvider
         createListBottomSheetRef={createListBottomSheetRef}
+        friend={userFriend}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  friendFlexBox: {
-    textAlign: 'left',
-    color: themes.light.primary.hex
+  layout: {
+    flex: 1
   },
-  friendLists: {
-    top: 0,
-    left: 0,
-    fontSize: 20,
-    lineHeight: 23,
-    fontWeight: '600',
+  textTitleStyle: {
     fontFamily: themes.fonts.samiBold,
-    position: 'absolute'
+    fontSize: 22,
+    color: themes.light.primary.hex,
+    paddingBottom: 8
   },
-  friendlist1: {
-    width: 109,
-    height: 23
-  },
-  createYourFriend: {
-    fontSize: 12,
-    lineHeight: 15,
-    fontWeight: '300',
+  textSubTitleStyle: {
     fontFamily: themes.fonts.light,
-    display: 'flex',
-    alignItems: 'center',
-    width: 301,
-    marginTop: 8
-  },
-  title: {
-    top: 152,
-    left: 35,
-    position: 'absolute'
-  },
-  icon: {
-    height: '100%',
-    width: '100%'
-  },
-  backToSetting: {
-    position: 'absolute',
-    left: 16,
-    top: 59,
-    width: 61,
-    height: 61,
-    borderRadius: 30.5,
-    backgroundColor: themes.light.tertiary.hex
-  },
-  iconContainer: {
-    width: 61,
-    height: 61,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  friendlist: {
-    flex: 1,
-    height: 812,
-    overflow: 'hidden',
-    width: '100%'
+    fontSize: 14,
+    color: themes.light.primary.hex
   }
 })
 

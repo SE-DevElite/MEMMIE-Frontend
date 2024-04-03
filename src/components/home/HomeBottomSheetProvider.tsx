@@ -24,8 +24,6 @@ interface Props {
   addMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
   albumBottomSheetRef: React.RefObject<BottomSheetMethods>
   readMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
-  mapSearchBarBottomSheetRef: React.RefObject<BottomSheetMethods>
-  //mapBottomSheetRef: React.RefObject<BottomSheetMethods>
 }
 
 const HomeBottomSheetProvider: React.FC<Props> = props => {
@@ -34,16 +32,10 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
     endDate: new Date()
   })
 
-  const [mapDate, setMapDate] = useState({
-    startDate: new Date(),
-    endDate: new Date()
-  })
-
   const {
     addMemoryBottomSheetRef,
     albumBottomSheetRef,
-    readMemoryBottomSheetRef,
-    mapSearchBarBottomSheetRef,
+    readMemoryBottomSheetRef
     //mapBottomSheetRef
   } = props
 
@@ -123,9 +115,7 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
           handleSelectDateStart={() =>
             mapDateStartBottomSheetRef.current?.expand()
           }
-          handleSelectDateEnd={() =>
-            mapDateEndBottomSheetRef.current?.expand()
-          }
+          handleSelectDateEnd={() => mapDateEndBottomSheetRef.current?.expand()}
           selectedDateEnd={filterDate.endDate}
           selectedDateStart={filterDate.startDate}
         />
@@ -218,30 +208,6 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
           }
         />
       </LongBottomSheetCommon>
-      
-      {/*map bottom sheet */}
-      <LongBottomSheetCommon ref={mapSearchBarBottomSheetRef}>
-        <MapSearchBar
-          handleOpenFilter={() => console.log("Logging")}
-          handleCloseBottomSheet={() =>
-            mapSearchBarBottomSheetRef.current?.close()
-          }
-        />
-      </LongBottomSheetCommon>
-
-      <LongBottomSheetCommon ref={filterMapBottomSheetRef}>
-        {/* <FilterMap
-          handleClose={() => filterMapBottomSheetRef.current?.close()}
-          handleSelectDateStart={() =>
-            mapDateStartBottomSheetRef.current?.expand()
-          }
-          handleSelectDateEnd={() =>
-            mapDateEndBottomSheetRef.current?.expand()
-          }
-          selectedDateEnd={mapDate.endDate}
-          selectedDateStart={mapDate.startDate}
-        /> */}
-      </LongBottomSheetCommon>
 
       {/* map date start */}
       <LongBottomSheetCommon
@@ -255,18 +221,20 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       </LongBottomSheetCommon>
 
       {/* map date end */}
-      <LongBottomSheetCommon
-        ref={mapDateEndBottomSheetRef}
-        snapPoint={['50%']}>
+      <LongBottomSheetCommon ref={mapDateEndBottomSheetRef} snapPoint={['50%']}>
         <EditDate
           type_filter="end"
           handleClose={() => editDateBottomSheetRef.current?.close()}
           handleSave={handleSaveDateRange}
         />
       </LongBottomSheetCommon>
-      
+
       <LongBottomSheetCommon ref={albumListBottomSheetRef}>
-        <AlbumIndividual />
+        <AlbumIndividual
+          handleCloseBottomSheet={() =>
+            albumListBottomSheetRef.current?.close()
+          }
+        />
       </LongBottomSheetCommon>
     </>
   )

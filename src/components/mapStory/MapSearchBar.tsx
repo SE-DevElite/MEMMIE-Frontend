@@ -7,6 +7,7 @@ import { WindowScreen } from '@/common/consts/ConfigScreen'
 import axios, { AxiosResponse } from 'axios'
 import { Feature, SearchResponse } from '@/interface/search_response'
 import ButtonLongCommon from '@/common/ButtonLong.common'
+import SelectPlace from './SelectPlace'
 
 interface Props {
   handleCloseBottomSheet: () => void
@@ -17,10 +18,16 @@ type CordinatesType = {
   latitude: number
   longitude: number
 }
+
 const MapSearchBar: React.FC<Props> = props => {
   const { handleCloseBottomSheet, handleOpenMapFilter, handleCordinates } =
     props
   const [search, setSearch] = useState<string>('')
+  const [showingSearch, setShowingSearch] = useState<boolean>(false)
+
+  const handleShow = () => {
+    setShowingSearch(true)
+  }
 
   const [response, setResponse] = useState<SearchResponse>()
   const handleSearch = () => {
@@ -46,46 +53,20 @@ const MapSearchBar: React.FC<Props> = props => {
 
   return (
     <View
-      style={{
-        position: 'absolute',
-        top: 180,
-        zIndex: 2,
-        width: WindowScreen.Width,
-        marginHorizontal: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10
-      }}>
+      style={styles.container}>
       <View
-        style={{
-          paddingVertical: 10,
-          paddingHorizontal: 20,
-          borderRadius: 100,
-          backgroundColor: 'white',
-          width: WindowScreen.Width / 1.05 - WindowScreen.Width / 5.8,
-          flexDirection: 'row',
-          gap: 5,
-          borderColor: '#E5E5E5',
-          borderWidth: 1
-        }}>
+        style={styles.textInputBox}>
         <SearchIcon />
         <TextInput
           value={search}
           onChange={e => setSearch(e.nativeEvent.text)}
-          style={{
-            width: '90%',
-            color: themes.light.primary.hex
-          }}
+          style={styles.textInput}
           placeholder="Search"
           placeholderTextColor={themes.light.secondary.hex}
           onChangeText={() => {
             handleSearch()
-            console.log('\n\n')
-            console.log(response)
-            console.log('\n\n')
-            console.log(response?.features[4]?.place_name)
-            console.log(response?.features[4]?.geometry.coordinates)
           }}
+          onFocus={handleShow}
         />
       </View>
 
@@ -94,39 +75,14 @@ const MapSearchBar: React.FC<Props> = props => {
           <FilterIcon />
         </View>
       </TouchableOpacity>
-      <View
-        style={{
-          position: 'absolute',
-          width: WindowScreen.Width / 1.05 - WindowScreen.Width / 5.8,
-          marginLeft: WindowScreen.Width / 174,
-          top: WindowScreen.Height / 23.2
-          // backgroundColor: 'red'
-        }}>
-        {search == '' ? (
-          <></>
-        ) : (
-          response?.features?.map((feature: Feature, index: number) => (
-            <View key={index} style={{ margin: 1 }}>
-              <ButtonLongCommon
-                paddingHorizontal={15}
-                font_size={12}
-                height={WindowScreen.Height / 23.2}
-                width={WindowScreen.Width / 1.05 - WindowScreen.Width / 5.8}
-                title={feature.place_name}
-                prefix_icon={1}
-                onPress={() => {
-                  const cor: CordinatesType = {
-                    latitude: feature.geometry.coordinates[0],
-                    longitude: feature.geometry.coordinates[1]
-                  }
-                  handleCordinates(cor)
-                  console.log(feature.geometry.coordinates)
-                }}
-              />
-            </View>
-          ))
-        )}
-      </View>
+      {showingSearch ?
+        // <View style={{ width: '100%', height: '100%', backgroundColor: '#111111', position: 'absolute' }}/>
+        <SelectPlace search={search}
+          response={response}
+          handleCordinates={handleCordinates} />
+        :
+        <></>
+      }
     </View>
   )
 }
@@ -134,6 +90,31 @@ const MapSearchBar: React.FC<Props> = props => {
 export default MapSearchBar
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    top: 180,
+    zIndex: 2,
+    width: WindowScreen.Width,
+    marginHorizontal: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10
+  },
+  textInputBox: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 100,
+    backgroundColor: 'white',
+    width: WindowScreen.Width / 1.05 - WindowScreen.Width / 5.8,
+    flexDirection: 'row',
+    gap: 5,
+    borderColor: '#E5E5E5',
+    borderWidth: 1
+  },
+  textInput: {
+    width: '90%',
+    color: themes.light.primary.hex
+  },
   filterButton: {
     width: 40,
     height: 40,

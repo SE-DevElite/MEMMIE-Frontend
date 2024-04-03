@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Text, StyleSheet, View, Dimensions } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import FriendlistContainer from '@/components/setting/FriendlistContainer'
@@ -7,17 +7,30 @@ import SettingBottomSheetProvider from '@/screens/setting/SettingBottomSheetProv
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import ButtonBackCommon from '@/common/ButtonBack.common'
+import { User } from '@/interface/friend_response'
+import useFriend from '@/hooks/useFriend'
 
 const Friendlist: React.FC = () => {
+  const { friend } = useFriend()
+  const [userFriend, setUserFriend] = useState<User[]>(friend?.user || [])
   const navigation = useNavigation()
   const createListBottomSheetRef = useRef<BottomSheet>(null)
   const onCreateListPress = () => createListBottomSheetRef.current?.expand()
+
+  useEffect(() => {
+    setUserFriend(friend?.user || [])
+  }, [friend])
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['right', 'top']}>
       <View style={styles.layout}>
         <View style={{ paddingHorizontal: 32 }}>
-          <ButtonBackCommon text="" handlePress={() => {}} />
+          <ButtonBackCommon
+            text=""
+            handlePress={() => {
+              navigation.goBack()
+            }}
+          />
         </View>
 
         <View style={{ padding: 32 }}>
@@ -35,6 +48,7 @@ const Friendlist: React.FC = () => {
 
       <SettingBottomSheetProvider
         createListBottomSheetRef={createListBottomSheetRef}
+        friend={userFriend}
       />
     </SafeAreaView>
   )

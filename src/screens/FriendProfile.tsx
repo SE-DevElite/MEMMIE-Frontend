@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ButtonBackCommon from '@/common/ButtonBack.common'
 import { View, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -12,28 +12,43 @@ import Streak from '@/components/friendProfile/Streak'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
 import UnFollowBottomSheet from '@/components/friendProfile/UnFollowButton'
+import useFriendProfile from '@/hooks/useFriendProfile'
+import { getAccessToken } from '@/helpers/TokenHandler'
+import { RequestWithToken } from '@/api/DefaultRequest'
 
 const FriendProfileScreen: React.FC = observer(() => {
   const navigation = useNavigation()
-  const [profile, setProfile] = useState({})
-  const [follow, setFollow] = useState(false)
+  const { profile, memories, isFollow } = useFriendProfile(
+    '4b06eb1e-6929-4ca2-8d1c-554dd9c092ed'
+  )
+  const [follow, setFollow] = useState(isFollow)
   const unfollowBottomSheetRef = useRef<BottomSheet>(null)
 
-  const handleBackPress = () => {
-    navigation.goBack()
+  useEffect(() => {
+    setFollow(isFollow)
+  }, [isFollow])
+
+  const followOrUnfollow = async () => {
+    const token = await getAccessToken()
+    const body = {
+      follow_id: profile?.user.user_id
+    }
+    await RequestWithToken(token as string).post('/follows', body)
   }
 
-  const handleUnfollowPress = () => {
+  const handleUnfollowPress = async () => {
     //fetch to un-follow
+    await followOrUnfollow()
     setFollow(false)
     unfollowBottomSheetRef.current?.close()
   }
 
-  const handleCaseFollow = () => {
+  const handleCaseFollow = async () => {
     if (follow) {
       unfollowBottomSheetRef.current?.expand()
     } else {
       // fetch to follow
+      await followOrUnfollow()
       setFollow(true)
     }
   }
@@ -41,15 +56,22 @@ const FriendProfileScreen: React.FC = observer(() => {
   return (
     <SafeAreaView edges={['right', 'top']} style={{ flex: 1 }}>
       <View style={styles.layout}>
-        <ButtonBackCommon handlePress={handleBackPress} text="User Profile" />
+        <ButtonBackCommon
+          handlePress={() => navigation.goBack()}
+          text="User Profile"
+        />
         <View
           style={{
             flexDirection: 'row',
             overflow: 'hidden'
           }}>
           <View style={{ width: '75%' }}>
-            <ProfileName name={''} avatar={''} username={''} />
-            <Bio bio={''} />
+            <ProfileName
+              name={profile?.user.name}
+              avatar={profile?.user.avatar}
+              username={profile?.user.username}
+            />
+            <Bio bio={profile?.user.bio} />
           </View>
 
           <View style={styles.btnGroup}>
@@ -57,13 +79,13 @@ const FriendProfileScreen: React.FC = observer(() => {
               handlefollowPress={handleCaseFollow}
               follow={follow}
             />
-            <Streak />
+            <Streak streak={profile?.streak || 0} />
           </View>
         </View>
       </View>
 
       <View style={{ flex: 1, paddingTop: 16 }}>
-        <MemoryGroup memories={[]} />
+        <MemoryGroup memories={memories?.memory || []} />
       </View>
 
       <LongBottomSheetCommon ref={unfollowBottomSheetRef} snapPoint={['50%']}>

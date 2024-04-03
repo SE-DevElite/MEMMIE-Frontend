@@ -111,7 +111,7 @@ const HomeScreen: React.FC = observer(() => {
         <BottomNavigation />
       </View>
 
-      <LongBottomSheetCommon ref={bottomSheetRef}>
+      <LongBottomSheetCommon ref={bottomSheetRef} snapPoint={['40%']}>
         <MonthYearPicker />
       </LongBottomSheetCommon>
 

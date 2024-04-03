@@ -4,9 +4,9 @@ import AvatarCommon from '@/common/Avatar.common'
 import { View, StyleSheet, Text } from 'react-native'
 
 interface Props {
-  name: string
-  username: string
-  avatar: string
+  name?: string
+  username?: string
+  avatar?: string
 }
 
 const ProfileName: React.FC<Props> = props => {

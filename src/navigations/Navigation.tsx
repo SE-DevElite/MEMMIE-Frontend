@@ -28,7 +28,7 @@ const AppNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName={showWelcome ? 'IndexWelcomeScreen' : 'SignInScreen'}
+      initialRouteName={showWelcome ? 'IndexWelcomeScreen' : 'SettingScreen'}
       screenOptions={{ headerShown: false }}>
       <Stack.Screen name="IndexWelcomeScreen" component={IndexWelcomeScreen} />
       <Stack.Screen name="SignInScreen" component={SignInScreen} />
@@ -40,7 +40,6 @@ const AppNavigator = () => {
       <Stack.Screen name="PasswordScreen" component={PasswordScreen} />
       <Stack.Screen name="LinkedAccountScreen" component={LinkAccount} />
       <Stack.Screen name="FriendlistScreen" component={Friendlist} />
-      <Stack.Screen name="CreateList" component={CreateList} />
       <Stack.Screen
         name="PushNotificationScreen"
         component={PushNotificationScreen}

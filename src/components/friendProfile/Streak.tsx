@@ -3,7 +3,13 @@ import { themes } from '@/common/themes/themes'
 import React from 'react'
 import { View, StyleSheet, Text, Image } from 'react-native'
 
-const Streak: React.FC = () => {
+interface Props {
+  streak: number
+}
+
+const Streak: React.FC<Props> = props => {
+  const { streak } = props
+
   return (
     <>
       <View style={styles.container}>
@@ -13,7 +19,7 @@ const Streak: React.FC = () => {
             fontFamily: themes.fonts.medium,
             color: themes.light.primary.hex
           }}>
-          10
+          {streak}
         </Text>
         <StreakFireIcon width={13} />
       </View>

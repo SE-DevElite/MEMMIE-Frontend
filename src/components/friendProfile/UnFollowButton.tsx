@@ -28,7 +28,7 @@ const UnFollowButton: React.FC<Props> = props => {
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
-        <Text style={styles.header}>Delete</Text>
+        <Text style={styles.header}>Unfollow</Text>
         <Text style={styles.description}>
           Are you sure to unfollow username?
         </Text>
@@ -43,7 +43,7 @@ const UnFollowButton: React.FC<Props> = props => {
         ) : (
           <ButtonLongCommon
             onPress={handleUnfollow}
-            title="Delete"
+            title="Unfollow"
             background_color="#66023C"
             color="#ffffff"
             width={windowWidth - 64}

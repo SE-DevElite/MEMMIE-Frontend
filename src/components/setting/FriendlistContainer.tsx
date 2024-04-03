@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native'
 import { themes } from '@/common/themes/themes'
 import NavArrowRight from '@/assets/svg/NavArrowRight'
 import Plus from '@/assets/svg/Plus'
 import { useNavigation } from '@react-navigation/native'
+import useFriendList from '@/hooks/useFriendList'
+import { FriendList } from '@/interface/friendList_response'
 
 interface Props {
   onCreateListPress: () => void
@@ -12,6 +14,13 @@ interface Props {
 const FriendlistContainer: React.FC<Props> = props => {
   const { onCreateListPress } = props
   const navigation = useNavigation()
+  const { friendList } = useFriendList()
+
+  const [friendLists, setFriendLists] = useState<FriendList[]>([])
+
+  useEffect(() => {
+    setFriendLists(friendList)
+  }, [friendList])
 
   return (
     <>
@@ -46,18 +55,27 @@ const FriendlistContainer: React.FC<Props> = props => {
 
       <View style={styles.divider} />
 
-      <View style={styles.listContainer}>
-        <Image
-          style={styles.childLayout}
-          resizeMode="cover"
-          source={require('../../assets/mocks/mybooPic.png')}
-        />
-        <View style={styles.peopleParent}>
-          <Text style={styles.listHeading}>My boo</Text>
-          <Text style={styles.listSubHeading}>155 people</Text>
+      {/* map this components */}
+      {friendLists.map(item => (
+        <View style={styles.listContainer} key={item.friend_list_id}>
+          <Image
+            style={styles.childLayout}
+            resizeMode="cover"
+            source={{
+              uri: item.friend_id[
+                Math.floor(Math.random() * item.friend_id.length)
+              ].avatar
+            }}
+          />
+          <View style={styles.peopleParent}>
+            <Text style={styles.listHeading} numberOfLines={1}>
+              {item.name}
+            </Text>
+            <Text style={styles.listSubHeading}>{item.total} people</Text>
+          </View>
+          <NavArrowRight height={16} width={8} marginLeft={28} />
         </View>
-        <NavArrowRight height={16} width={8} marginLeft={28} />
-      </View>
+      ))}
     </>
   )
 }
@@ -85,7 +103,8 @@ const styles = StyleSheet.create({
   },
   childLayout: {
     height: 38,
-    width: 38
+    width: 38,
+    borderRadius: 100
   },
   peopleParent: {
     width: 240,

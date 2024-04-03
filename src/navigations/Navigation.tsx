@@ -19,6 +19,7 @@ import TermsScreen from '@/screens/setting/TermsScreen'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
 import { useState } from 'react'
 import MapStoryScreen from '@/screens/MapStoryScreen'
+import LockScreenWidget from '@/screens/setting/LockScreenWidget'
 
 const Stack = createNativeStackNavigator()
 
@@ -50,6 +51,7 @@ const AppNavigator = () => {
       <Stack.Screen name="SupportScreen" component={SupportScreen} />
       <Stack.Screen name="TermsScreen" component={TermsScreen} />
       <Stack.Screen name="MapStoryScreen" component={MapStoryScreen} />
+      <Stack.Screen name="LockScreenWidget" component={LockScreenWidget}/>
     </Stack.Navigator>
   )
 }

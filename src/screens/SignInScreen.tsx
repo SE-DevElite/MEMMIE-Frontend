@@ -8,6 +8,7 @@ import { View, StyleSheet } from 'react-native'
 import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
 
+
 const SignInScreen: React.FC = () => {
   const navigation = useNavigation()
 

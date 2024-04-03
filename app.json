@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MEMMIE",
-    "slug": "MEMMIE",
+    "slug": "memmie",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.MEMMIE",
@@ -26,7 +28,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.MEMMIE"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -40,7 +46,20 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./local/assets/notification-icon.png",
+          "color": "#ffffff"
+        }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "13f91eee-4288-4d46-8710-0c3bccbaac88"
+      }
+    },
+    "owner": "punnapathianchai"
   }
 }

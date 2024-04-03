@@ -108,7 +108,7 @@ const HomeScreen: React.FC = observer(() => {
       </ScrollView>
 
       <View style={styles.bottomNavigation}>
-        <BottomNavigation />
+        <BottomNavigation curr_idx={0} />
       </View>
 
       <LongBottomSheetCommon ref={bottomSheetRef} snapPoint={['40%']}>

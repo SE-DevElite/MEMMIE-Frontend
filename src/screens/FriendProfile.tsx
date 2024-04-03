@@ -3,7 +3,7 @@ import ButtonBackCommon from '@/common/ButtonBack.common'
 import { View, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import MemoryGroup from '@/components/profile/MemoryGroup'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { observer } from 'mobx-react'
 import ProfileName from '@/components/friendProfile/ProfileName'
 import Bio from '@/components/friendProfile/Bio'
@@ -18,8 +18,10 @@ import { RequestWithToken } from '@/api/DefaultRequest'
 
 const FriendProfileScreen: React.FC = observer(() => {
   const navigation = useNavigation()
+  const route = useRoute()
   const { profile, memories, isFollow } = useFriendProfile(
-    '4b06eb1e-6929-4ca2-8d1c-554dd9c092ed'
+    // @ts-ignore
+    route.params['user_id']
   )
   const [follow, setFollow] = useState(isFollow)
   const unfollowBottomSheetRef = useRef<BottomSheet>(null)

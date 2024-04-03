@@ -1,136 +1,57 @@
-import React from 'react'
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen'
+import { MemoryFeedI } from '@/interface/feed_response'
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, Image, Text } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  Image,
-  TouchableOpacity
-} from 'react-native'
+interface Props {
+  feed: MemoryFeedI[]
+}
 
-const MemoryGroup: React.FC = () => {
-  const memories = {
-    image_group1: [
-      require('@/assets/mocks/nutthanon-avatar.jpg'),
-      require('@/assets/mocks/nutthanon-rb.png'),
-      require('@/assets/mocks/nut-riw-ronan.png')
-    ],
-    image_group2: [
-      require('@/assets/mocks/nutthanon-rb.png'),
-      require('@/assets/mocks/nut-ronan.png'),
-      require('@/assets/mocks/nutthanon-avatar.jpg')
-    ]
-  }
+const MemoryFeed: React.FC<Props> = props => {
+  const { feed } = props
+  const [feedVal, setFeedVal] = useState<MemoryFeedI[]>([])
+
+  useEffect(() => {
+    setFeedVal(feed)
+  }, [feed])
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.flexBox}>
-          {memories['image_group1'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
+    <View style={{ height: '100%', paddingBottom: 320 }}>
+      <ScrollView>
+        <View style={styles.container}>
+          {feed.map((item, index) => {
+            return (
+              <View
+                key={index}
+                style={{
+                  width: '48%',
+                  height: 170,
+                  backgroundColor: '#e5e5e5e5',
+                  borderRadius: 50
+                }}>
+                <Image
+                  source={{ uri: item.memory_lists[0].memory_url as string }}
+                  style={{ width: '100%', height: 170, borderRadius: 50 }}
+                />
+              </View>
+            )
+          })}
         </View>
-
-        <View style={styles.flexBox}>
-          {memories['image_group2'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.flexBox}>
-          {memories['image_group1'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.flexBox}>
-          {memories['image_group2'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.flexBox}>
-          {memories['image_group1'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.flexBox}>
-          {memories['image_group2'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        <View
-          style={{
-            height: 80,
-            backgroundColor: '#e5e5e5e5'
-          }}
-        />
       </ScrollView>
     </View>
   )
 }
 
-export default MemoryGroup
+export default MemoryFeed
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 16,
-    paddingHorizontal: 12
-  },
-  scrollView: {
-    height: hp('84%')
-  },
-  flexBox: {
+    paddingVertical: 16,
+    height: '100%',
     flexDirection: 'row',
-    gap: 8
-  },
-  imageContainer: {
-    flex: 1,
-    aspectRatio: 1,
-    marginBottom: 8,
-    overflow: 'hidden',
-    borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  imageInnerContainer: {
-    width: '100%',
-    height: '100%',
-    overflow: 'hidden'
-  },
-  imageStyle: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 40
+    flexWrap: 'wrap',
+    gap: 10,
+    paddingHorizontal: 16
+    // flex: 1
   }
 })

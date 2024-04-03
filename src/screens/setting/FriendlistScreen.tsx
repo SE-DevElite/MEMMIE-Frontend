@@ -9,13 +9,36 @@ import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSh
 import ButtonBackCommon from '@/common/ButtonBack.common'
 import { User } from '@/interface/friend_response'
 import useFriend from '@/hooks/useFriend'
+import { FriendList } from '@/interface/friendList_response'
 
 const Friendlist: React.FC = () => {
   const { friend } = useFriend()
   const [userFriend, setUserFriend] = useState<User[]>(friend?.user || [])
   const navigation = useNavigation()
   const createListBottomSheetRef = useRef<BottomSheet>(null)
+  const updateListBottomSheetRef = useRef<BottomSheet>(null)
+
   const onCreateListPress = () => createListBottomSheetRef.current?.expand()
+  const [friendListName, setFriendListName] = useState('')
+  const [userInFriendList, setUserInFriendList] = useState<User[]>([])
+  const [friendListId, setFriendListId] = useState('')
+
+  const handlePressFriendList = (friendList: FriendList) => {
+    setFriendListName(friendList.name)
+    setFriendListId(friendList.friend_list_id)
+
+    const user: User[] = []
+    const friendId = friendList.friend_id.map(friend => friend.user_id)
+
+    userFriend.map(friend => {
+      if (friendId.includes(friend.user_id)) {
+        user.push(friend)
+      }
+    })
+    setUserInFriendList(user)
+
+    updateListBottomSheetRef.current?.expand()
+  }
 
   useEffect(() => {
     setUserFriend(friend?.user || [])
@@ -43,12 +66,19 @@ const Friendlist: React.FC = () => {
           </Text>
         </View>
 
-        <FriendlistContainer onCreateListPress={onCreateListPress} />
+        <FriendlistContainer
+          onCreateListPress={onCreateListPress}
+          onFriendListPress={handlePressFriendList}
+        />
       </View>
 
       <SettingBottomSheetProvider
+        select_friendList_id={friendListId}
         createListBottomSheetRef={createListBottomSheetRef}
+        updateListBottomSheetRef={updateListBottomSheetRef}
         friend={userFriend}
+        select_friendList_name={friendListName}
+        select_friendList_user={userInFriendList}
       />
     </SafeAreaView>
   )

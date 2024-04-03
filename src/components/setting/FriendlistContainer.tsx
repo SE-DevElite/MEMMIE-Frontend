@@ -6,13 +6,15 @@ import Plus from '@/assets/svg/Plus'
 import { useNavigation } from '@react-navigation/native'
 import useFriendList from '@/hooks/useFriendList'
 import { FriendList } from '@/interface/friendList_response'
+import ListOfFriendList from './ListOfFriendList'
 
 interface Props {
   onCreateListPress: () => void
+  onFriendListPress: (friendList_id: FriendList) => void
 }
 
 const FriendlistContainer: React.FC<Props> = props => {
-  const { onCreateListPress } = props
+  const { onCreateListPress, onFriendListPress } = props
   const navigation = useNavigation()
   const { friendList } = useFriendList()
 
@@ -57,24 +59,14 @@ const FriendlistContainer: React.FC<Props> = props => {
 
       {/* map this components */}
       {friendLists.map(item => (
-        <View style={styles.listContainer} key={item.friend_list_id}>
-          <Image
-            style={styles.childLayout}
-            resizeMode="cover"
-            source={{
-              uri: item.friend_id[
-                Math.floor(Math.random() * item.friend_id.length)
-              ].avatar
-            }}
-          />
-          <View style={styles.peopleParent}>
-            <Text style={styles.listHeading} numberOfLines={1}>
-              {item.name}
-            </Text>
-            <Text style={styles.listSubHeading}>{item.total} people</Text>
-          </View>
-          <NavArrowRight height={16} width={8} marginLeft={28} />
-        </View>
+        <ListOfFriendList
+          key={item.friend_list_id}
+          friendList_id={item.friend_list_id}
+          title={item.name}
+          thumbnail={item.friend_id[0].avatar}
+          amount={item.friend_id.length}
+          onPress={() => onFriendListPress(item)}
+        />
       ))}
     </>
   )

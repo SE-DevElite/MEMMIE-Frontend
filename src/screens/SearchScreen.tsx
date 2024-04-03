@@ -1,51 +1,124 @@
-import React from 'react'
-import { Text, View, Dimensions, Image, StyleSheet } from 'react-native'
-import { themes } from '@/common/themes/themes'
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, TextInput, Text, Keyboard } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import BottomNavigationCommon from '@/common/BottomNavigation.common'
-import ButtonLongCommon from '@/common/ButtonLong.common'
-import Search from '@/assets/svg/Search'
 import MemoryFeed from '@/components/search/MemoryFeed'
-import FindFriendScreen from './FindFriendScreen'
+import SearchIcon from '@/assets/svg/Search'
+import {
+  ScrollView,
+  TouchableWithoutFeedback
+} from 'react-native-gesture-handler'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import ListUserProfile from '@/components/search/ListUserProfile'
+import useFeed from '@/hooks/useFeed'
+import { getAccessToken } from '@/helpers/TokenHandler'
+import { RequestWithToken } from '@/api/DefaultRequest'
+import BottomNavigation from '@/common/BottomNavigation.common'
 
-const windowWidth = Dimensions.get('window').width
-const windowHeight = Dimensions.get('window').height
+type UserRoot = {
+  user_id: string
+  name: string
+  username: string
+  avatar: string
+}
 
 const SearchScreen: React.FC = () => {
-  const navigation = useNavigation()
+  const { memoryFeed } = useFeed()
+  const [isSearch, setIsSearch] = useState<boolean>(false)
+  const [searchValue, setSearchValue] = useState<string>('')
+  const [userValue, setUserValue] = useState<UserRoot[]>([])
 
-  const handleButtonPress = () => {
-    navigation.navigate('FindFriendScreen' as never)
+  const handleChange = async (value: string) => {
+    setSearchValue(value)
+    const token = await getAccessToken()
+
+    const res = await RequestWithToken(token as string)
+      .get(`search/users?query=${searchValue}`)
+      .then(res => res.data)
+
+    setUserValue(res as UserRoot[])
+  }
+
+  const closeKeyBoard = () => {
+    Keyboard.dismiss()
+    setIsSearch(false)
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBar}>
-        <ButtonLongCommon
-          title="Search"
-          fonts={themes.fonts.regular}
-          font_size={12}
-          height={45}
-          onPress={handleButtonPress}
-          background_color="white"
-          color={themes.light.primary.hex}
-          prefix_icon={Search}
-        />
+    <SafeAreaView edges={['right', 'top']}>
+      <TouchableWithoutFeedback onPress={closeKeyBoard}>
+        <View style={styles.container}>
+          <View style={styles.searchBar}>
+            <View
+              style={[styles.inputStyle, { width: isSearch ? '85%' : '100%' }]}>
+              <SearchIcon />
+              <TextInput
+                value={searchValue}
+                onChangeText={handleChange}
+                style={{
+                  flexGrow: 1,
+                  height: '100%'
+                }}
+                placeholder="Search"
+                onFocus={() => setIsSearch(true)}
+              />
+            </View>
+            {isSearch ? <Text>cancle</Text> : ''}
+          </View>
+        </View>
+        {isSearch ? (
+          <View style={{ height: '100%' }}>
+            <ScrollView>
+              {userValue.map(item => (
+                <ListUserProfile
+                  key={item.user_id}
+                  user_id={item.user_id}
+                  name={item.name}
+                  username={item.username}
+                  avatar={item.avatar}
+                />
+              ))}
+            </ScrollView>
+          </View>
+        ) : (
+          <MemoryFeed feed={memoryFeed || []} />
+        )}
+      </TouchableWithoutFeedback>
+
+      <View style={styles.bottomNavigation}>
+        <BottomNavigation curr_idx={2} />
       </View>
-      <MemoryFeed />
-      <BottomNavigationCommon navigation={navigation} />
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%'
+    flexDirection: 'column'
   },
   searchBar: {
-    flex: 1,
-    top: windowHeight / 11.88,
-    paddingHorizontal: windowWidth / 11.88
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: 16
+  },
+  inputStyle: {
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 100,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    gap: 10,
+    borderWidth: 1,
+    borderColor: '#d5d5d5d5'
+  },
+  bottomNavigation: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    bottom: 100,
+    paddingHorizontal: 16
   }
 })
 

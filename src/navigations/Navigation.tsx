@@ -30,7 +30,7 @@ const AppNavigator = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName={showWelcome ? 'IndexWelcomeScreen' : 'SettingScreen'}
+      initialRouteName={showWelcome ? 'IndexWelcomeScreen' : 'SignInScreen'}
       screenOptions={{ headerShown: false }}>
       <Stack.Screen name="IndexWelcomeScreen" component={IndexWelcomeScreen} />
       <Stack.Screen name="SignInScreen" component={SignInScreen} />
@@ -53,7 +53,10 @@ const AppNavigator = () => {
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen name="FindFriendScreen" component={FindFriendScreen} />
       <Stack.Screen name="MapStoryScreen" component={MapStoryScreen} />
-      <Stack.Screen name="FriendProfile" component={FriendProfileScreen} />
+      <Stack.Screen
+        name="FriendProfileScreen"
+        component={FriendProfileScreen}
+      />
     </Stack.Navigator>
   )
 }

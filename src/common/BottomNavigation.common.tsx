@@ -3,15 +3,23 @@ import { TouchableWithoutFeedback } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Svg, { G, Path, Circle, Defs } from 'react-native-svg'
 
-const BottomNavigation: React.FC = () => {
+interface Props {
+  curr_idx: number
+}
+
+const BottomNavigation: React.FC<Props> = props => {
+  const { curr_idx } = props
+
   const navigation = useNavigation()
-  const [currentIdx, setCurrentIdx] = React.useState<number>(0)
+  const [currentIdx, setCurrentIdx] = React.useState<number>(curr_idx)
 
   const indexIcon = [
     {
       xaxis: 43,
       d: 'M0 18.0746C0 8.09227 8.09227 0 18.0746 0H18.8845C23.4198 0 27.7481 1.89788 30.8206 5.23375L31.7321 6.22346C37.9425 12.9662 48.6855 12.6436 54.4801 5.54047C57.3404 2.03436 61.6254 0 66.1502 0H313.5C329.792 0 343 13.2076 343 29.5C343 45.7924 329.792 59 313.5 59H29.5C13.2076 59 0 45.7924 0 29.5V18.0746Z',
-      callBack: () => {}
+      callBack: () => {
+        navigation.navigate('HomeScreen' as never)
+      }
     },
     {
       xaxis: 129,
@@ -21,7 +29,9 @@ const BottomNavigation: React.FC = () => {
     {
       xaxis: 214,
       d: 'M0 29.5C0 13.2076 13.2076 0 29.5 0H192.26C196.546 0 200.627 1.83675 203.469 5.04515C209.364 11.7012 219.727 11.783 225.727 5.22083L225.957 4.96924C228.851 1.8033 232.943 0 237.233 0H313.5C329.792 0 343 13.2076 343 29.5C343 45.7924 329.792 59 313.5 59H29.5C13.2076 59 0 45.7924 0 29.5Z',
-      callBack: () => {}
+      callBack: () => {
+        navigation.navigate('SearchScreen' as never)
+      }
     },
     {
       xaxis: 301,
@@ -33,7 +43,8 @@ const BottomNavigation: React.FC = () => {
   ]
 
   const handlePress = (idx: number) => {
-    setCurrentIdx(idx)
+    // setCurrentIdx(idx)
+    console.log(idx)
     indexIcon[idx].callBack()
   }
 
@@ -50,7 +61,7 @@ const BottomNavigation: React.FC = () => {
           fill="#A56073"
         />
       </G>
-      
+
       {/* dot */}
       <G>
         <Circle cx={indexIcon[currentIdx].xaxis} cy={3} r={3} fill="#A56073" />

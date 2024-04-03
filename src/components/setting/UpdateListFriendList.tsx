@@ -18,12 +18,14 @@ import { getAccessToken } from '@/helpers/TokenHandler'
 import { RequestWithToken } from '@/api/DefaultRequest'
 
 interface Props {
+  AllFriend: User[]
   friend: User[]
-  onCreateList: () => void
+  friendList_id: string
+  friendList_name: string
 }
 
-const CreateList: React.FC<Props> = props => {
-  const { friend, onCreateList } = props
+const UpdateListFriendList: React.FC<Props> = props => {
+  const { AllFriend, friend, friendList_name, friendList_id } = props
 
   const [friendVal, setFriendVal] = useState<User[]>(friend)
   const [listName, setListName] = useState('')
@@ -33,6 +35,8 @@ const CreateList: React.FC<Props> = props => {
 
   useEffect(() => {
     setFriendVal(friend)
+    setListName(friendList_name)
+    setSelectedFriendList(friend.map(item => item.user_id))
   }, [friend])
 
   const handleSelectFriend = (user_id: string) => {
@@ -44,7 +48,7 @@ const CreateList: React.FC<Props> = props => {
     }
   }
 
-  const handleCreateList = async () => {
+  const handleUpdateList = async () => {
     if (listName.length === 0 || selectedFriendList.length === 0) {
       return
     }
@@ -56,10 +60,12 @@ const CreateList: React.FC<Props> = props => {
       friendlist_name: listName,
       friendlist_id: selectedFriendList
     }
+    console.log(data)
 
-    await RequestWithToken(token as string).post('/friendlists/create', data)
-
-    onCreateList()
+    await RequestWithToken(token as string).patch(
+      `/friendlists/update/${friendList_id}`,
+      data
+    )
 
     setWaiting(false)
   }
@@ -68,13 +74,13 @@ const CreateList: React.FC<Props> = props => {
     <>
       <View style={{ flex: 1 }}>
         <View style={{ alignItems: 'center', paddingTop: 16 }}>
-          <Text style={styles.title}>Create list</Text>
+          <Text style={styles.title}>{friendList_name}</Text>
         </View>
 
         <View style={styles.divider} />
 
         <View style={{ paddingHorizontal: 24 }}>
-          <Text style={styles.listName}>List name (require)</Text>
+          <Text style={styles.listName}>List name</Text>
           <View>
             <TextInput
               value={listName}
@@ -111,7 +117,6 @@ const CreateList: React.FC<Props> = props => {
             paddingBottom: 50
           }}>
           <ScrollView>
-            {/* map this component */}
             {friendVal.map(item => (
               <FriendAccountList
                 key={item.user_id}
@@ -120,6 +125,9 @@ const CreateList: React.FC<Props> = props => {
                 name={item.name}
                 username={item.username}
                 onSelectToggle={handleSelectFriend}
+                select={AllFriend.map(item => item.user_id).includes(
+                  item.user_id
+                )}
               />
             ))}
           </ScrollView>
@@ -135,7 +143,7 @@ const CreateList: React.FC<Props> = props => {
           {waiting ? (
             <ActivityIndicator size="large" color={themes.light.primary.hex} />
           ) : (
-            <ButtonLongCommon title="Create" onPress={handleCreateList} />
+            <ButtonLongCommon title="Save" onPress={handleUpdateList} />
           )}
         </View>
       </View>
@@ -143,7 +151,7 @@ const CreateList: React.FC<Props> = props => {
   )
 }
 
-export default CreateList
+export default UpdateListFriendList
 
 const styles = StyleSheet.create({
   title: {

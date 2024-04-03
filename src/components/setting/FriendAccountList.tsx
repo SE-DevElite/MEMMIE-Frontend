@@ -9,14 +9,18 @@ interface Props {
   image: string
   username: string
   name: string
+  user_id: string
+  onSelectToggle: (user_id: string) => void
+  select?: boolean
 }
 
 const FriendAccountList: React.FC<Props> = props => {
-  const { image, name, username } = props
-  const [selected, setSelected] = useState(false)
+  const { image, name, username, user_id, onSelectToggle, select } = props
+  const [selected, setSelected] = useState(select ? select : false)
 
   const toggleSelected = () => {
     setSelected(!selected)
+    onSelectToggle(user_id)
   }
 
   return (

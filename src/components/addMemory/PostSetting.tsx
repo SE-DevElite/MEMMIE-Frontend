@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import PostSettingList from './PostSettingList'
 import addMemoryStore from '@/stores/AddMemoryStore'
+import useFriendList from '@/hooks/useFriendList'
 
 interface Setting {
   id: string
@@ -11,6 +12,8 @@ interface Setting {
 }
 
 const PostSetting: React.FC = () => {
+  const { friendList } = useFriendList()
+
   const [userFriendList, setUserFriendList] = useState<Setting[]>([])
   const [active, setActive] = useState<Setting>({
     id: '4c22ed6c-16a1-47dc-bf44-f1e2f8019e9d',
@@ -32,14 +35,14 @@ const PostSetting: React.FC = () => {
   ]
 
   useEffect(() => {
-    setUserFriendList([
-      {
-        id: 'd356e1e4-afda-4035-8afa-48d8c309bb94',
-        title: 'My boo',
-        value: 'general'
-      }
-    ])
-  }, [])
+    const data: Setting[] = friendList.map(friend => ({
+      id: friend.friend_list_id,
+      title: friend.name,
+      value: 'general'
+    }))
+
+    setUserFriendList(data)
+  }, [friendList])
 
   const handleActive = (id: string, title: string, value: string) => {
     setActive({ id, title, value: value })

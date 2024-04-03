@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -9,7 +9,9 @@ import {
   ScrollView,
   StyleSheet,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal,
+  TouchableWithoutFeedback
 } from 'react-native'
 
 const MemoryGroup: React.FC = () => {
@@ -26,13 +28,23 @@ const MemoryGroup: React.FC = () => {
     ]
   }
 
+  const [modalVisible, setModalVisible] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+
+  const handleImagePress = (image: string) => {
+    setSelectedImage(image)
+    setModalVisible(true)
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.flexBox}>
           {memories['image_group1'].map((memory, index) => (
             <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
+              <TouchableOpacity
+                style={styles.imageInnerContainer}
+                onPress={() => handleImagePress(memory)}>
                 <Image source={memory} style={styles.imageStyle} />
               </TouchableOpacity>
             </View>
@@ -42,60 +54,29 @@ const MemoryGroup: React.FC = () => {
         <View style={styles.flexBox}>
           {memories['image_group2'].map((memory, index) => (
             <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
+              <TouchableOpacity
+                style={styles.imageInnerContainer}
+                onPress={() => handleImagePress(memory)}>
                 <Image source={memory} style={styles.imageStyle} />
               </TouchableOpacity>
             </View>
           ))}
         </View>
-
-        <View style={styles.flexBox}>
-          {memories['image_group1'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.flexBox}>
-          {memories['image_group2'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.flexBox}>
-          {memories['image_group1'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.flexBox}>
-          {memories['image_group2'].map((memory, index) => (
-            <View key={index} style={styles.imageContainer}>
-              <TouchableOpacity style={styles.imageInnerContainer}>
-                <Image source={memory} style={styles.imageStyle} />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        <View
-          style={{
-            height: 80,
-            backgroundColor: '#e5e5e5e5'
-          }}
-        />
       </ScrollView>
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        onRequestClose={() => setModalVisible(false)}>
+        {selectedImage && (
+          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+            <View style={styles.modalBackground}>
+              <View style={styles.modalContainer}>
+                <Image source={selectedImage} style={styles.modalImage} />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+      </Modal>
     </View>
   )
 }
@@ -132,5 +113,20 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 40
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 20
+  },
+  modalImage: {
+    width: 300,
+    height: 300,
+    borderRadius: 20
   }
 })

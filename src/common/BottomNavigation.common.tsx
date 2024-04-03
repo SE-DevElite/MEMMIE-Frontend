@@ -75,6 +75,8 @@ const BottomNavigationCommon: React.FC<BottomNavigationCommonProps> = ({
                 if (index === 0) {
                   navigation.navigate('HomeScreen' as never)
                 }
+                if (index === 1) {
+                }
                 if (index === 2) {
                   navigation.navigate('SearchScreen' as never)
                 }

@@ -10,7 +10,7 @@ import {
 import CheckboxCommon from '@/common/Checkbox.common'
 
 interface Props {
-  image: NodeRequire
+  image: string
   name: string
   username: string
 }
@@ -20,14 +20,20 @@ const SelectFriendList: React.FC<Props> = props => {
   const [active, setActive] = useState<boolean>(false)
 
   const handlePress = () => {
-    console.log('press')
     setActive(!active)
   }
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
       <View style={styles.container}>
-        <View>{/* <Image style={styles.imageStyle} source={image} /> */}</View>
+        <View>
+          <Image
+            style={styles.imageStyle}
+            source={{
+              uri: image
+            }}
+          />
+        </View>
         <View style={{ width: '70%' }}>
           <Text style={styles.nameStyle}>{name}</Text>
           <Text style={styles.usernameStyle}>{username}</Text>

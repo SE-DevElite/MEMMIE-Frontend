@@ -67,8 +67,6 @@ class ReadAlbumStore {
     const res = await RequestWithToken(token as string)
       .patch(`/albums/update/${this.updatedAlbum?.album_id}`, body)
       .then(res => res.data)
-
-    console.log(res)
   }
 }
 

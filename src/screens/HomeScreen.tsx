@@ -10,7 +10,6 @@ import DatePicker from '@/components/home/bottomContainer/DatePicker'
 import { useNavigation } from '@react-navigation/native'
 import { MONTH, MONTH_TO_NUMBER } from '@/common/consts/DateTime.consts'
 import HomeBottomSheetProvider from '@/components/home/HomeBottomSheetProvider'
-import BottomNavigationCommon from '@/common/BottomNavigation.common'
 import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import profileStore from '@/stores/ProfileStore'
@@ -22,6 +21,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import addMemoryStore from '@/stores/AddMemoryStore'
 import MonthYearPicker from '@/components/home/bottomContainer/MonthYearPicker'
 import LongBottomSheetCommon from '@/common/LongBottomSheet.common'
+import BottomNavigation from '@/common/BottomNavigation.common'
 
 const HomeScreen: React.FC = observer(() => {
   useProfile()
@@ -71,11 +71,6 @@ const HomeScreen: React.FC = observer(() => {
     setRefreshing(false)
   }, [])
 
-  // const [currentScreen, setCurrentScreen] = useState<string>('HomeScreen')
-  // const handleMapScreen = () =>{
-  //   setCurrentScreen(props)
-  // }
-
   return (
     <SafeAreaView style={styles.container} edges={['right', 'top']}>
       <ScrollView
@@ -112,7 +107,11 @@ const HomeScreen: React.FC = observer(() => {
         </View>
       </ScrollView>
 
-      <LongBottomSheetCommon ref={bottomSheetRef}>
+      <View style={styles.bottomNavigation}>
+        <BottomNavigation curr_idx={0} />
+      </View>
+
+      <LongBottomSheetCommon ref={bottomSheetRef} snapPoint={['40%']}>
         <MonthYearPicker />
       </LongBottomSheetCommon>
 
@@ -121,8 +120,6 @@ const HomeScreen: React.FC = observer(() => {
         addMemoryBottomSheetRef={addMemoryBottomSheetRef}
         readMemoryBottomSheetRef={readMemoryBottomSheetRef}
       />
-
-      <BottomNavigationCommon navigation={navigation} />
     </SafeAreaView>
   )
 })
@@ -146,15 +143,22 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16
   },
-
   bottomOutterContainer: {
     width: wp('100%'),
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginBottom: 32
   },
 
   bottomInnerContainer: {
     width: wp('100%'),
     backgroundColor: themes.light.tertiary.hex,
     borderTopRightRadius: 40
+  },
+  bottomNavigation: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    bottom: 24,
+    paddingHorizontal: 16
   }
 })

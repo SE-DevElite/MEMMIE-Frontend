@@ -1,17 +1,42 @@
 import SearchIcon from '@/assets/svg/Search'
 import { themes } from '@/common/themes/themes'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Text, View, StyleSheet, TextInput, ScrollView } from 'react-native'
 import SelectFriendList from './SelectFriendList'
+import useFriend from '@/hooks/useFriend'
+import { RefreshControl } from 'react-native-gesture-handler'
+import { RequestWithToken } from '@/api/DefaultRequest'
+import { getAccessToken } from '@/helpers/TokenHandler'
+import { FriendResponse, User } from '@/interface/friend_response'
+import { TouchableOpacity } from '@gorhom/bottom-sheet'
 
 const SelectFriend: React.FC = () => {
+  const { friend } = useFriend()
   const [friendName, setFriendName] = useState<string>('')
+  const [allFriend, setAllFriend] = useState<User[]>([])
+  const [refreshing, setRefreshing] = useState(false)
+
+  useEffect(() => {
+    setAllFriend(friend?.user || [])
+  }, [friend])
+
+  const onRefresh = useCallback(async () => {
+    const token = await getAccessToken()
+
+    const res: FriendResponse = await RequestWithToken(token as string)
+      .get('/friendlists/friend')
+      .then(res => res.data)
+
+    setAllFriend(res.user)
+    setRefreshing(false)
+  }, [])
 
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
         <View style={styles.titleContainer}>
           <Text style={styles.titleStyle}>Select Friend</Text>
+          <Text style={styles.subTitleStyle}>(Pull to Refresh)</Text>
         </View>
       </View>
 
@@ -31,27 +56,35 @@ const SelectFriend: React.FC = () => {
       </View>
 
       <View style={{ flex: 1 }}>
-        <ScrollView>
-          <View
-            style={{
-              ...styles.layout,
-              paddingTop: 20,
-              gap: 15
-            }}>
-            <SelectFriendList
-              image={require('@/assets/mocks/nutthanon-avatar.jpg')}
-              name="__n.tc__"
-              username="Nutthanon Thongcharoen"
-            />
-          </View>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+          {allFriend.map(friend => (
+            <View
+              key={friend.user_id}
+              style={{
+                ...styles.layout,
+                paddingTop: 20,
+                gap: 15
+              }}>
+              <SelectFriendList
+                image={friend.avatar}
+                name={friend.name}
+                username={friend.username}
+              />
+            </View>
+          ))}
         </ScrollView>
       </View>
 
-      <View style={styles.doneButton}>
-        <View style={styles.buttonBox}>
-          <Text style={styles.buttonTextStyle}>Done</Text>
+      <TouchableOpacity onPress={() => console.log('working')}>
+        <View style={styles.doneButton}>
+          <View style={styles.buttonBox}>
+            <Text style={styles.buttonTextStyle}>Done</Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -67,7 +100,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20
   },
   titleContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -117,5 +150,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: themes.fonts.regular,
     color: themes.light.primary.hex
+  },
+  subTitleStyle: {
+    fontSize: 12,
+    fontFamily: themes.fonts.light,
+    color: themes.light.secondary.hex
   }
 })

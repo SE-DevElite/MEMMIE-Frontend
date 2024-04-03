@@ -6,6 +6,10 @@ import { useNavigation } from '@react-navigation/native'
 import MapSearchBar from '@/components/mapStory/MapSearchBar'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import MapStoryBottomSheetProvider from '@/components/mapStory/MapStoryBottomSheetProvider'
+import { observer } from 'mobx-react'
+import profileStore from '@/stores/ProfileStore'
+
+const MapStoryScreen: React.FC = observer(props => {
 import { WindowScreen } from '@/common/consts/ConfigScreen'
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
@@ -32,10 +36,8 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
       <View style={styles.userHeading}>
         <UserHeading
           onPressAvatar={() => navigation.navigate('ProfileScreen' as never)}
-          avatar={
-            'https://i.pinimg.com/564x/96/f4/eb/96f4eb050895ed555700f9ee77496c72.jpg'
-          }
-          username={username}
+          avatar={profileStore.avatar}
+          username={profileStore.username}
         />
       </View>
       <MapSearchBar
@@ -50,7 +52,7 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
       />
     </TouchableOpacity>
   )
-}
+})
 
 export default MapStoryScreen
 

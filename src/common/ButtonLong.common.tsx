@@ -50,7 +50,6 @@ const ButtonLongCommon: React.FC<ButtonLongCommonProps> = props => {
     </ButtonCustom>
   )
 }
-
 export default ButtonLongCommon
 
 const styles = StyleSheet.create({
@@ -58,6 +57,11 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     marginRight: 15
+  },
+  icon: {
+    width: 20,
+    height: 20,
+    marginRight: 10
   }
 })
 
@@ -67,25 +71,21 @@ const ButtonCustom = styled.TouchableOpacity`
   height: ${(props: { height: number }) => props.height || 55}px;
   background-color: ${(props: { background_color: string }) =>
     props.background_color || themes.light.tertiary.hex};
-
   justify-content: ${(props: { justifyCenter: boolean }) =>
     props.justifyCenter ? 'center' : ''};
   align-items: center;
   z-index: 2;
+  flex-direction: row;
+  border-radius: 50%;
+`
+const ButtonText = styled.Text`
+  /* padding-left: 20px; */
+  color: ${(props: { color: string }) =>
+    props.color || themes.light.primary.hex};
+  font-family: ${(props: { fonts: string }) =>
+    props.fonts || themes.fonts.regular};
 
   flex-direction: row;
 
   border-radius: 50%;
-`
-
-const ButtonText = styled.Text`
-  /* padding-left: 20px; */
-
-  color: ${(props: { color: string }) =>
-    props.color || themes.light.primary.hex};
-
-  font-family: ${(props: { fonts: string }) =>
-    props.fonts || themes.fonts.regular};
-
-  font-size: ${(props: { font_size: number }) => props.font_size || 20}px;
 `

@@ -1,68 +1,104 @@
-import React, { useRef } from 'react'
-import { Text, StyleSheet, View, Pressable } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Text, StyleSheet, View, Dimensions } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import FriendlistContainer from '@/components/setting/FriendlistContainer'
-import Arrowback from '@/assets/svg/Arrowback'
 import { themes } from '@/common/themes/themes'
 import SettingBottomSheetProvider from '@/screens/setting/SettingBottomSheetProvider'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
+import ButtonBackCommon from '@/common/ButtonBack.common'
+import { User } from '@/interface/friend_response'
+import useFriend from '@/hooks/useFriend'
+import { FriendList } from '@/interface/friendList_response'
 import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 const Friendlist: React.FC = () => {
+  const { friend } = useFriend()
+  const [userFriend, setUserFriend] = useState<User[]>(friend?.user || [])
   const navigation = useNavigation()
   const createListBottomSheetRef = useRef<BottomSheet>(null)
+  const updateListBottomSheetRef = useRef<BottomSheet>(null)
+
   const onCreateListPress = () => createListBottomSheetRef.current?.expand()
+  const [friendListName, setFriendListName] = useState('')
+  const [userInFriendList, setUserInFriendList] = useState<User[]>([])
+  const [friendListId, setFriendListId] = useState('')
+
+  const handlePressFriendList = (friendList: FriendList) => {
+    setFriendListName(friendList.name)
+    setFriendListId(friendList.friend_list_id)
+
+    const user: User[] = []
+    const friendId = friendList.friend_id.map(friend => friend.user_id)
+
+    userFriend.map(friend => {
+      if (friendId.includes(friend.user_id)) {
+        user.push(friend)
+      }
+    })
+    setUserInFriendList(user)
+
+    updateListBottomSheetRef.current?.expand()
+  }
+
+  useEffect(() => {
+    setUserFriend(friend?.user || [])
+  }, [friend])
+
   return (
-    <View style={styles.friendlist}>
-      <View style={styles.title}>
-        <View style={styles.friendlist1}>
-          <Text style={[styles.friendLists, styles.friendFlexBox]}>
-            Friend lists
+    <SafeAreaView style={{ flex: 1 }} edges={['right', 'top']}>
+      <View style={styles.layout}>
+        <View style={{ paddingHorizontal: 32 }}>
+          <ButtonBackCommon
+            text=""
+            handlePress={() => {
+              navigation.goBack()
+            }}
+          />
+        </View>
+
+        <View style={{ padding: 32 }}>
+          <View>
+            <Text style={styles.textTitleStyle}>Friend lists</Text>
+          </View>
+          <Text style={styles.textSubTitleStyle}>
+            Create your friend list to customize memory accessibility of you and
+            your friends.
           </Text>
         </View>
-        <Text style={[styles.createYourFriend, styles.friendFlexBox]}>
-          Create your friend list to customize memory accessibility of you and
-          your friends.
-        </Text>
+
+        <FriendlistContainer
+          onCreateListPress={onCreateListPress}
+          onFriendListPress={handlePressFriendList}
+        />
       </View>
-      <Pressable
-        style={styles.backToSetting}
-        onPress={() => navigation.navigate('SettingScreen' as never)}>
-        <View style={styles.iconContainer}>
-          <Arrowback />
-        </View>
-      </Pressable>
-      <FriendlistContainer onCreateListPress={onCreateListPress} />
+
       <SettingBottomSheetProvider
+        select_friendList_id={friendListId}
         createListBottomSheetRef={createListBottomSheetRef}
+        updateListBottomSheetRef={updateListBottomSheetRef}
+        friend={userFriend}
+        select_friendList_name={friendListName}
+        select_friendList_user={userInFriendList}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  friendFlexBox: {
-    textAlign: 'left',
-    color: themes.light.primary.hex
+  layout: {
+    flex: 1
   },
-  friendLists: {
-    top: 0,
-    left: 0,
-    fontSize: 20,
-    lineHeight: 23,
-    fontWeight: '600',
+  textTitleStyle: {
     fontFamily: themes.fonts.samiBold,
-    position: 'absolute'
+    fontSize: 22,
+    color: themes.light.primary.hex,
+    paddingBottom: 8
   },
-  friendlist1: {
-    width: 109,
-    height: 23
-  },
-  createYourFriend: {
-    fontSize: 12,
-    lineHeight: 15,
-    fontWeight: '300',
+  textSubTitleStyle: {
     fontFamily: themes.fonts.light,
+    fontSize: 14,
+    color: themes.light.primary.hex
     display: 'flex',
     alignItems: 'center',
     width: 301,

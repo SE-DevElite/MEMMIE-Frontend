@@ -1,16 +1,18 @@
-import React from 'react'
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ImageBackground, StyleSheet, View } from 'react-native'
 import { themes } from '@/common/themes/themes'
-import SoundIcon from '@/assets/svg/Sound'
 import MemoryCardTopRow from './MemoryCardTopRow'
-import MemoryCardBottomRow from './MemoryCardBottomRow'
+import profileStore from '@/stores/ProfileStore'
+import { observer } from 'mobx-react'
 
-const MemoryCardBody: React.FC = () => {
+const MemoryCardBody: React.FC = observer(() => {
+  const [imageShown, setImageShown] = useState('')
+
   return (
     <View style={memoryStyles.box}>
       <View style={memoryStyles.imageContainer}>
         <ImageBackground
-          source={require('@/assets/mocks/nut-ronan.png')}
+          source={require('@/assets/mocks/empty.png')}
           style={memoryStyles.imageBackground}>
           <View style={memoryStyles.overlayContainer}>
             <MemoryCardTopRow />
@@ -20,7 +22,7 @@ const MemoryCardBody: React.FC = () => {
       </View>
     </View>
   )
-}
+})
 
 export default MemoryCardBody
 

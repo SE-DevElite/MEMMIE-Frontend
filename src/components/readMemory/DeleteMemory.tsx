@@ -5,13 +5,12 @@ import ButtonLongCommon from '@/common/ButtonLong.common'
 import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import readMemoryStore from '@/stores/ReadMemoryStore'
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 interface Props {
   handleClose: () => void
   handleCloseReadMemory: () => void
 }
-
-const windowWidth = Dimensions.get('window').width
 
 const DeleteMemory: React.FC<Props> = props => {
   const { handleClose, handleCloseReadMemory } = props
@@ -53,14 +52,14 @@ const DeleteMemory: React.FC<Props> = props => {
             title="Delete"
             background_color="#66023C"
             color="#ffffff"
-            width={windowWidth - 64}
+            width={WindowScreen.Width - WindowScreen.Width / 5.8}
             font_size={16}
           />
         )}
         <ButtonLongCommon
           onPress={handleClose}
           title="Cancel"
-          width={windowWidth - 64}
+          width={WindowScreen.Width - WindowScreen.Width / 5.8}
           font_size={16}
           fonts="normal"
         />

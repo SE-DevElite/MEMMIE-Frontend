@@ -1,17 +1,10 @@
 import React, { useState } from 'react'
-import {
-  View,
-  StyleSheet,
-  ImageBackground,
-  Modal,
-  Dimensions
-} from 'react-native'
+import { View, StyleSheet, ImageBackground } from 'react-native'
 import { observer } from 'mobx-react'
 import { ScrollView } from 'react-native-gesture-handler'
 import { themes } from '@/common/themes/themes'
 import readMemoryStore from '@/stores/ReadMemoryStore'
-
-const windowWidth = Dimensions.get('window').width
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 interface Props {}
 
@@ -58,7 +51,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red'
   },
   flexChild: {
-    width: windowWidth - windowWidth / 5.8,
+    width: WindowScreen.Width - WindowScreen.Width / 5.8,
     height: 250,
     borderRadius: 30,
     overflow: 'hidden',

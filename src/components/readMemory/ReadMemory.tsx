@@ -1,6 +1,6 @@
 import React from 'react'
 import { themes } from '@/common/themes/themes'
-import { Dimensions, StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import ButtonLongCommon from '@/common/ButtonLong.common'
 import ReadMemoryDayAndMood from './ReadMemoryDayAndMood'
 import ReadMemoryTime from './ReadMemoryTime'
@@ -11,15 +11,13 @@ import editMemoryStore from '@/stores/EditMemoryStore'
 import readMemoryStore from '@/stores/ReadMemoryStore'
 import { AntDesign } from '@expo/vector-icons'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 interface Props {
   onEditMemoryPress: () => void
   onDeleteMemoryPress: () => void
   handleReadPinPlace: () => void
 }
-
-const width = Dimensions.get('window').width
-const height = Dimensions.get('window').height
 
 const ReadMemory: React.FC<Props> = observer(props => {
   const { onEditMemoryPress, onDeleteMemoryPress, handleReadPinPlace } = props
@@ -51,7 +49,7 @@ const ReadMemory: React.FC<Props> = observer(props => {
         <View
           style={{
             paddingVertical: 10,
-            height: height / 2.35 + 30
+            height: WindowScreen.Height / 2.9 + WindowScreen.Height / 11.6
           }}>
           <ScrollView>
             <ReadMemoryForm />
@@ -71,7 +69,7 @@ const ReadMemory: React.FC<Props> = observer(props => {
             onPress={() => {
               onDeleteMemoryPress()
             }}
-            width={width / 2 - 35}
+            width={WindowScreen.Width / 2 - WindowScreen.Width / 11.8}
             height={40}
             background_color={'#D9D9D9'}
             color="#848484"
@@ -81,7 +79,7 @@ const ReadMemory: React.FC<Props> = observer(props => {
           <ButtonLongCommon
             title={'Edit'}
             onPress={onPressEdit}
-            width={width / 2 - 35}
+            width={WindowScreen.Width / 2 - WindowScreen.Width / 11.8}
             height={40}
             background_color={'#FFEAF2'}
             color="#66023C"

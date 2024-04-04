@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { StyleSheet, Pressable, View } from 'react-native'
 import EmailContainer from '@/components/setting/EmailContainer'
-import { useNavigation, ParamListBase } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import Arrowback from '@/assets/svg/Arrowback'
 import { themes } from '@/common/themes/themes'
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 const EmailScreen: React.FC = () => {
   const navigation = useNavigation()
@@ -28,9 +29,8 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   backToSetting: {
-    position: 'absolute',
-    left: 16,
-    top: 59,
+    left: WindowScreen.Width / 23.2,
+    top: WindowScreen.Height / 7.4 - WindowScreen.Height,
     width: 61,
     height: 61,
     borderRadius: 30.5,

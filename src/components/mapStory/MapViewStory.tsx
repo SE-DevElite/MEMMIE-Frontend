@@ -3,7 +3,7 @@ import { Platform } from 'react-native'
 import * as Location from 'expo-location'
 import profileStore from '@/stores/ProfileStore'
 import React, { useEffect, useState } from 'react'
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
+import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps'
 import CustomMarker from '@/components/mapStory/CustomMarker'
 import { mergeDataByCoordinates } from '@/helpers/MergeDataByCoordinates'
 
@@ -15,11 +15,21 @@ type MapStoryData = {
     longitude: number
   }
 }
+type CordinatesType = {
+  latitude: number
+  longitude: number
+}
+interface Props {
+  coordinates: CordinatesType
+  handleCordinates: (cor: CordinatesType) => void
+}
 
-const MapViewStory: React.FC = observer(() => {
+const MapViewStory: React.FC<Props> = observer(props => {
+  const { coordinates, handleCordinates } = props
   const ref = React.useRef<MapView>(null)
   const [initMapStoryData, setInitMapStoryData] = useState<MapStoryData[]>([])
   const [data, setData] = useState<MapStoryData[]>([])
+  const [region, setRegion] = useState<Region>()
 
   useEffect(() => {
     const res = profileStore.initMapStory()
@@ -54,14 +64,35 @@ const MapViewStory: React.FC = observer(() => {
       setInitialRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        // latitudeDelta: 0.0922,
-        // longitudeDelta: 0.0421
         latitudeDelta: 0.005,
         longitudeDelta: 0.005
       })
     }
     getLocation()
   }, [])
+
+  useEffect(() => {
+    // handleCoordinatesChange();
+    if (coordinates) {
+      setInitialRegion({
+        // latitude: coordinates.latitude,
+        latitude: 0,
+        // longitude: coordinates.longitude,
+        longitude: 0,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      });
+
+      setRegion({
+        latitude: coordinates[0] as number,
+        longitude: coordinates[1] as number,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
+      })
+      console.log("coor: ", coordinates);
+    }
+  }, [coordinates]);
+
 
   return (
     <>
@@ -70,17 +101,13 @@ const MapViewStory: React.FC = observer(() => {
         mapType={Platform.OS == 'android' ? 'none' : 'standard'}
         style={{ width: '100%', height: '100%' }}
         maxZoomLevel={20}
-        // initialRegion={{
-        //   latitude: 13.736717,
-        //   longitude: 100.523186,
-        //   latitudeDelta: 0.0922,
-        //   longitudeDelta: 0.0421
-        // }}
         initialRegion={initialRegion}
-        // showsUserLocation={true}
+        region={region}
+        showsUserLocation={true}
         zoomEnabled={true}
         followsUserLocation={true}
         onRegionChangeComplete={handleRegionChange}
+        onResponderMove={() => { }}
         ref={ref}>
         {data.map(marker => (
           <CustomMarker

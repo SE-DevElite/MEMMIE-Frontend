@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { View, StyleSheet, Dimensions } from 'react-native'
+import React, { useRef, useState } from 'react'
+import { View, StyleSheet, Dimensions, Keyboard } from 'react-native'
 import UserHeading from '@/components/home/topContainer/UserHeading'
 import MapViewStory from '@/components/mapStory/MapViewStory'
 import { useNavigation } from '@react-navigation/native'
@@ -10,11 +10,29 @@ import { observer } from 'mobx-react'
 import profileStore from '@/stores/ProfileStore'
 
 const MapStoryScreen: React.FC = observer(props => {
+import { WindowScreen } from '@/common/consts/ConfigScreen'
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
+
+interface MapStoryScreenProps {
+  avatar: string
+  username: string
+}
+type CordinatesType = {
+  latitude: number
+  longitude: number
+}
+const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
+  const { avatar, username } = props
+  const [coordinates, setCoordinates] = useState<CordinatesType>()
   const navigation = useNavigation()
   const filterMapBottomSheetRef = useRef<BottomSheet>(null)
 
+  const handleCordinates = (cornate: CordinatesType) => {
+    setCoordinates(cornate)
+  }
+
   return (
-    <View>
+    <TouchableOpacity onPress={() => { Keyboard.dismiss() }}>
       <View style={styles.userHeading}>
         <UserHeading
           onPressAvatar={() => navigation.navigate('ProfileScreen' as never)}
@@ -24,20 +42,19 @@ const MapStoryScreen: React.FC = observer(props => {
       </View>
       <MapSearchBar
         handleOpenMapFilter={() => filterMapBottomSheetRef.current?.expand()}
-        handleCloseBottomSheet={() => {}}
+        handleCloseBottomSheet={() => { }}
+        handleCordinates={handleCordinates}
       />
-      <MapViewStory />
+      <MapViewStory coordinates={coordinates} handleCordinates={handleCordinates} />
 
       <MapStoryBottomSheetProvider
         filterMapBottomSheetRef={filterMapBottomSheetRef}
       />
-    </View>
+    </TouchableOpacity>
   )
 })
 
 export default MapStoryScreen
-
-const windowWidth = Dimensions.get('window').width
 
 const styles = StyleSheet.create({
   container: {
@@ -48,6 +65,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     top: 30,
-    left: windowWidth / 2 - 175
+    left: WindowScreen.Width / 2 - (WindowScreen.Width / 11.6) * 4.9
   }
 })

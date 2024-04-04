@@ -13,8 +13,6 @@ interface Props {
   image: string
   name: string
   username: string
-
-  // onPress: () => void
 }
 
 const SelectFriendList: React.FC<Props> = props => {

@@ -10,6 +10,7 @@ import ButtonBackCommon from '@/common/ButtonBack.common'
 import { User } from '@/interface/friend_response'
 import useFriend from '@/hooks/useFriend'
 import { FriendList } from '@/interface/friendList_response'
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 const Friendlist: React.FC = () => {
   const { friend } = useFriend()
@@ -98,6 +99,39 @@ const styles = StyleSheet.create({
     fontFamily: themes.fonts.light,
     fontSize: 14,
     color: themes.light.primary.hex
+    display: 'flex',
+    alignItems: 'center',
+    width: 301,
+    marginTop: 8
+  },
+  title: {
+    top: 152,
+    left: 35,
+    position: 'absolute'
+  },
+  icon: {
+    height: '100%',
+    width: '100%'
+  },
+  backToSetting: {
+    left: WindowScreen.Width / 23.2,
+    top: WindowScreen.Height / 7.4 - WindowScreen.Height,
+    width: 61,
+    height: 61,
+    borderRadius: 30.5,
+    backgroundColor: themes.light.tertiary.hex
+  },
+  iconContainer: {
+    width: 61,
+    height: 61,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  friendlist: {
+    flex: 1,
+    height: 812,
+    overflow: 'hidden',
+    width: '100%'
   }
 })
 

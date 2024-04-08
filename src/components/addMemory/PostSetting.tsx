@@ -51,6 +51,7 @@ const PostSetting: React.FC = () => {
   useEffect(() => {
     addMemoryStore.privacy = active.title
     addMemoryStore.privacyDto = active.value
+    addMemoryStore.friend_list_id = active.id
   }, [active])
 
   return (

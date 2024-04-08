@@ -9,12 +9,29 @@ import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import { FriendResponse, User } from '@/interface/friend_response'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
-const SelectFriend: React.FC = () => {
+interface Props {
+  closeSheet: () => void
+}
+
+const SelectFriend: React.FC<Props> = props => {
+  const { closeSheet } = props
+
   const { friend } = useFriend()
   const [friendName, setFriendName] = useState<string>('')
   const [allFriend, setAllFriend] = useState<User[]>([])
   const [refreshing, setRefreshing] = useState(false)
+
+  const [selectFriendMention, setSelectFriendMention] = useState<string[]>([])
+
+  const handleFriendMention = (id: string) => {
+    if (selectFriendMention.includes(id)) {
+      setSelectFriendMention(selectFriendMention.filter(item => item !== id))
+    } else {
+      setSelectFriendMention([...selectFriendMention, id])
+    }
+  }
 
   useEffect(() => {
     setAllFriend(friend?.user || [])
@@ -30,6 +47,12 @@ const SelectFriend: React.FC = () => {
     setAllFriend(res.user)
     setRefreshing(false)
   }, [])
+
+  const handleSubmit = () => {
+    addMemoryStore.mention = selectFriendMention
+
+    closeSheet()
+  }
 
   return (
     <View style={styles.container}>
@@ -69,16 +92,19 @@ const SelectFriend: React.FC = () => {
                 gap: 15
               }}>
               <SelectFriendList
+                id={friend.user_id}
                 image={friend.avatar}
                 name={friend.name}
                 username={friend.username}
+                isActive={selectFriendMention.includes(friend.user_id)}
+                onPress={handleFriendMention}
               />
             </View>
           ))}
         </ScrollView>
       </View>
 
-      <TouchableOpacity onPress={() => console.log('working')}>
+      <TouchableOpacity onPress={handleSubmit}>
         <View style={styles.doneButton}>
           <View style={styles.buttonBox}>
             <Text style={styles.buttonTextStyle}>Done</Text>

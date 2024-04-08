@@ -32,8 +32,10 @@ const SearchScreen: React.FC = () => {
     const token = await getAccessToken()
 
     const res = await RequestWithToken(token as string)
-      .get(`search/users?query=${searchValue}`)
+      .get(`search/users?query=${value}`)
       .then(res => res.data)
+
+    console.log(res, `search/users?query=${value}`)
 
     setUserValue(res as UserRoot[])
   }

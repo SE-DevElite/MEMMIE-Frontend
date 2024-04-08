@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-export const DEFAULT_URL =
-  'https://d06f-202-28-7-7.ngrok-free.app' + '/api'
+export const DEFAULT_URL = 'https://6b16-125-27-112-10.ngrok-free.app' + '/api'
 
 export const RequestWithToken = (accessToken: string) => {
   return axios.create({

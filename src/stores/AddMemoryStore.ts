@@ -32,7 +32,7 @@ class AddMemoryStore {
   lat: string = ''
   long: string = ''
   image_info: ImageInfo[] = []
-  friend_list_id: string[] = []
+  friend_list_id: string | null = null
   mention: string[] = []
 
   date_time: Date = currentTime
@@ -58,7 +58,7 @@ class AddMemoryStore {
     this.long = ''
     this.image_info = []
     this.date_time = currentTime
-    this.friend_list_id = []
+    this.friend_list_id = null
     this.mention = []
   }
 
@@ -184,7 +184,8 @@ class AddMemoryStore {
     const body = {
       short_caption: addMemoryStore.short_caption,
       caption: addMemoryStore.caption,
-      friend_list_id: this.privacy === 'general' ? this.friend_list_id : [],
+      friend_list_id:
+        this.privacyDto === 'general' ? this.friend_list_id : null,
       mood: MoodElement['Male'][addMemoryStore.mood].label.toLocaleLowerCase(),
       weather: WeatherElement[addMemoryStore.weather].label.toLocaleLowerCase(),
       day: DAY[addMemoryStore.date_time.getDay()].toLocaleLowerCase(),
@@ -192,9 +193,11 @@ class AddMemoryStore {
       location_name: addMemoryStore.location_name,
       lat: addMemoryStore.lat,
       long: addMemoryStore.long,
-      mention: [],
+      mention: this.mention,
       privacy: addMemoryStore.privacyDto
     }
+
+    console.log(body)
 
     const post_res = await RequestWithToken(access_token as string)
       .post('/memories/create', body)

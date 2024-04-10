@@ -5,11 +5,15 @@ import {
   Pressable,
   Image,
   ImageSourcePropType,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native'
 import NavArrowRight from '@/assets/svg/NavArrowRight'
 import { themes } from '@/common/themes/themes'
 import { useNavigation } from '@react-navigation/native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+
+const windowWidth = Dimensions.get('window').width
 
 const AccountContainer: React.FC = () => {
   const navigation = useNavigation()
@@ -20,7 +24,7 @@ const AccountContainer: React.FC = () => {
       <View style={styles.underline} />
       <View style={styles.list}>
         <View style={[styles.list1, styles.list1Position]}>
-          <Pressable
+          <TouchableOpacity
             style={styles.email}
             onPress={() => navigation.navigate('EmailScreen' as never)}>
             <View style={[styles.flexBox, styles.parentFlexBox]}>
@@ -32,8 +36,8 @@ const AccountContainer: React.FC = () => {
                 <NavArrowRight width={5} height={10} marginLeft={8} />
               </View>
             </View>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.dateOfBirth, styles.spaceBlock]}
             onPress={() => navigation.navigate('DateOfBirthScreen' as never)}>
             <View style={[styles.flexBox, styles.parentFlexBox]}>
@@ -47,29 +51,29 @@ const AccountContainer: React.FC = () => {
                 <NavArrowRight width={5} height={10} marginLeft={8} />
               </View>
             </View>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.password, styles.spaceBlock]}
             onPress={() => navigation.navigate('PasswordScreen' as never)}>
             <Text style={[styles.password1, styles.detailTypo]}>Password</Text>
             <NavArrowRight width={5} height={10} marginLeft={228} />
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.password, styles.spaceBlock]}
             onPress={() => navigation.navigate('LinkedAccountScreen' as never)}>
             <Text style={[styles.linkedAccounts, styles.detailTypo]}>
               Linked accounts
             </Text>
             <NavArrowRight width={5} height={10} marginLeft={183} />
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.password, styles.spaceBlock]}
             onPress={() => navigation.navigate('FriendlistScreen' as never)}>
             <Text style={[styles.password1, styles.detailTypo]}>
               Friendlist
             </Text>
             <NavArrowRight width={5} height={10} marginLeft={228} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

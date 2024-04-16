@@ -3,42 +3,55 @@ import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import PostSettingList from './PostSettingList'
 import addMemoryStore from '@/stores/AddMemoryStore'
+import useFriendList from '@/hooks/useFriendList'
 
 interface Setting {
   id: string
   title: string
+  value: string
 }
 
 const PostSetting: React.FC = () => {
+  const { friendList } = useFriendList()
+
   const [userFriendList, setUserFriendList] = useState<Setting[]>([])
   const [active, setActive] = useState<Setting>({
     id: '4c22ed6c-16a1-47dc-bf44-f1e2f8019e9d',
-    title: 'Only me'
+    title: 'Only me',
+    value: 'private'
   })
 
   const settings: Setting[] = [
     {
       id: '5678129f-5032-4eb5-97ab-8ef0899f5749',
-      title: 'Followers that you follow back'
+      title: 'Followers that you follow back',
+      value: 'public'
     },
     {
       id: '4c22ed6c-16a1-47dc-bf44-f1e2f8019e9d',
-      title: 'Only me'
+      title: 'Only me',
+      value: 'private'
     }
   ]
 
   useEffect(() => {
-    setUserFriendList([
-      { id: 'd356e1e4-afda-4035-8afa-48d8c309bb94', title: 'My boo' }
-    ])
-  }, [])
+    const data: Setting[] = friendList.map(friend => ({
+      id: friend.friend_list_id,
+      title: friend.name,
+      value: 'general'
+    }))
 
-  const handleActive = (id: string, title: string) => {
-    setActive({ id, title })
+    setUserFriendList(data)
+  }, [friendList])
+
+  const handleActive = (id: string, title: string, value: string) => {
+    setActive({ id, title, value: value })
   }
 
   useEffect(() => {
     addMemoryStore.privacy = active.title
+    addMemoryStore.privacyDto = active.value
+    addMemoryStore.friend_list_id = active.id
   }, [active])
 
   return (
@@ -56,7 +69,9 @@ const PostSetting: React.FC = () => {
             <PostSettingList
               key={setting.id}
               title={setting.title}
-              handleActive={() => handleActive(setting.id, setting.title)}
+              handleActive={() =>
+                handleActive(setting.id, setting.title, setting.value)
+              }
               active={active.id === setting.id}
             />
           ))}
@@ -69,7 +84,7 @@ const PostSetting: React.FC = () => {
           <PostSettingList
             key={item.id}
             title={item.title}
-            handleActive={() => handleActive(item.id, item.title)}
+            handleActive={() => handleActive(item.id, item.title, item.value)}
             active={active.id === item.id}
           />
         ))}

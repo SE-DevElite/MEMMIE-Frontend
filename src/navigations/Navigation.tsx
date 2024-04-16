@@ -10,15 +10,17 @@ import PasswordScreen from '@/screens/setting/PasswordScreen'
 import LinkAccount from '@/screens/setting/LinkedAccountScreen'
 import Friendlist from '@/screens/setting/FriendlistScreen'
 import CreateList from '@/components/setting/CreateList'
-import SettingBottomSheetProvider from '@/screens/setting/SettingBottomSheetProvider'
 import PushNotificationScreen from '@/screens/setting/PushNotificationScreen'
 import WidgetScreen from '@/screens/setting/WidgetScreen'
 import ReportScreen from '@/screens/setting/ReportScreen'
 import SupportScreen from '@/screens/setting/SupportScreen'
 import TermsScreen from '@/screens/setting/TermsScreen'
+import SearchScreen from '@/screens/SearchScreen'
+import FindFriendScreen from '@/screens/FindFriendScreen'
 import useWelcomeScreen from '@/hooks/useWelcomeScreen'
 import { useState } from 'react'
 import MapStoryScreen from '@/screens/MapStoryScreen'
+import FriendProfileScreen from '@/screens/FriendProfile'
 import LockScreenWidget from '@/screens/setting/LockScreenWidget'
 
 const Stack = createNativeStackNavigator()
@@ -41,7 +43,6 @@ const AppNavigator = () => {
       <Stack.Screen name="PasswordScreen" component={PasswordScreen} />
       <Stack.Screen name="LinkedAccountScreen" component={LinkAccount} />
       <Stack.Screen name="FriendlistScreen" component={Friendlist} />
-      <Stack.Screen name="CreateList" component={CreateList} />
       <Stack.Screen
         name="PushNotificationScreen"
         component={PushNotificationScreen}
@@ -50,7 +51,13 @@ const AppNavigator = () => {
       <Stack.Screen name="ReportScreen" component={ReportScreen} />
       <Stack.Screen name="SupportScreen" component={SupportScreen} />
       <Stack.Screen name="TermsScreen" component={TermsScreen} />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen name="FindFriendScreen" component={FindFriendScreen} />
       <Stack.Screen name="MapStoryScreen" component={MapStoryScreen} />
+      <Stack.Screen
+        name="FriendProfileScreen"
+        component={FriendProfileScreen}
+      />
       <Stack.Screen name="LockScreenWidget" component={LockScreenWidget}/>
     </Stack.Navigator>
   )

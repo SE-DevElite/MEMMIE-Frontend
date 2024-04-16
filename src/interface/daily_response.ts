@@ -25,6 +25,7 @@ export interface Memory {
   short_caption: string
   created_at: string
   updated_at: string
+  privacy: string
   memory_lists: MemoryList[]
 }
 

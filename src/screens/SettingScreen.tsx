@@ -4,6 +4,7 @@ import styled from 'styled-components/native'
 import { useNavigation } from '@react-navigation/native'
 import { themes } from '@/common/themes/themes'
 import SettingPanel from '@/components/setting/SettingPanel'
+import BottomNavigation from '@/common/BottomNavigation.common'
 
 const SettingScreen: React.FC = () => {
   const navigation = useNavigation()
@@ -16,6 +17,9 @@ const SettingScreen: React.FC = () => {
           <SettingPanel />
         </View>
       </ScrollView>
+      <View style={styles.bottomNavigation}>
+        <BottomNavigation curr_idx={3} />
+      </View>
     </SafeAreaView>
   )
 }
@@ -37,5 +41,12 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     color: themes.light.primary.hex,
     paddingLeft: 30
+  },
+  bottomNavigation: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    bottom: 30,
+    paddingHorizontal: 16
   }
 })

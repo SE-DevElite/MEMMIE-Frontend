@@ -156,7 +156,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       <LongBottomSheetCommon
         ref={selectFriendBottomSheetRef}
         snapPoint={['50%', '70%']}>
-        <SelectFriend />
+        <SelectFriend
+          closeSheet={() => selectFriendBottomSheetRef.current?.close()}
+        />
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={readMemoryBottomSheetRef}>
@@ -230,7 +232,11 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       </LongBottomSheetCommon>
 
       <LongBottomSheetCommon ref={albumListBottomSheetRef}>
-        <AlbumIndividual />
+        <AlbumIndividual
+          handleCloseBottomSheet={() =>
+            albumListBottomSheetRef.current?.close()
+          }
+        />
       </LongBottomSheetCommon>
     </>
   )

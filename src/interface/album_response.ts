@@ -30,4 +30,5 @@ export interface Memory {
   created_at: string
   updated_at: string
   memory_lists: string
+  privacy: string
 }

@@ -83,8 +83,6 @@ const MapStoryBottomSheetProvider: React.FC<Props> = props => {
       params['weather'] = weatherValue
     }
 
-    console.log(params)
-
     const res: MemoryResponse = await RequestWithToken(token as string)
       .get('/memories/filter', { params })
       .then(res => res.data)
@@ -92,7 +90,6 @@ const MapStoryBottomSheetProvider: React.FC<Props> = props => {
         console.log(err)
       })
 
-    console.log(res.memory)
     profileStore.memory_mapStory = res.memory
     filterMapBottomSheetRef.current?.close()
     setWaitApplyingFilter(false)

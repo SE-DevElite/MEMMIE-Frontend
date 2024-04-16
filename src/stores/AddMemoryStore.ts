@@ -25,12 +25,15 @@ class AddMemoryStore {
   short_caption: string = ''
   caption: string = ''
   privacy: string = 'public'
+  privacyDto: string = 'public'
   hours: number = currentTime.getHours()
   minutes: number = currentTime.getMinutes()
   location_name: string = ''
   lat: string = ''
   long: string = ''
   image_info: ImageInfo[] = []
+  friend_list_id: string | null = null
+  mention: string[] = []
 
   date_time: Date = currentTime
   constructor() {
@@ -47,7 +50,7 @@ class AddMemoryStore {
     this.mood = 0
     this.short_caption = ''
     this.caption = ''
-    this.privacy = 'public'
+    this.privacyDto = 'public'
     this.hours = currentTime.getHours()
     this.minutes = currentTime.getMinutes()
     this.location_name = ''
@@ -55,6 +58,8 @@ class AddMemoryStore {
     this.long = ''
     this.image_info = []
     this.date_time = currentTime
+    this.friend_list_id = null
+    this.mention = []
   }
 
   @action
@@ -179,7 +184,8 @@ class AddMemoryStore {
     const body = {
       short_caption: addMemoryStore.short_caption,
       caption: addMemoryStore.caption,
-      friend_list_id: '',
+      friend_list_id:
+        this.privacyDto === 'general' ? this.friend_list_id : null,
       mood: MoodElement['Male'][addMemoryStore.mood].label.toLocaleLowerCase(),
       weather: WeatherElement[addMemoryStore.weather].label.toLocaleLowerCase(),
       day: DAY[addMemoryStore.date_time.getDay()].toLocaleLowerCase(),
@@ -187,8 +193,12 @@ class AddMemoryStore {
       location_name: addMemoryStore.location_name,
       lat: addMemoryStore.lat,
       long: addMemoryStore.long,
-      mention: []
+      mention: this.mention,
+      privacy: addMemoryStore.privacyDto
     }
+
+    console.log(body)
+
     const post_res = await RequestWithToken(access_token as string)
       .post('/memories/create', body)
       .then(res => res.data)
@@ -199,6 +209,7 @@ class AddMemoryStore {
       .post(`/memories/upload/${memory_id}`, formData)
       .then(res => res.data)
     this.clearState()
+
     return upload_res
   }
 }

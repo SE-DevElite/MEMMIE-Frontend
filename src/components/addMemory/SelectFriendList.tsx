@@ -10,32 +10,40 @@ import {
 import CheckboxCommon from '@/common/Checkbox.common'
 
 interface Props {
-  image: NodeRequire
+  id: string
+  image: string
   name: string
   username: string
-
-  // onPress: () => void
+  onPress: (id: string) => void
+  isActive: boolean
 }
 
 const SelectFriendList: React.FC<Props> = props => {
-  const { image, name, username } = props
-  const [active, setActive] = useState<boolean>(false)
+  const { id, image, name, username, isActive, onPress } = props
+  const [active, setActive] = useState<boolean>(isActive)
 
-  const handlePress = () => {
-    console.log('press')
+  const handlePress = (id: string) => {
     setActive(!active)
+    onPress(id)
   }
 
   return (
-    <TouchableWithoutFeedback onPress={handlePress}>
+    <TouchableWithoutFeedback onPress={() => handlePress(id)}>
       <View style={styles.container}>
-        <View>{/* <Image style={styles.imageStyle} source={image} /> */}</View>
+        <View>
+          <Image
+            style={styles.imageStyle}
+            source={{
+              uri: image
+            }}
+          />
+        </View>
         <View style={{ width: '70%' }}>
           <Text style={styles.nameStyle}>{name}</Text>
           <Text style={styles.usernameStyle}>{username}</Text>
         </View>
         <View>
-          <CheckboxCommon active={active} />
+          <CheckboxCommon active={isActive} />
         </View>
       </View>
     </TouchableWithoutFeedback>

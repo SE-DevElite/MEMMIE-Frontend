@@ -15,8 +15,7 @@ import XcloseIcon from '@/assets/svg/Xclose'
 import uuid from 'react-native-uuid'
 import { observer } from 'mobx-react'
 import editMemoryStore from '@/stores/EditMemoryStore'
-
-const windowWidth = Dimensions.get('window').width
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 const EditMemoryUploadImage: React.FC = observer(() => {
   const pickImage = async () => {
@@ -29,7 +28,7 @@ const EditMemoryUploadImage: React.FC = observer(() => {
     if (!result.canceled && editMemoryStore.memory_lists.length < 10) {
       editMemoryStore.memory_lists = [
         {
-          created_at: new Date().toString(),
+          // created_at: new Date().toString(),
           memory_url: result.assets[0].uri as string,
           memory_list_id: uuid.v4() as string
         },
@@ -96,8 +95,8 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red'
   },
   flexChild: {
-    width: windowWidth - windowWidth / 5.8,
-    height: 190,
+    width: WindowScreen.Width - WindowScreen.Width / 5.8,
+    height: 250,
     borderRadius: 30,
     overflow: 'hidden',
     backgroundColor: themes.light.tertiary.hex,
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5
   },
   imageStyle: {
-    minHeight: 190,
+    minHeight: 250,
     backgroundColor: themes.light.tertiary.hex,
     resizeMode: 'cover',
     borderRadius: 30

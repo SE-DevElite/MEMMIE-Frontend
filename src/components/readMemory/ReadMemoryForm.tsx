@@ -70,7 +70,8 @@ export default ReadMemoryForm
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    gap: 10
+    gap: 10,
+    paddingBottom: 10
   },
   iconContainer: {},
   icon: {

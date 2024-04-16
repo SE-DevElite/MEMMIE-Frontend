@@ -13,7 +13,7 @@ class ProfileStore {
   memories: Memory[] = []
   memory_mapStory: Memory[] = []
   currentScreen: string = 'HomeScreen'
-
+  streak: number = 0
   constructor() {
     makeAutoObservable(this)
   }
@@ -27,6 +27,8 @@ class ProfileStore {
     this.gender = data.user.gender
     this.avatar = data.user.avatar
     this.albums = data.user.albums
+
+    this.streak = data.streak
   }
 
   @action

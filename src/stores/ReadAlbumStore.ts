@@ -21,12 +21,19 @@ class ReadAlbumStore {
       memory => memory.memory_id === memory_id
     )
 
-    if (memory && this.updatedAlbum) {
-      this.updatedAlbum.memories = this.updatedAlbum?.memories.filter(
+    if (!memory) {
+      const point_mem = this.pickedAlbum?.memories.find(
+        memory => memory.memory_id === memory_id
+      )
+      this.updatedAlbum?.memories.push(point_mem as Memory)
+
+      return
+    }
+
+    if (this.updatedAlbum?.memories) {
+      this.updatedAlbum.memories = this.updatedAlbum.memories.filter(
         memory => memory.memory_id !== memory_id
       )
-    } else {
-      // this.updatedAlbum?.memories.push(memory as Memory)
     }
   }
 
@@ -47,7 +54,19 @@ class ReadAlbumStore {
 
   @action
   async updateAlbum() {
-    console.log(this.updatedAlbum)
+    // album_name tag memory
+
+    const token = await getAccessToken()
+
+    const body = {
+      album_name: this.updatedAlbum?.album_name,
+      tags: this.updatedAlbum?.tag_name,
+      memories: this.updatedAlbum?.memories.map(memory => memory.memory_id)
+    }
+
+    const res = await RequestWithToken(token as string)
+      .patch(`/albums/update/${this.updatedAlbum?.album_id}`, body)
+      .then(res => res.data)
   }
 }
 

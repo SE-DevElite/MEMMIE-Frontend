@@ -1,6 +1,6 @@
 import React from 'react'
 import { themes } from '@/common/themes/themes'
-import { Dimensions, StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import ButtonLongCommon from '@/common/ButtonLong.common'
 import ReadMemoryDayAndMood from './ReadMemoryDayAndMood'
 import ReadMemoryTime from './ReadMemoryTime'
@@ -10,15 +10,14 @@ import { observer } from 'mobx-react'
 import editMemoryStore from '@/stores/EditMemoryStore'
 import readMemoryStore from '@/stores/ReadMemoryStore'
 import { AntDesign } from '@expo/vector-icons'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 interface Props {
   onEditMemoryPress: () => void
   onDeleteMemoryPress: () => void
   handleReadPinPlace: () => void
 }
-
-const width = Dimensions.get('window').width
 
 const ReadMemory: React.FC<Props> = observer(props => {
   const { onEditMemoryPress, onDeleteMemoryPress, handleReadPinPlace } = props
@@ -47,22 +46,30 @@ const ReadMemory: React.FC<Props> = observer(props => {
       <View style={{ paddingHorizontal: 30, gap: 20, flexDirection: 'column' }}>
         <ReadMemoryDayAndMood handleReadPinPlace={handleReadPinPlace} />
         <ReadMemoryTime />
-        <ReadMemoryForm />
-        <ReadMemoryImage />
+        <View
+          style={{
+            paddingVertical: 10,
+            height: WindowScreen.Height / 2.9 + WindowScreen.Height / 11.6
+          }}>
+          <ScrollView>
+            <ReadMemoryForm />
+            <ReadMemoryImage />
+          </ScrollView>
+        </View>
         <View
           style={{
             flex: 1,
-            backgroundColor: themes.light.tertiary.hex,
+            // backgroundColor: themes.light.tertiary.hex,
             justifyContent: 'space-between',
             flexDirection: 'row'
-            // paddingHorizontal: 30
+            // paddingTop: 30
           }}>
           <ButtonLongCommon
             title={'Delete'}
             onPress={() => {
               onDeleteMemoryPress()
             }}
-            width={width / 2 - 35}
+            width={WindowScreen.Width / 2 - WindowScreen.Width / 11.8}
             height={40}
             background_color={'#D9D9D9'}
             color="#848484"
@@ -72,7 +79,7 @@ const ReadMemory: React.FC<Props> = observer(props => {
           <ButtonLongCommon
             title={'Edit'}
             onPress={onPressEdit}
-            width={width / 2 - 35}
+            width={WindowScreen.Width / 2 - WindowScreen.Width / 11.8}
             height={40}
             background_color={'#FFEAF2'}
             color="#66023C"
@@ -82,7 +89,7 @@ const ReadMemory: React.FC<Props> = observer(props => {
         </View>
         <View
           style={{
-            marginTop: 90,
+            marginTop: 60,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
@@ -125,7 +132,6 @@ const ReadMemory: React.FC<Props> = observer(props => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* Edit and Delete */}
     </View>
   )
 })

@@ -7,10 +7,12 @@ import * as Linking from 'expo-linking'
 import { saveAccessToken } from '@/helpers/TokenHandler'
 import { useNavigation } from '@react-navigation/native'
 
+
 const ButtonGroupService: React.FC = () => {
   const navigation = useNavigation()
 
   const handleGoogleSignIn = async () => {
+
     const redirectUrl = Linking.makeUrl('')
     const authUrl = `${DEFAULT_URL}/auth/google/redirect`
 
@@ -18,7 +20,8 @@ const ButtonGroupService: React.FC = () => {
 
     if (result.type === 'success') {
       const access_token = result.url.split('?')[1].split('=')[1]
-
+      
+      
       if (access_token) {
         saveAccessToken(access_token)
         navigation.navigate('HomeScreen' as never)

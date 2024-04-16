@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Text, StyleSheet, View, Pressable, Image } from 'react-native'
-import { useNavigation} from '@react-navigation/native'
-import { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import Arrowback from '@/assets/svg/Arrowback'
 import { themes } from '@/common/themes/themes'
 import WomanHappyIcon from '@/assets/svg/WomanHappy'
@@ -9,27 +8,14 @@ import WomanFunnyIcon from '@/assets/svg/WomanFunny'
 import WomanNahIcon from '@/assets/svg/WomanNah'
 import WomanSadIcon from '@/assets/svg/WomanSad'
 
-const WidgetScreen: React.FC = () => {
+const LockScreenWidget: React.FC = () => {
   const navigation = useNavigation()
-  const [isHomescreen, setIsHomescreen] = useState(true);
-
-  const toggleScreen = () => {
-    // console.log("home")
-    setIsHomescreen(!isHomescreen);
-    console.log("lock")
-  };
-  
   const MoodIcons = [
     WomanHappyIcon,
     WomanFunnyIcon,
     WomanNahIcon,
     WomanSadIcon
   ]
-
-  
-
-  
-
   return (
     <View style={styles.widget}>
       <View style={styles.title}>
@@ -52,69 +38,61 @@ const WidgetScreen: React.FC = () => {
       <View style={styles.widgetGroup}>
         <View style={[styles.groupHomescreen, styles.homescreenPosition]}>
           <View style={styles.groupHomescreenChild} />
-          
-          <Pressable onPress={toggleScreen}>
-            <Text style={[styles.lockscreen, styles.homescreenPosition]}>
-              Lockscreen
-            </Text>
-          </Pressable>
-          <Pressable onPress={toggleScreen} style={[styles.homescreen, styles.homescreenPosition]}>
-            <Text style={styles.lockscreenTypo}>
-              Homescreen
-            </Text>
-          </Pressable>
-          {isHomescreen ? (
-            <View style={styles.groupCard}>
-              <View style={styles.cardContainer}>
-                <View style={styles.random}>
-                  <Image
-                    style={[styles.randomChild, styles.childLayout]}
-                    resizeMode="cover"
-                    source={require('../../assets/mocks/widget1.png')}
-                  />
-                  <Text style={styles.random1}>Random</Text>
-                </View>
-                <View style={styles.todayMemory}>
-                  <Image
-                    style={[styles.randomChild, styles.childLayout]}
-                    resizeMode="cover"
-                    source={require('../../assets/mocks/widget2.png')}
-                  />
-                  <Text style={styles.random1}>Today memory</Text>
-                </View>
-              </View>
-              
-              <View style={styles.cardContainer}>
-                <View style={styles.todayMemory}>
+          <Text style={[styles.lockscreen, styles.homescreenPosition]}>
+            Lockscreen
+          </Text>
+          <View style={[styles.homescreen, styles.homescreenPosition]}>
+            <Text style={styles.lockscreenTypo}
+            onPress={() => navigation.navigate('WidgetScreen' as never)}
+            >Homescreen</Text>
+          </View>
+          <View style={styles.groupCard}>
+            <View style={styles.cardContainer}>
+              {/* <View style={styles.random}>
                 <Image
-                  style={[styles.radomChild, styles.childLayout]}
+                  style={[styles.randomChild, styles.childLayout]}
                   resizeMode="cover"
-                  source={require('../../assets/mocks/widget3.png')}
+                  source={require('../../assets/mocks/widget1.png')}
                 />
                 <Text style={styles.random1}>Random</Text>
               </View>
-              </View>
-              
-
               <View style={styles.todayMemory}>
                 <Image
-                  style={[styles.radomChild, styles.childLayout]}
+                  style={[styles.randomChild, styles.childLayout]}
                   resizeMode="cover"
-                  source={require('../../assets/mocks/widget4.png')}
+                  source={require('../../assets/mocks/widget2.png')}
                 />
                 <Text style={styles.random1}>Today memory</Text>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.groupCard2}>
+              </View> */}
               {MoodIcons.map((MoodIcons) => (
                 <View style={styles.moodIcon}>
                     <MoodIcons width={45} height={45} />
                 </View>
               ))}
-      
+              
             </View>
-          )}
+            
+            <View style={styles.cardContainer}>
+              <View style={styles.todayMemory}>
+              <Image
+                style={[styles.radomChild, styles.childLayout]}
+                resizeMode="cover"
+                source={require('../../assets/mocks/widget3.png')}
+              />
+              <Text style={styles.random1}>Random</Text>
+            </View>
+            </View>
+            
+
+            <View style={styles.todayMemory}>
+              <Image
+                style={[styles.radomChild, styles.childLayout]}
+                resizeMode="cover"
+                source={require('../../assets/mocks/widget4.png')}
+              />
+              <Text style={styles.random1}>Today memory</Text>
+            </View>
+          </View>
         </View>
       </View>
     </View>
@@ -193,8 +171,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: themes.light.secondary.hex,
     borderTopWidth: 1,
-    position: 'absolute',
-    
+    position: 'absolute'
   },
   lockscreen: {
     left: '38.13%',
@@ -205,6 +182,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: themes.light.primary.hex,
     
+    
   },
   homescreen: {
     height: '4.36%',
@@ -212,8 +190,7 @@ const styles = StyleSheet.create({
     right: '70.4%',
     bottom: '95.64%',
     left: '9.33%',
-    borderBottomWidth:2,
-    borderColor:themes.light.secondary.hex
+    
   },
   randomChild: {
     width: 122
@@ -237,17 +214,6 @@ const styles = StyleSheet.create({
     width: 260
   },
   groupCard: {
-    height: '92.6%',
-    width: '69.33%',
-    top: '7.4%',
-    right: '15.2%',
-    bottom: '0%',
-    left: '15.47%',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    position: 'absolute'
-  },
-  groupCard2: {
     height: '92.6%',
     width: '69.33%',
     top: '7.4%',
@@ -283,6 +249,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
+  moodContainer: {
+    // Add any additional styles for the container if needed
+  },
   moodIcon: {
     width: 60,
     height: 60,
@@ -294,4 +263,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default WidgetScreen
+export default LockScreenWidget

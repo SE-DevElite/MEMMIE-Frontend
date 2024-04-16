@@ -3,6 +3,7 @@ import { Album, ProfileResponse } from '@/interface/profile_response'
 import { action, makeAutoObservable } from 'mobx'
 
 class ProfileStore {
+  user_id: string = ''
   name: string = ''
   username: string = ''
   bio: string = ''
@@ -19,6 +20,7 @@ class ProfileStore {
 
   @action
   public profileInit = (data: ProfileResponse) => {
+    this.user_id = data.user.user_id
     this.name = data.user.name
     this.username = data.user.username
     this.bio = data.user.bio

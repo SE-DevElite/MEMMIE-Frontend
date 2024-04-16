@@ -21,6 +21,7 @@ import useWelcomeScreen from '@/hooks/useWelcomeScreen'
 import { useState } from 'react'
 import MapStoryScreen from '@/screens/MapStoryScreen'
 import FriendProfileScreen from '@/screens/FriendProfile'
+import LockScreenWidget from '@/screens/setting/LockScreenWidget'
 
 const Stack = createNativeStackNavigator()
 
@@ -57,6 +58,7 @@ const AppNavigator = () => {
         name="FriendProfileScreen"
         component={FriendProfileScreen}
       />
+      <Stack.Screen name="LockScreenWidget" component={LockScreenWidget}/>
     </Stack.Navigator>
   )
 }

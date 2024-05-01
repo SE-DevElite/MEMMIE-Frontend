@@ -18,7 +18,10 @@ const FollowButton: React.FC<Props> = props => {
         <View
           style={[
             styles.container,
-            { justifyContent: follow ? 'flex-start' : 'flex-end' }
+            {
+              justifyContent: follow ? 'flex-start' : 'flex-end',
+              backgroundColor: follow ? themes.light.secondary.hex : themes.light.tertiary.hex
+            }
           ]}>
           <View style={styles.circle}>
             <FollowFriendIcon />

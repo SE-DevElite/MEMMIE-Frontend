@@ -74,20 +74,21 @@ const MapViewStory: React.FC<Props> = observer(props => {
   useEffect(() => {
     // handleCoordinatesChange();
     if (coordinates) {
-      setInitialRegion({
-        // latitude: coordinates.latitude,
-        latitude: 0,
-        // longitude: coordinates.longitude,
-        longitude: 0,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
-      });
+      // setInitialRegion({
+      //   // latitude: coordinates.latitude,
+      //   latitude: 0,
+      //   // longitude: coordinates.longitude,
+      //   longitude: 0,
+      //   latitudeDelta: 0.005,
+      //   longitudeDelta: 0.005,
+      // });
 
       setRegion({
         latitude: coordinates[0] as number,
         longitude: coordinates[1] as number,
         latitudeDelta: 0.005,
         longitudeDelta: 0.005,
+
       })
       console.log("coor: ", coordinates);
     }

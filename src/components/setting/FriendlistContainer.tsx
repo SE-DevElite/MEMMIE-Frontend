@@ -26,14 +26,14 @@ const FriendlistContainer: React.FC<Props> = props => {
 
   return (
     <>
-      <Pressable onPress={onCreateListPress} style={{ paddingHorizontal: 32 }}>
+      <Pressable onPress={onCreateListPress} style={{ paddingHorizontal: 32, paddingRight: 52 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={[styles.ellipseParent, styles.listParentFlexBox]}>
             <View style={styles.ellipseFrame}>
               <Plus color="white" width={17} height={17} />
             </View>
           </View>
-          <View style={{ paddingLeft: 24, width: 240 }}>
+          <View style={{ paddingLeft: 24, paddingRight: 16, width: 240, flexGrow: 1 }}>
             <Text
               style={{
                 fontSize: 16,
@@ -51,7 +51,7 @@ const FriendlistContainer: React.FC<Props> = props => {
               With lists, you choose who gets to see each memory you share.
             </Text>
           </View>
-          <NavArrowRight height={16} width={8} marginLeft={39} />
+          <NavArrowRight height={16} width={16} marginLeft={39} />
         </View>
       </Pressable>
 

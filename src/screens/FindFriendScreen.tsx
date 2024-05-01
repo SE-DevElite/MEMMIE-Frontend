@@ -34,7 +34,7 @@ const FindFriendScreen: React.FC = () => {
           font_size={12}
           width={windowWidth / 1.475}
           height={45}
-          onPress={() => {}}
+          onPress={() => { }}
           background_color="white"
           color={themes.light.primary.hex}
           prefix_icon={Search}

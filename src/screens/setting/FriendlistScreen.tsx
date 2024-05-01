@@ -87,7 +87,8 @@ const Friendlist: React.FC = () => {
 
 const styles = StyleSheet.create({
   layout: {
-    flex: 1
+    flex: 1,
+
   },
   textTitleStyle: {
     fontFamily: themes.fonts.samiBold,
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   textSubTitleStyle: {
     fontFamily: themes.fonts.light,
     fontSize: 14,
-    color: themes.light.primary.hex
+    color: themes.light.primary.hex,
     display: 'flex',
     alignItems: 'center',
     width: 301,

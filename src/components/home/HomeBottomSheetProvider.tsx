@@ -250,7 +250,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
       <LongBottomSheetCommon snapPoint={['50%']} ref={editPostSettingRef}>
         <EditPostSetting />
       </LongBottomSheetCommon>
-      <LongBottomSheetCommon ref={editSelectFriendRef}>
+      <LongBottomSheetCommon
+        ref={editSelectFriendRef}
+        snapPoint={['50%', '70%']}>
         <EditSelectFriend
           closeSheet={() => editSelectFriendRef.current?.close()}
         />

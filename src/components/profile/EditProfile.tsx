@@ -21,6 +21,7 @@ interface Props {
   avatar: string
   handleChangeProfile: (key: string, value: string) => void
   handleClose: () => void
+  handleSave: () => void
 }
 
 const EditProfile: React.FC<Props> = props => {
@@ -32,7 +33,8 @@ const EditProfile: React.FC<Props> = props => {
     gender,
     avatar,
     handleChangeProfile,
-    handleClose
+    handleClose,
+    handleSave
   } = props
 
   const [waitState, setWaitState] = useState<boolean>(false)
@@ -54,6 +56,7 @@ const EditProfile: React.FC<Props> = props => {
 
   const handleSubmit = async () => {
     setWaitState(true)
+    handleSave()
     setWaitState(false)
   }
 
@@ -90,9 +93,9 @@ const EditProfile: React.FC<Props> = props => {
             width={70}
             height={70}
           />
-          <TouchableOpacity onPress={() => console.log('Edit picture')}>
+          {/* <TouchableOpacity onPress={() => console.log('Edit picture')}>
             <Text style={styles.editText}>Edit picture</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={styles.fieldsContainer}>

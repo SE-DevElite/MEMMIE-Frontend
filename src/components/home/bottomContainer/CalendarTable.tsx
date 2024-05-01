@@ -52,7 +52,6 @@ const CalendarTable: React.FC<Props> = observer(props => {
                           ? // ? onReadMemoryPress()
                             handleSelect(value)
                           : () => {}
-                        console.log(value.memories)
                       }}>
                       <View
                         style={{

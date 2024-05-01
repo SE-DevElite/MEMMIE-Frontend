@@ -18,6 +18,10 @@ interface Props {
 const Album: React.FC<Props> = props => {
   const { onAddAlbumPress } = props
 
+  const handleChangePicture = (id: string) => {
+    profileStore.currAlbumInit(id)
+  }
+
   return (
     <View style={styles.box}>
       <View style={styles.flex}>
@@ -34,7 +38,7 @@ const Album: React.FC<Props> = props => {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {profileStore.albums.map(album => (
             <TouchableWithoutFeedback
-              onPress={() => console.log(album.album_id)}
+              onPress={() => handleChangePicture(album.album_id)}
               key={album.album_id}>
               <View style={styles.albumContainer}>
                 <View style={styles.imageContainer}>

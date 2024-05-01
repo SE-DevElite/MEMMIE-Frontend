@@ -11,6 +11,8 @@ import CheckIcon from '@/assets/svg/Check'
 import { LONG_DAY_TO_SHORT, MONTH } from '@/common/consts/DateTime.consts'
 import { Memory } from '@/interface/album_response'
 import readAlbumStore from '@/stores/ReadAlbumStore'
+import { MoodElement } from '@/common/consts/MoodElement.consts'
+import { WeatherElement } from '@/common/consts/WeatherElement.consts'
 
 interface Props {
   memory: Memory
@@ -86,8 +88,20 @@ const Picture: React.FC<Props> = props => {
             ]}>
             {active && <CheckIcon />}
           </View>
-          <View style={[styles.dot, { top: 62 }]} />
-          <View style={[styles.dot, { top: 102 }]} />
+          <View style={[styles.dot, { top: 62 }]}>
+            {MoodElement.Male.map((mood, index) => {
+              if (mood.label.toLowerCase() === memory.mood) {
+                return mood.icon
+              }
+            })}
+          </View>
+          <View style={[styles.dot, { top: 102 }]}>
+            {WeatherElement.map((weather, index) => {
+              if (weather.label.toLowerCase() === memory.weather) {
+                return weather.icon
+              }
+            })}
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </>
@@ -130,7 +144,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     position: 'absolute',
     // backgroundColor: themes.light.tertiary.hex,
-    backgroundColor: 'white',
+    overflow: 'hidden',
     right: 12,
     justifyContent: 'center',
     alignItems: 'center'

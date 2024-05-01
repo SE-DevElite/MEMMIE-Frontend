@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Text, StyleSheet, View, Dimensions } from 'react-native'
+import { Text, StyleSheet, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import FriendlistContainer from '@/components/setting/FriendlistContainer'
 import { themes } from '@/common/themes/themes'
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   textSubTitleStyle: {
     fontFamily: themes.fonts.light,
     fontSize: 14,
-    color: themes.light.primary.hex
+    color: themes.light.primary.hex,
     display: 'flex',
     alignItems: 'center',
     width: 301,

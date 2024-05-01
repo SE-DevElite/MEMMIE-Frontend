@@ -40,19 +40,19 @@ const ReadMemoryForm: React.FC<Props> = observer(props => {
             <View style={styles.iconBackground}>
               <LanguageIcon width={15} height={15} />
             </View>
-            <Text style={styles.tagText}>Everyone</Text>
+            <Text style={styles.tagText} numberOfLines={1}>
+              {readMemoryStore.privacy}
+            </Text>
             <NavArrowDownIcon />
           </View>
 
-          <TouchableOpacity onPress={() => {}}>
-            <View style={styles.tag}>
-              <View style={styles.iconBackground}>
-                <FriendIcon width={15} height={15} />
-              </View>
-              <Text style={styles.tagText}>Friends</Text>
-              <NavArrowDownIcon />
+          <View style={styles.tag}>
+            <View style={styles.iconBackground}>
+              <FriendIcon width={15} height={15} />
             </View>
-          </TouchableOpacity>
+            <Text style={styles.tagText}>Friends</Text>
+            <NavArrowDownIcon />
+          </View>
         </View>
 
         <View style={styles.caption}>
@@ -130,7 +130,8 @@ const styles = StyleSheet.create({
   tagText: {
     fontFamily: themes.fonts.light,
     fontSize: 14,
-    color: themes.light.primary.hex
+    color: themes.light.primary.hex,
+    width: 72
   },
   caption: {},
   inputCaption: {

@@ -12,7 +12,6 @@ import {
 } from 'react-native'
 import profileStore from '@/stores/ProfileStore'
 import AvatarCommon from '@/common/Avatar.common'
-import addMemoryStore from '@/stores/AddMemoryStore'
 import { observer } from 'mobx-react'
 import editMemoryStore from '@/stores/EditMemoryStore'
 
@@ -72,7 +71,7 @@ const EditMemoryForm: React.FC<Props> = observer(props => {
                 style={{ ...styles.tagText, maxWidth: 110 }}
                 numberOfLines={1}
                 ellipsizeMode="tail">
-                {addMemoryStore.privacy}
+                {editMemoryStore.text_privacy}
               </Text>
               <NavArrowDownIcon />
             </View>

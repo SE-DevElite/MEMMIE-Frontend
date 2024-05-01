@@ -19,6 +19,8 @@ import EditMemoryPinPlace from '../EditMemory/EditMemoryPinplace'
 import MapSearchBar from '../mapStory/MapSearchBar'
 import FilterMap from '@/components/mapStory/FilterMap'
 import AlbumIndividual from '../readAlbum/AlbumIndividual'
+import EditPostSetting from '../EditMemory/EditPostSetting'
+import EditSelectFriend from '../EditMemory/EditSelectFriend'
 
 interface Props {
   addMemoryBottomSheetRef: React.RefObject<BottomSheetMethods>
@@ -57,6 +59,9 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
   const mapDateStartBottomSheetRef = useRef<BottomSheet>(null)
   const mapDateEndBottomSheetRef = useRef<BottomSheet>(null)
   const albumListBottomSheetRef = useRef<BottomSheet>(null)
+
+  const editSelectFriendRef = useRef<BottomSheet>(null)
+  const editPostSettingRef = useRef<BottomSheet>(null)
 
   const handleSaveDateRange = (selected_date: Date, type_filter: string) => {
     switch (type_filter) {
@@ -179,6 +184,8 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
           handleEditPinPlace={() =>
             editMemoryPinPlaceBottomSheetRef.current?.expand()
           }
+          handleOpenPostSetting={() => editPostSettingRef.current?.expand()}
+          handleOpenSelectFriend={() => editSelectFriendRef.current?.expand()}
         />
       </LongBottomSheetCommon>
 
@@ -236,6 +243,16 @@ const HomeBottomSheetProvider: React.FC<Props> = props => {
           handleCloseBottomSheet={() =>
             albumListBottomSheetRef.current?.close()
           }
+        />
+      </LongBottomSheetCommon>
+
+      {/* update friendlist and privacy */}
+      <LongBottomSheetCommon snapPoint={['50%']} ref={editPostSettingRef}>
+        <EditPostSetting />
+      </LongBottomSheetCommon>
+      <LongBottomSheetCommon ref={editSelectFriendRef}>
+        <EditSelectFriend
+          closeSheet={() => editSelectFriendRef.current?.close()}
         />
       </LongBottomSheetCommon>
     </>

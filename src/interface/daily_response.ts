@@ -1,3 +1,5 @@
+import { FriendList } from './friendList_response'
+
 export interface DailyResponse {
   timestamp: string
   version: string
@@ -27,6 +29,10 @@ export interface Memory {
   updated_at: string
   privacy: string
   memory_lists: MemoryList[]
+  friend_list: {
+    friend_list_id: string
+    name: string
+  }
 }
 
 export interface MemoryList {

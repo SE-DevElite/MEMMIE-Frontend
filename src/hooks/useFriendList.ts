@@ -14,8 +14,6 @@ const useFriendList = () => {
         .get('/friendlists/all')
         .then(res => res.data)
 
-      console.log(res)
-
       setFriendList(res.friend_list as FriendList[])
     }
 

@@ -21,6 +21,10 @@ export interface Memory {
   updated_at: string
   privacy: string
   memory_lists: MemoryList[]
+  friend_list: {
+    friend_list_id: string
+    name: string
+  }
 }
 
 export interface MemoryList {

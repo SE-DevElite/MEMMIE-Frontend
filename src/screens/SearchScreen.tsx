@@ -13,6 +13,7 @@ import useFeed from '@/hooks/useFeed'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import { RequestWithToken } from '@/api/DefaultRequest'
 import BottomNavigation from '@/common/BottomNavigation.common'
+import { themes } from '@/common/themes/themes'
 
 type UserRoot = {
   user_id: string
@@ -64,7 +65,11 @@ const SearchScreen: React.FC = () => {
                 onFocus={() => setIsSearch(true)}
               />
             </View>
-            {isSearch ? <Text>cancle</Text> : ''}
+            {isSearch ? (
+              <Text style={{ color: themes.light.primary.hex }}>cancel</Text>
+            ) : (
+              ''
+            )}
           </View>
         </View>
         {isSearch ? (

@@ -25,6 +25,9 @@ export interface Album {
   album_id: string
   album_name: string
   album_thumbnail: string
+  album_location_name: string
+  first_weather: string
+  first_mood: string
   created_at: string
   updated_at: string
   tags: Tag[]

@@ -34,8 +34,6 @@ const ListOfFriendList: React.FC<Props> = props => {
       `/friendlists/delete/${friendList_id}`
     )
 
-    console.log(res.data)
-
     if (res.status === 200) {
       setWaiting(false)
     }

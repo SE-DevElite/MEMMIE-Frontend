@@ -17,6 +17,12 @@ class ProfileStore {
     makeAutoObservable(this)
   }
 
+  curr_album: string | null = null
+  curr_album_location: string = ''
+  curr_album_create_at: Date = new Date()
+  curr_first_mood: string = ''
+  curr_first_weather: string = ''
+
   @action
   public profileInit = (data: ProfileResponse) => {
     this.name = data.user.name
@@ -26,7 +32,28 @@ class ProfileStore {
     this.avatar = data.user.avatar
     this.albums = data.user.albums
 
+    if (this.albums.length > 0) {
+      this.curr_album = this.albums[0].album_thumbnail
+      this.curr_album_location = this.albums[0].album_location_name
+      this.curr_album_create_at = new Date(this.albums[0].created_at)
+      this.curr_first_mood = this.albums[0].first_mood
+      this.curr_first_weather = this.albums[0].first_weather
+    }
+
     this.streak = data.streak
+  }
+
+  @action
+  public currAlbumInit = (data: string) => {
+    this.albums.forEach(album => {
+      if (album.album_id === data) {
+        this.curr_album = album.album_thumbnail
+        this.curr_album_location = album.album_location_name
+        this.curr_album_create_at = new Date(album.created_at)
+        this.curr_first_mood = album.first_mood
+        this.curr_first_weather = album.first_weather
+      }
+    })
   }
 
   @action
@@ -37,8 +64,6 @@ class ProfileStore {
 
   @action
   public initMapStory = () => {
-    console.log('this.memory_mapStory', this.memory_mapStory)
-
     return this.memory_mapStory.map(item => {
       return {
         id: item.memory_id,

@@ -60,7 +60,6 @@ const UpdateListFriendList: React.FC<Props> = props => {
       friendlist_name: listName,
       friendlist_id: selectedFriendList
     }
-    console.log(data)
 
     await RequestWithToken(token as string).patch(
       `/friendlists/update/${friendList_id}`,

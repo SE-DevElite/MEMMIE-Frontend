@@ -12,11 +12,10 @@ const MemoryCardBody: React.FC = observer(() => {
     <View style={memoryStyles.box}>
       <View style={memoryStyles.imageContainer}>
         <ImageBackground
-          source={require('@/assets/mocks/empty.png')}
+          source={{ uri: profileStore.curr_album as string }}
           style={memoryStyles.imageBackground}>
           <View style={memoryStyles.overlayContainer}>
             <MemoryCardTopRow />
-            {/* <MemoryCardBottomRow /> */}
           </View>
         </ImageBackground>
       </View>

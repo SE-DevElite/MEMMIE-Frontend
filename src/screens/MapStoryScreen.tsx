@@ -9,9 +9,11 @@ import MapStoryBottomSheetProvider from '@/components/mapStory/MapStoryBottomShe
 import { observer } from 'mobx-react'
 import profileStore from '@/stores/ProfileStore'
 
-const MapStoryScreen: React.FC = observer(props => {
 import { WindowScreen } from '@/common/consts/ConfigScreen'
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from 'react-native-gesture-handler'
 
 interface MapStoryScreenProps {
   avatar: string
@@ -32,7 +34,10 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
   }
 
   return (
-    <TouchableOpacity onPress={() => { Keyboard.dismiss() }}>
+    <TouchableOpacity
+      onPress={() => {
+        Keyboard.dismiss()
+      }}>
       <View style={styles.userHeading}>
         <UserHeading
           onPressAvatar={() => navigation.navigate('ProfileScreen' as never)}
@@ -42,17 +47,20 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
       </View>
       <MapSearchBar
         handleOpenMapFilter={() => filterMapBottomSheetRef.current?.expand()}
-        handleCloseBottomSheet={() => { }}
+        handleCloseBottomSheet={() => {}}
         handleCordinates={handleCordinates}
       />
-      <MapViewStory coordinates={coordinates} handleCordinates={handleCordinates} />
+      <MapViewStory
+        coordinates={coordinates}
+        handleCordinates={handleCordinates}
+      />
 
       <MapStoryBottomSheetProvider
         filterMapBottomSheetRef={filterMapBottomSheetRef}
       />
     </TouchableOpacity>
   )
-})
+}
 
 export default MapStoryScreen
 

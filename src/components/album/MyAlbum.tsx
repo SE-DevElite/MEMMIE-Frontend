@@ -38,8 +38,6 @@ const MyAlbum: React.FC<Props> = props => {
   const handleDelete = async (album_id: string) => {
     const token = await getAccessToken()
 
-    console.log(album_id)
-
     await RequestWithToken(token as string)
       .delete(`/albums/delete/${album_id}`)
       .then(res => {

@@ -1,11 +1,29 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import NavArrowRight from '@/assets/svg/NavArrowRight'
 import { themes } from '@/common/themes/themes'
 import { useNavigation } from '@react-navigation/native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import profileStore from '@/stores/ProfileStore'
+import { RequestWithToken } from '@/api/DefaultRequest'
+import { getAccessToken } from '@/helpers/TokenHandler'
 
 const AccountContainer: React.FC = () => {
+  const [email, setEmail] = React.useState('')
+
+  useEffect(() => {
+    async function getEmail() {
+      const token = await getAccessToken()
+      const res = await RequestWithToken(token as string)
+        .get('/auth/profile')
+        .then(res => res.data)
+
+      setEmail(res.email)
+    }
+
+    getEmail()
+  }, [])
+
   const navigation = useNavigation()
   return (
     <View style={styles.account}>
@@ -20,7 +38,7 @@ const AccountContainer: React.FC = () => {
               <Text style={[styles.email1, styles.detailTypo]}>Email</Text>
               <View style={[styles.mailParent, styles.parentFlexBox]}>
                 <Text style={[styles.exampleMail, styles.exampleTypo]}>
-                  Lo**m@gmail.com
+                  {email}
                 </Text>
                 <NavArrowRight width={5} height={10} marginLeft={8} />
               </View>
@@ -123,13 +141,13 @@ const styles = StyleSheet.create({
     top: 0
   },
   email1: {
-    width: 44
+    width: 40
   },
   exampleMail: {
-    width: 95
+    width: 150
   },
   mailParent: {
-    marginLeft: 156
+    marginLeft: 105
   },
   flexBox: {
     left: 0,

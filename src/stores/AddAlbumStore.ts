@@ -55,8 +55,6 @@ class AddAlbumStore {
       tags: this.tags.map(tag => tag.name)
     }
 
-    console.log(body)
-
     const res = await RequestWithToken(token as string)
       .post('/albums/create', body)
       .then(res => {

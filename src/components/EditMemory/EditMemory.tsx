@@ -13,10 +13,18 @@ import editMemoryStore from '@/stores/EditMemoryStore'
 interface Props {
   handleClose: () => void
   handleEditPinPlace: () => void
+
+  handleOpenPostSetting: () => void
+  handleOpenSelectFriend: () => void
 }
 
 const EditMemory: React.FC<Props> = observer(props => {
-  const { handleClose, handleEditPinPlace } = props
+  const {
+    handleClose,
+    handleEditPinPlace,
+    handleOpenPostSetting,
+    handleOpenSelectFriend
+  } = props
   const [waitState, setWaitState] = useState<boolean>(false)
 
   const handleSubmit = async () => {
@@ -76,15 +84,11 @@ const EditMemory: React.FC<Props> = observer(props => {
               <EditMemorySelectTime
                 handleEditDate={() => {}}
                 handleEditTime={() => {}}
-                // handleEditDate={handleEditDate}
-                // handleEditTime={handleEditTime}
               />
 
               <EditMemoryForm
-                handlePostSetting={() => {}}
-                handleSelectFriend={() => {}}
-                // handlePostSetting={handlePostSetting}
-                // handleSelectFriend={handleSelectFriend}
+                handlePostSetting={handleOpenPostSetting}
+                handleSelectFriend={handleOpenSelectFriend}
               />
             </View>
             <View style={{ flex: 1 }}>

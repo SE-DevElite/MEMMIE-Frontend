@@ -15,6 +15,8 @@ const currentTime: Date = new Date()
 let check: boolean = false
 
 class AddMemoryStore {
+  isAddMemory = false
+
   date: number = currentTime.getDate()
   month: number = currentTime.getMonth()
   year: number = currentTime.getFullYear()
@@ -196,8 +198,6 @@ class AddMemoryStore {
       mention: this.mention,
       privacy: addMemoryStore.privacyDto
     }
-
-    console.log(body)
 
     const post_res = await RequestWithToken(access_token as string)
       .post('/memories/create', body)

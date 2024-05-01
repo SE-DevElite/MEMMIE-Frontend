@@ -59,6 +59,13 @@ const HomeScreen: React.FC = observer(() => {
     addMemoryStore.date_time = new Date()
   }
 
+  useEffect(() => {
+    if (addMemoryStore.isAddMemory == true) {
+      addMemoryBottomSheetRef.current?.expand()
+      addMemoryStore.isAddMemory = false
+    }
+  }, [addMemoryStore.isAddMemory])
+
   const onRefresh = useCallback(async () => {
     addMemoryStore.select_month = MONTH[
       new Date().getMonth() as keyof typeof MONTH
@@ -70,6 +77,10 @@ const HomeScreen: React.FC = observer(() => {
     await getCalendar()
     setRefreshing(false)
   }, [])
+
+  const handleAddMemoryButton = () => {
+    addMemoryBottomSheetRef.current?.expand()
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={['right', 'top']}>

@@ -2,6 +2,8 @@ import * as React from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Svg, { G, Path, Circle, Defs } from 'react-native-svg'
+import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
+import addMemoryStore from '@/stores/AddMemoryStore'
 
 interface Props {
   curr_idx: number
@@ -24,7 +26,10 @@ const BottomNavigation: React.FC<Props> = props => {
     {
       xaxis: 129,
       d: 'M0 29.5C0 13.2076 13.2076 0 29.5 0H104.715C109.351 0 113.767 1.97446 116.858 5.42902C123.334 12.6677 134.666 12.6677 141.142 5.42902C144.233 1.97446 148.649 0 153.285 0H313.5C329.792 0 343 13.2076 343 29.5C343 45.7924 329.792 59 313.5 59H29.5C13.2076 59 0 45.7924 0 29.5Z',
-      callBack: () => {}
+      callBack: () => {
+        navigation.navigate('HomeScreen' as never)
+        addMemoryStore.isAddMemory = true
+      }
     },
     {
       xaxis: 214,
@@ -43,8 +48,6 @@ const BottomNavigation: React.FC<Props> = props => {
   ]
 
   const handlePress = (idx: number) => {
-    // setCurrentIdx(idx)
-    console.log(idx)
     indexIcon[idx].callBack()
   }
 

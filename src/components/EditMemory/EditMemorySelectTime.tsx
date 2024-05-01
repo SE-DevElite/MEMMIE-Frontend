@@ -31,6 +31,10 @@ const EditMemorySelectTime: React.FC<Props> = observer(props => {
     Selected_date.getFullYear()
   ]
 
+  useEffect(() => {
+    setWeather(readWeather[readMemoryStore.weather])
+  }, [readMemoryStore.weather])
+
   const handleSetWeather = () => {
     const current_idx = (weather + 1) % 5
     setWeather(current_idx)

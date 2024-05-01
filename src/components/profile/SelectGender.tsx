@@ -1,20 +1,45 @@
 import CheckboxCommon from '@/common/Checkbox.common'
 import { themes } from '@/common/themes/themes'
-import React, { useState } from 'react'
+import profileStore from '@/stores/ProfileStore'
+import { observer } from 'mobx-react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 interface Props {
   handleChangeProfile: (key: string, value: string) => void
 }
 
-const SelectGender: React.FC<Props> = props => {
+const SelectGender: React.FC<Props> = observer(props => {
   const { handleChangeProfile } = props
 
   const [active, setActive] = useState({
-    male: true,
+    male: false,
     female: false,
     other: false
   })
+
+  useEffect(() => {
+    if (profileStore.gender === 'Male') {
+      setActive({
+        male: true,
+        female: false,
+        other: false
+      })
+    } else if (profileStore.gender === 'Female') {
+      setActive({
+        male: false,
+        female: true,
+        other: false
+      })
+    } else {
+      setActive({
+        male: false,
+        female: false,
+        other: true
+      })
+    }
+  }, [profileStore.gender])
+
   const data = [
     {
       label: 'Male',
@@ -36,6 +61,14 @@ const SelectGender: React.FC<Props> = props => {
       female: label === 'Female',
       other: label === 'Other'
     })
+
+    if (label === 'Male') {
+      profileStore.gender = 'Male'
+    } else if (label === 'Female') {
+      profileStore.gender = 'Female'
+    } else {
+      profileStore.gender = 'Other'
+    }
 
     handleChangeProfile('gender', label)
   }
@@ -60,7 +93,7 @@ const SelectGender: React.FC<Props> = props => {
       </View>
     </View>
   )
-}
+})
 
 export default SelectGender
 

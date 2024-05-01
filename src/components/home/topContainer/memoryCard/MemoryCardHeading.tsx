@@ -9,7 +9,9 @@ const MemoryCardHeading: React.FC = observer(() => {
   return (
     <View style={styles.boxTitle}>
       <View style={styles.titleText}>
-        <Text style={styles.titleTextStyle}>Bangkok</Text>
+        <Text style={styles.titleTextStyle} numberOfLines={2}>
+          {profileStore.curr_album_location}
+        </Text>
       </View>
       <View style={styles.streakBox}>
         <View style={styles.streakBackground}>
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   titleTextStyle: {
-    fontSize: 16,
+    fontSize: 12,
     fontFamily: themes.fonts.samiBold,
     color: themes.light.secondary.hex
   },

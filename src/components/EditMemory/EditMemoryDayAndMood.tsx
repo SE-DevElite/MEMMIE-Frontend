@@ -22,10 +22,13 @@ const EditMemoryDayAndMood: React.FC<Props> = observer(props => {
     readMood[editMemoryStore.mood]
   )
 
+  useEffect(() => {
+    setSelectMood(readMood[editMemoryStore.mood])
+  }, [editMemoryStore.mood])
+
   const handleChangeMood = () => {
     const current_idx = (selectMood + 1) % 4
     setSelectMood(current_idx)
-    console.log(current_idx)
 
     editMemoryStore.mood = MoodElement.Male[current_idx].label.toLowerCase()
   }

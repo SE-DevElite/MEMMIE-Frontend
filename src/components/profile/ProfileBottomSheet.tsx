@@ -13,6 +13,7 @@ interface Props {
   bio: string
   gender: string
   handleChangeProfile: (key: string, value: string) => void
+  handleSave: () => void
 }
 
 const ProfileBottomSheet: React.FC<Props> = props => {
@@ -22,7 +23,8 @@ const ProfileBottomSheet: React.FC<Props> = props => {
     username,
     bio,
     gender,
-    handleChangeProfile
+    handleChangeProfile,
+    handleSave
   } = props
 
   const selectGenderBottomSheet = useRef<BottomSheet>(null)
@@ -39,6 +41,7 @@ const ProfileBottomSheet: React.FC<Props> = props => {
           handleGenderPress={() => selectGenderBottomSheet.current?.expand()}
           handleChangeProfile={handleChangeProfile}
           handleClose={() => editProfileBottomSheetRef.current?.close()}
+          handleSave={handleSave}
         />
       </LongBottomSheetCommon>
 

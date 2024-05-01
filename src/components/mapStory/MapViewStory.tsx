@@ -20,7 +20,7 @@ type CordinatesType = {
   longitude: number
 }
 interface Props {
-  coordinates: CordinatesType
+  coordinates: CordinatesType | undefined
   handleCordinates: (cor: CordinatesType) => void
 }
 
@@ -72,27 +72,18 @@ const MapViewStory: React.FC<Props> = observer(props => {
   }, [])
 
   useEffect(() => {
-    // handleCoordinatesChange();
     if (coordinates) {
-      setInitialRegion({
-        // latitude: coordinates.latitude,
-        latitude: 0,
-        // longitude: coordinates.longitude,
-        longitude: 0,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
-      });
-
-      setRegion({
-        latitude: coordinates[0] as number,
-        longitude: coordinates[1] as number,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
-      })
-      console.log("coor: ", coordinates);
+      ref.current?.animateToRegion(
+        {
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005
+        },
+        1000
+      )
     }
-  }, [coordinates]);
-
+  }, [coordinates])
 
   return (
     <>
@@ -102,12 +93,11 @@ const MapViewStory: React.FC<Props> = observer(props => {
         style={{ width: '100%', height: '100%' }}
         maxZoomLevel={20}
         initialRegion={initialRegion}
-        region={region}
         showsUserLocation={true}
         zoomEnabled={true}
         followsUserLocation={true}
         onRegionChangeComplete={handleRegionChange}
-        onResponderMove={() => { }}
+        onResponderMove={() => {}}
         ref={ref}>
         {data.map(marker => (
           <CustomMarker

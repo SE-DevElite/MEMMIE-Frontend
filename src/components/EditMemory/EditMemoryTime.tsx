@@ -27,7 +27,6 @@ const EditMemoryTime: React.FC<Props> = props => {
           <TouchableOpacity
             onPress={() => {
               handleClose()
-              console.log(current_time)
             }}>
             <Text style={styles.buttonStyle}>Cancel</Text>
           </TouchableOpacity>
@@ -37,7 +36,6 @@ const EditMemoryTime: React.FC<Props> = props => {
           <TouchableOpacity
             onPress={() => {
               handleEditTime(current_time)
-              console.log(addMemoryStore.date_time)
             }}>
             <Text
               style={{

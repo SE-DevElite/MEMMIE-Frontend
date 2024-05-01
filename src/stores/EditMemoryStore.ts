@@ -22,6 +22,10 @@ class EditMemoryStore {
   updated_at: string = ''
   weather: string = ''
   date_time: Date = new Date()
+  privacy: string = 'public'
+  privacyDto: string = ''
+  text_privacy: string = ''
+  friend_list_id: string | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -37,11 +41,14 @@ class EditMemoryStore {
     this.long = memory.long
     this.memory_id = memory.memory_id
     this.memory_lists = memory.memory_lists
-    this.mood = memory.mood
+    this.mood = memory.mood.toLowerCase()
     this.selected_datetime = memory.selected_datetime
     this.short_caption = memory.short_caption
     this.updated_at = memory.updated_at
     this.weather = memory.weather
+    this.privacy = memory.privacy
+    this.privacyDto = memory.privacy
+    this.text_privacy = memory.privacy
   }
 
   @action
@@ -64,6 +71,8 @@ class EditMemoryStore {
     this.short_caption = ''
     this.updated_at = ''
     this.weather = ''
+    this.privacy = 'public'
+    this.text_privacy = ''
   }
 
   @action
@@ -82,27 +91,23 @@ class EditMemoryStore {
     const body = {
       caption: this.caption,
       short_caption: this.short_caption,
-      friend_list_id: '',
+      friend_list_id: this.friend_list_id,
       mood: this.mood,
       day: this.day,
-      lat: this.lat,
-      long: this.long,
+      lat: parseFloat(this.lat),
+      long: parseFloat(this.long),
       location_name: this.location_name,
       selected_datetime: this.selected_datetime,
       weather: this.weather,
+      privacy: this.privacy,
       mention: []
     }
-
-    console.log(body, this.memory_id)
 
     const token = await getAccessToken()
     const res = RequestWithToken(token as string)
       .patch(`/memories/update/${this.memory_id}`, body)
-      .then(res => {
-        console.log(res.data)
-      })
       .catch(err => {
-        console.log(err)
+        console.log(err.message)
       })
 
     // update image info

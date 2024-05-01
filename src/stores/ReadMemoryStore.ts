@@ -35,6 +35,8 @@ class ReadMemoryStore {
   short_caption: string = ''
   updated_at: string = ''
   weather: string = ''
+  privacy: string = ''
+  privacy_id: string = ''
   datetime: DateTime[] = [
     {
       day_date: '',
@@ -78,6 +80,14 @@ class ReadMemoryStore {
         minute_date: ''
       }
     ]
+    this.privacy = ''
+    this.privacy_id = ''
+  }
+
+  map_privacy = {
+    public: 'Followers that you follow back',
+    private: 'Only me',
+    general: 'general'
   }
 
   @action
@@ -118,6 +128,14 @@ class ReadMemoryStore {
     this.short_caption = this.all_memories[idx].short_caption
     this.updated_at = this.all_memories[idx].updated_at
     this.weather = this.all_memories[idx].weather
+
+    if (this.all_memories[idx].privacy === 'general') {
+      this.privacy = this.all_memories[idx].friend_list.name
+      this.privacy_id = this.all_memories[idx].friend_list.friend_list_id
+    } else {
+      this.privacy =
+        this.map_privacy[this.all_memories[idx].privacy as 'public' | 'private']
+    }
   }
 }
 const readMemoryStore = new ReadMemoryStore()

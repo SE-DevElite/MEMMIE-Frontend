@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { themes } from '@/common/themes/themes'
 import SettingPanel from '@/components/setting/SettingPanel'
 import BottomNavigation from '@/common/BottomNavigation.common'
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 const SettingScreen: React.FC = () => {
   const navigation = useNavigation()
@@ -47,6 +48,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     bottom: 30,
-    paddingHorizontal: 16
+    paddingHorizontal: WindowScreen.Width / 11.6
   }
 })

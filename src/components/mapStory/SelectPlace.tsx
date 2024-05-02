@@ -1,7 +1,6 @@
 import ButtonLongCommon from "@/common/ButtonLong.common";
 import { WindowScreen } from "@/common/consts/ConfigScreen";
 import { themes } from "@/common/themes/themes";
-import { Feature, SearchResponse } from "@/interface/search_response";
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";

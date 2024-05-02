@@ -14,6 +14,7 @@ import { getAccessToken } from '@/helpers/TokenHandler'
 import { RequestWithToken } from '@/api/DefaultRequest'
 import BottomNavigation from '@/common/BottomNavigation.common'
 import { themes } from '@/common/themes/themes'
+import { WindowScreen } from '@/common/consts/ConfigScreen'
 
 type UserRoot = {
   user_id: string
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     bottom: 100,
-    paddingHorizontal: 16
+    paddingHorizontal: WindowScreen.Width / 11.6
   }
 })
 

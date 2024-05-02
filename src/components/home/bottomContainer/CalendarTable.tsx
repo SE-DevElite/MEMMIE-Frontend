@@ -41,8 +41,8 @@ const CalendarTable: React.FC<Props> = observer(props => {
                     source={
                       value.memories.length > 0
                         ? {
-                            uri: value.memories[0].memory_lists[0].memory_url
-                          }
+                          uri: value.memories[0].memory_lists[0].memory_url
+                        }
                         : require('@/assets/mocks/empty.png')
                     }>
                     <TouchableOpacity
@@ -50,8 +50,8 @@ const CalendarTable: React.FC<Props> = observer(props => {
                         // onReadMemoryPress()
                         value.memories.length > 0
                           ? // ? onReadMemoryPress()
-                            handleSelect(value)
-                          : () => {}
+                          handleSelect(value)
+                          : () => { }
                       }}>
                       <View
                         style={{

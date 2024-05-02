@@ -34,10 +34,7 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
   }
 
   return (
-    <TouchableOpacity
-      onPress={() => {
-        Keyboard.dismiss()
-      }}>
+    <View>
       <View style={styles.userHeading}>
         <UserHeading
           onPressAvatar={() => navigation.navigate('ProfileScreen' as never)}
@@ -47,7 +44,7 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
       </View>
       <MapSearchBar
         handleOpenMapFilter={() => filterMapBottomSheetRef.current?.expand()}
-        handleCloseBottomSheet={() => {}}
+        handleCloseBottomSheet={() => { }}
         handleCordinates={handleCordinates}
       />
       <MapViewStory
@@ -58,7 +55,7 @@ const MapStoryScreen: React.FC<MapStoryScreenProps> = props => {
       <MapStoryBottomSheetProvider
         filterMapBottomSheetRef={filterMapBottomSheetRef}
       />
-    </TouchableOpacity>
+    </View>
   )
 }
 

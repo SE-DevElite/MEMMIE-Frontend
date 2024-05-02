@@ -10,32 +10,59 @@ import { getAccessToken } from '@/helpers/TokenHandler'
 import { FriendResponse, User } from '@/interface/friend_response'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
 import addMemoryStore from '@/stores/AddMemoryStore'
+import editMemoryStore from '@/stores/EditMemoryStore'
+import { observer } from 'mobx-react'
 
 interface Props {
   closeSheet: () => void
 }
 
-const EditSelectFriend: React.FC<Props> = props => {
+const EditSelectFriend: React.FC<Props> = observer(props => {
   const { closeSheet } = props
 
   const { friend } = useFriend()
   const [friendName, setFriendName] = useState<string>('')
   const [allFriend, setAllFriend] = useState<User[]>([])
+  const [tempFilter, setTempFilter] = useState<User[]>([])
   const [refreshing, setRefreshing] = useState(false)
 
   const [selectFriendMention, setSelectFriendMention] = useState<string[]>([])
 
   const handleFriendMention = (id: string) => {
     if (selectFriendMention.includes(id)) {
-      setSelectFriendMention(selectFriendMention.filter(item => item !== id))
+      const temp = selectFriendMention.filter(item => item !== id)
+      setSelectFriendMention(temp)
+      editMemoryStore.mention = temp
     } else {
-      setSelectFriendMention([...selectFriendMention, id])
+      const temp = [...selectFriendMention, id]
+      setSelectFriendMention(temp)
+      editMemoryStore.mention = temp
     }
+  }
+
+  const handleFilter = (friend: string) => {
+    const temp = allFriend.filter(item =>
+      item.name.toLowerCase().includes(friend.toLowerCase())
+    )
+    setTempFilter(temp)
+    setFriendName(friend)
   }
 
   useEffect(() => {
     setAllFriend(friend?.user || [])
+    setTempFilter(friend?.user || [])
   }, [friend])
+
+  useEffect(() => {
+    async function getMention() {
+      if (editMemoryStore.memory_id) {
+        const res = await editMemoryStore.getFriendMention()
+        setSelectFriendMention(res.user.map(item => item.user_id))
+      }
+    }
+
+    getMention()
+  }, [editMemoryStore.memory_id])
 
   const onRefresh = useCallback(async () => {
     const token = await getAccessToken()
@@ -70,7 +97,7 @@ const EditSelectFriend: React.FC<Props> = props => {
           <SearchIcon color={themes.light.primary.hex} />
           <TextInput
             placeholder="Search"
-            onChangeText={setFriendName}
+            onChangeText={handleFilter}
             value={friendName}
             style={styles.textInputStyle}
             placeholderTextColor={themes.light.primary.hex}
@@ -83,7 +110,7 @@ const EditSelectFriend: React.FC<Props> = props => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
-          {allFriend.map(friend => (
+          {tempFilter.map(friend => (
             <View
               key={friend.user_id}
               style={{
@@ -113,7 +140,7 @@ const EditSelectFriend: React.FC<Props> = props => {
       </TouchableOpacity>
     </View>
   )
-}
+})
 
 export default EditSelectFriend
 

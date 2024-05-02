@@ -1,6 +1,7 @@
 import { RequestWithToken } from '@/api/DefaultRequest'
 import { getAccessToken } from '@/helpers/TokenHandler'
 import { Memory, MemoryList } from '@/interface/daily_response'
+import { UserResponse } from '@/interface/user_response'
 import { action, configure, makeAutoObservable } from 'mobx'
 
 configure({
@@ -27,6 +28,8 @@ class EditMemoryStore {
   text_privacy: string = ''
   friend_list_id: string | null = null
 
+  mention: string[] = []
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -52,6 +55,17 @@ class EditMemoryStore {
   }
 
   @action
+  async getFriendMention(): Promise<UserResponse> {
+    const token = await getAccessToken()
+
+    const friend_mention = await RequestWithToken(token as string)
+      .get(`/friendlists/mention/${this.memory_id}`)
+      .then(res => res.data)
+
+    return friend_mention as UserResponse
+  }
+
+  @action
   clearState = () => {
     this.caption = ''
     this.created_at = ''
@@ -72,7 +86,7 @@ class EditMemoryStore {
     this.updated_at = ''
     this.weather = ''
     this.privacy = 'public'
-    this.text_privacy = ''
+    this.mention = []
   }
 
   @action
@@ -100,7 +114,7 @@ class EditMemoryStore {
       selected_datetime: this.selected_datetime,
       weather: this.weather,
       privacy: this.privacy,
-      mention: []
+      mention: this.mention
     }
 
     const token = await getAccessToken()

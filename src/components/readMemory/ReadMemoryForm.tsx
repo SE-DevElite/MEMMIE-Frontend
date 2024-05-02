@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     fontFamily: themes.fonts.light,
     fontSize: 14,
     color: themes.light.primary.hex,
-    width: 72
+    maxWidth: 75
   },
   caption: {},
   inputCaption: {

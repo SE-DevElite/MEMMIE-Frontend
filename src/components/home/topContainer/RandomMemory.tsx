@@ -31,7 +31,7 @@ const RandomMemory: React.FC<Props> = observer(props => {
 
   const [imageUri, setImageUri] = useState<string | null>(null)
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY)
       if (status !== 'granted') {
         console.log('Permission denied to access media library')

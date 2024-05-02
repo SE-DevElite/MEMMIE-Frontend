@@ -39,7 +39,7 @@ const EditMemoryDayAndMood: React.FC<Props> = observer(props => {
         <Text style={styles.dayText}>{readMemoryStore.day.toUpperCase()}</Text>
         <TouchableOpacity onPress={handleEditPinPlace}>
           <Text numberOfLines={1} style={styles.descriptionText}>
-            {readMemoryStore.location_name}
+            {editMemoryStore.location_name || readMemoryStore.location_name}
           </Text>
         </TouchableOpacity>
       </View>

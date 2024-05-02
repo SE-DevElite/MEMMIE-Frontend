@@ -1,5 +1,5 @@
 export const mergeDataByCoordinates = (originalData: any) => {
-  const threshold = 0.005
+  const threshold = 0.01
   const mergedMap = new Map()
 
   originalData.forEach((item: any) => {

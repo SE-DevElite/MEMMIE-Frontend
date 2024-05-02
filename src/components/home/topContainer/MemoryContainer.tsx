@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 16,
     flexDirection: 'row',
-    gap: 8
+    gap: 8,
   },
   column: {
     flex: 1,

@@ -7,10 +7,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { observer } from 'mobx-react'
 import readMemoryStore from '@/stores/ReadMemoryStore'
 
-interface Props {}
+interface Props { }
 
 const ReadMemoryPinPlace: React.FC<Props> = observer(props => {
-  const {} = props
+  const { } = props
 
   const [initialRegion, setInitialRegion] = useState<Region>({
     latitude: parseFloat(readMemoryStore.lat) || 0,

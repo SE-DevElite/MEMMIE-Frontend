@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     bottom: 100,
-    paddingHorizontal: WindowScreen.Width / 11.6
+    paddingHorizontal: WindowScreen.Width / 23.2
   }
 })
 

@@ -42,7 +42,7 @@ const HomeScreen: React.FC = observer(() => {
     const token = await getAccessToken()
     const monthNumber =
       MONTH_TO_NUMBER[
-      addMemoryStore.select_month as keyof typeof MONTH_TO_NUMBER
+        addMemoryStore.select_month as keyof typeof MONTH_TO_NUMBER
       ]
     const dailyResponse: DailyResponse = await RequestWithToken(token as string)
       .get(`/daily-memory/${addMemoryStore.select_year}/${monthNumber}`)
@@ -97,8 +97,8 @@ const HomeScreen: React.FC = observer(() => {
               }
               avatar={profileStore.avatar}
               username={profileStore.username}
-            // currentScreen={currentScreen}
-            // setCurrentScreen={setCurrentScreen}
+              // currentScreen={currentScreen}
+              // setCurrentScreen={setCurrentScreen}
             />
             <MemoryContainer
               onAddAlbumPress={() => albumBottomSheetRef.current?.expand()}
@@ -171,6 +171,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     bottom: 24,
-    paddingHorizontal: WindowScreen.Width / 11.6
+    paddingHorizontal: WindowScreen.Width / 23.2
   }
 })

@@ -25,6 +25,7 @@ class ProfileStore {
 
   @action
   public profileInit = (data: ProfileResponse) => {
+    console.log(data)
     this.name = data.user.name
     this.username = data.user.username
     this.bio = data.user.bio
